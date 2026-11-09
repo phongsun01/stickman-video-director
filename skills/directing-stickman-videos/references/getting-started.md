@@ -115,7 +115,7 @@ The table and optional-reference sections below retain the A1–A5 workflow. Whe
 
 | Stage | What to explain / next action |
 |---|---|
-| Brief | Reuse source, ratio and style/theme already supplied. Ask for missing required items together. Duration defaults to 60 seconds under the existing Director contract. Do not require Node, FFmpeg, an API key or service login merely to produce a proposal or prompts. |
+| Brief | Reuse source, ratio and style/theme already supplied. Ask for missing required items together unless the user delegated ratio/style decisions; in that case propose supported defaults in Phase A under `director-contract.md`. Resolve narration under `narration-language.md`. Duration defaults to 60 seconds under the existing Director contract. Do not require Node, FFmpeg, an API key or service login merely to produce a proposal or prompts. |
 | Proposal | Deliver the current storyboard, narration and visual/voice plan. Say that approval of this proposal is still needed; invite a specific change or confirmation, then stop. Topic approval is not proposal approval. |
 | Prompt package | After approval, deliver independently usable clip prompts and stitching guidance. Explain that these are prompts, not generated video files. Next, the user generates clips in a supported video tool and edits/assembles them; offer targeted help if a clip needs correction. |
 

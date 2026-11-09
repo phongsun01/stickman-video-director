@@ -4,6 +4,8 @@ Scope: **A · Director text-to-video prompts only**. B · Autopilot uses named T
 
 This is the common voice contract for Style 1 Light/Dark, Style 2A, Style 2B and Style 3, plus Style 4 Cozy Storytelling. Voice identity belongs to the video, not to a visual style or a clip. Different videos may choose different voices; every clip of one video must use the same complete approved voice profile. Do not force every project into the tested male profile.
 
+Read [narration language and timing](narration-language.md). Voice-direction blocks remain English; exact spoken lines use the approved narration language. Choose an accent compatible with that language; the General American examples below are English examples, not universal defaults.
+
 ## Choose once in Phase A
 
 Honor the user's voice choice. If unspecified, propose one suitable voice for approval rather than adding another mandatory setup question. Describe perceived gender/age, accent, timbre, pitch/register, resonance, texture (including breathiness/rasp), delivery/intonation, steady pace, and recording character. Name these in ordinary language, not a list of vague adjectives such as "warm, energetic, same narrator". Summarize the profile in the user's language. Resolve all attributes before producing prompts; no placeholders in production output.

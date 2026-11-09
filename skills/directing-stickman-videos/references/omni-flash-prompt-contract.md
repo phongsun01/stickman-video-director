@@ -41,39 +41,31 @@ Write every prompt in this order:
 4. Palette and accent roles (expressed only with ordinary color names, no hex or technical codes)
 5. Composition strategy for the chosen ratio (`16:9` or `9:16`)
 6. First-frame state inherited from the previous clip
-7. `[0–3s]`, `[3–7s]`, and `[7–10s]` visual beats tied to spoken ideas
-8. Exact audio-only English dialogue in quotation marks (strictly no speech bubbles or dialogue boxes)
+7. Explicitly timed visual beats tied to spoken ideas under `director-story-pacing.md`; use the approved intervals and purposeful holds
+8. Exact audio-only dialogue in `narration_language` in quotation marks (strictly no speech bubbles or dialogue boxes)
 9. Complete frozen English voice block from `voice-continuity.md`, verbatim in every clip: identity/age, accent, timbre, register, resonance, texture, delivery, pace and recording treatment; no "same narrator" shortcuts or clip-specific recasting
 10. BGM, synchronized SFX, and voice-first mixing (subsequent clips mandate seamless BGM continuity from clip 1)
 11. Final-frame transition state inherited by the next clip
 12. Negative constraints (including style-specific clutter/deformation bans)
 
-Make each prompt self-contained and usable without any external context.
+Make each prompt self-contained and usable without any external context. Apply `narration-language.md`: instructions remain English, but exact quoted speech retains the approved language and diacritics.
 
 ## Style language
 
-Use this wording to request density without character drift:
-
-> rapid scene changes, kinetic motion-graphic transformations, and frequent visual events, while preserving an identical stick-figure design, constant line weight, and strict temporal consistency
-
-Avoid `rapid style changes`, which can invite model changes to drawing style, line weight, or character design.
+Keep the approved drawing grammar, character design and line weight fixed while actions and camera positions change. Do not request rapid style changes.
 
 ## Timed visual sequence & motion dynamics
 
-Translate the approved storyboard row into three connected physical events:
-
-- `[0–3s]`: establish or inherit the visual premise.
-- `[3–7s]`: transform, escalate, or explain the metaphor through character action.
-- `[7–10s]`: deliver a climax and create the next transition.
+Apply [Director narrative and pacing](director-story-pacing.md). Translate the approved row into explicitly timed setup, principal action and result as needed. Default to one principal action and one supporting emphasis; use the approved timing and purposeful holds rather than forcing three separate physical events or fixed 0–3/3–7/7–10 boundaries.
 
 ### Anti-Stutter & Anti-Lag Guidelines:
 - Do not use abstract liquid or object shape morphing (e.g., stairs melting into a clock), as these cause diffusion latent jitter and frame drops.
 - Drive motion with concrete character actions (leaping, touching glass, drawing luminous lines, opening heavy doors).
-- Ensure continuous character engagement; never leave the character standing idle or staring at the camera for multiple seconds.
+- Keep character behavior purposeful; allow motivated reaction or comprehension holds under `director-story-pacing.md`.
 
 ## Dialogue and visual text
 
-Quote the approved English VO exactly once as audio-only dialogue:
+Quote the approved VO in `narration_language` exactly once as audio-only dialogue:
 ```text
 Audio voiceover only, strictly no speech bubbles, no dialogue boxes.
 ```
@@ -121,7 +113,7 @@ Start with prompt-level consistency, rather than immediately routing voice drift
 
 1. Check that every prompt repeats the full frozen voice block and contains no conflicting voice directions. Compare actual audio by listening, not from screenshots.
 2. If authorized, retest a voice-only change while holding visual instructions, dialogue, music and generation settings fixed. User-accepted improvement in the three-clip Style 2A Hope test supports this approach, not a guarantee for every profile or style.
-3. Voice/audio references when supported, or one continuous external English VO/BGM track during assembly, remain optional further controls if exact matching is required or prompt-first correction is insufficient.
+3. Voice/audio references when supported, or one continuous external VO/BGM track in the approved narration language during assembly, remain optional further controls if exact matching is required or prompt-first correction is insufficient.
 
 ## Phase B checks
 
@@ -129,7 +121,7 @@ Start with prompt-level consistency, rather than immediately routing voice drift
 - Exactly N standalone prompts are present (matching approved Phase A duration).
 - Each prompt repeats ratio (`16:9` or `9:16`), style/theme, character, palette, voice, audio, transition, and negative locks.
 - Style 1 prompts repeat one identical full character block and contain no contradictory appearance instructions. Simple-expression allowance agrees with the negative constraints. Generated consistency is checked separately from prompt compliance.
-- Each prompt has all three timed beats and at least four relevant visual devices.
+- Each prompt follows `director-story-pacing.md`: readable timed principal action, supporting emphasis and justified holds; no minimum device count.
 - Every ending connects to the next opening through a planned action/prop/direction or an approved location/time cut. Style 4 does not repeat one room unless requested.
 - Dialogue exactly matches the approved narration.
 - Dialogue is explicitly audio-only and is never displayed visually.

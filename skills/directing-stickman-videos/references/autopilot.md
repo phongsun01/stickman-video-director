@@ -79,3 +79,7 @@ Never run `approve` based on your own technical checks. Approval binds the revie
 Apply the [B common delivery gate](autopilot-production-qa.md#whole-film-delivery-gate) across every shot, including the body and ending; then deliver the MP4, subtitle sidecars and project/checkpoint paths. State what was verified, what still needs listening/human review, and any missing service configuration. Do not publish, upload or change GitHub unless separately requested.
 
 Once the user confirms the final film is satisfactory, offer the shared optional [Thumbnail & Publishing Kit](thumbnail-publishing-kit.md) unless already accepted, declined or deferred. A successful render or sample approval alone does not trigger this offer. Packaging never withholds the MP4, restarts production or inherits B1's design into another style; an explicit earlier request can produce clearly marked drafts.
+
+## Language resolution
+
+Apply [narration language and timing](narration-language.md) alongside the settings precedence above; retain each B style’s native voice and original-speed audio rules. Record `narration_language` in the project brief/checkpoint without adding unsupported fields to the renderer manifest.
