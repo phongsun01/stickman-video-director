@@ -93,6 +93,8 @@ Exports include an encoded opening-audio diagnostic. Approval is blocked on a fl
 
 `scripts/align_captions.py AUDIO --output WORDS.json` uses optional `openai-whisper` and an already cached `base` model. Set `--model NAME`, `--language en`, `--device cpu` as appropriate. `--allow-model-download` explicitly permits model download; otherwise it stops if absent. Do not install or download multi-GB models automatically. Already supplied aligned captions need no Whisper dependency.
 
+PATCH (fork 2026-11-09): on CPU-only machines use `scripts/align_captions_fast.py` instead — same arguments and output format, but faster-whisper (CTranslate2, int8) instead of openai-whisper/torch, so no ~1 GB CUDA wheel is needed. Add `--script approved-script.txt` to correct Whisper's word text 1:1 to the approved script while keeping timestamps. For local Vietnamese narration use `scripts/vieneu-local.py --text-file script.txt --output narration.wav --voice "Hải Đăng"` (VieNeu-TTS v3 Turbo, CPU/ONNX; see [Vietnamese Autopilot](vietnamese-autopilot.md)). Before rendering non-Latin text, run `scripts/check_font.py <font> --project <project.json>`; it exits non-zero and lists missing glyphs. CLI flags may come before or after the project path (`preview PROJECT --replace` and `preview --replace PROJECT` are equivalent). `validate`/`preview` warn on stderr when the requested `--seconds` exceeds the actual narration duration; the preview is then the narration length, never stretched audio.
+
 ## Optional Gemini API adapters
 
 The renderer consumes compatible local audio and image files; it is not tied to the service that generated them. Follow [selected-provider execution](autopilot.md#selected-provider-execution) for another service. `doctor`'s `gemini_key_present` is informational for the Gemini route, not a requirement for all providers or proof of generation readiness. Do not repurpose `gemini-media.mjs` with another provider's key/base URL; use a suitable tool or project-local adapter instead.
@@ -107,6 +109,18 @@ node scripts/gemini-media.mjs image --prompt scene-prompt.txt --output scene.png
 ```
 
 The speech text file contains only the exact approved spoken words. Use the selected named voice without extra voice/style instructions; `--direction` is not supported. Verify that the selected TTS model offers the chosen voice before generation. Resolve settings as explicit user choice → selected B-style default → B common fallback; the Bodi command above illustrates the new B1 default, not a voice required for every B style. Image output is saved from the provider's native image payload, not recreated from base64 text. No default image model is assumed. API calls may be billed; the flags are not a substitute for user authorization. No API-backed request is needed for the included offline example or packaging tests.
+
+## Local providers (no Gemini)
+
+PATCH (fork 2026-11-09). The renderer consumes compatible local files, so any
+provider that produces them works; see [selected-provider execution](autopilot.md#selected-provider-execution)
+and [Vietnamese Autopilot](vietnamese-autopilot.md) for the worked example.
+
+- **Narration:** `python3 scripts/vieneu-local.py --text-file script.txt --output narration.wav --voice "Hải Đăng"`. VieNeu-TTS v3 Turbo, local CPU/ONNX, no API key. Configure with `VIENEU_VENV`, `VIENEU_MODELS_DIR`, `VIENEU_VOICE`. The script verifies the output with ffprobe and prints its real duration — use that duration, not a word-count estimate, when authoring shots.
+- **Word timestamps:** `python3 scripts/align_captions_fast.py narration.wav --output words.json --language vi` (faster-whisper; CPU int8). Then `node scripts/autopilot.mjs captions words.json captions.json --lead 0.15` as usual.
+- **Images:** any local PNG/JPEG (self-generated or supplied) works as an `image` layer; Gemini image generation is optional, not required.
+- **Fonts:** the default B1 Caveat font has no Vietnamese glyphs. The runtime falls back to bundled NotoSans for headline text when Vietnamese diacritics are present and no explicit font was chosen; set `project.font` (e.g. NotoSans-Bold) to choose explicitly, and check with `scripts/check_font.py`.
+- **Duration:** `validate`/`preview` warn when `--seconds` exceeds the real narration length. Vietnamese reads faster than the English 20–25 words / 10s rule: 50 Vietnamese words read naturally in ~12s, so ~80 words for ~20s. See [narration language and timing](narration-language.md).
 
 ## Recovery and verification
 

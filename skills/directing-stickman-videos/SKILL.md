@@ -21,4 +21,6 @@ A1–A5's ten-second prompts, voice profiles, text rules and approvals apply onl
 
 Read [first-use and stage guidance](references/getting-started.md) after verified installation or on first invocation; reuse choices and continue at the first incomplete stage. It owns onboarding and stage handoffs, not production-rule definitions. Read [optional finishing](references/thumbnail-publishing-kit.md) after final-video approval or a packaging request.
 
+Local patch on this fork copy (see [PATCH-NOTES.md](PATCH-NOTES.md)): Vietnamese Autopilot without Gemini — VieNeu local TTS, faster-whisper alignment, Vietnamese font fallback — quick-start at [Vietnamese Autopilot](references/vietnamese-autopilot.md). Non-Gemini providers follow [selected-provider execution](references/autopilot.md#selected-provider-execution).
+
 Repair failed checks in the selected route before delivery; report any review that remains unavailable.

@@ -10,8 +10,11 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const read = rel => fs.readFileSync(path.join(root, rel), 'utf8');
 const policy = read('references/b4-audio-direction.md');
 
+// Fork note: SKILL.md is a 24-line router — it routes to the B4 guide, which
+// routes to the audio contract. B4 detail lives in references/, not SKILL.md.
 test('B4 entrypoint, style, shared voice and QA routes reach the audio contract', () => {
-  for (const rel of ['SKILL.md', 'references/b4-survival-storytelling.md', 'references/autopilot.md', 'references/autopilot-sound-system.md', 'references/autopilot-production-qa.md']) {
+  assert.ok(read('SKILL.md').includes('b4-survival-storytelling.md'), 'SKILL.md');
+  for (const rel of ['references/b4-survival-storytelling.md', 'references/autopilot.md', 'references/autopilot-sound-system.md', 'references/autopilot-production-qa.md']) {
     assert.ok(read(rel).includes('b4-audio-direction.md'), rel);
   }
 });

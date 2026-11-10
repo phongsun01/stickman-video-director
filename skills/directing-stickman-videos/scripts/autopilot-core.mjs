@@ -39,9 +39,30 @@ const number = (x, name, min = 0, max = Infinity) => {
   if (!Number.isFinite(x) || x < min || x > max) throw new Error(`Invalid ${name}`);
   return x;
 };
+// PATCH (fork 2026-11-09): Vietnamese diacritic fallback for the hand font.
+// The bundled Caveat font has no Vietnamese glyphs (verified: it lacks
+// ệ ồ ữ ắ ơ ư ố ả and all of U+1EA0–U+1EF9), so B1/B2 headlines in Vietnamese
+// rendered as missing glyphs. The bundled NotoSans covers them all. When
+// visible text contains Vietnamese-specific characters and no explicit hand
+// font was chosen (project.font / AUTOPILOT_FONT), fall back to NotoSans
+// instead of Caveat. An explicit font choice is always respected; run
+// scripts/check_font.py to audit any font against project text.
+const VIETNAMESE_CHARS = /[ĂăĐđƠơƯưẠ-ỹ]/u;
+let warnedFontFallback = false;
 export function fontPaths(project) {
+  let hand = project.font ? mediaPath(project.base, project.font) : process.env.AUTOPILOT_FONT ? mediaPath(project.base, process.env.AUTOPILOT_FONT) : path.join(ROOT, 'assets/fonts/Caveat.ttf');
+  const isDefaultHand = !project.font && !process.env.AUTOPILOT_FONT;
+  if (isDefaultHand) {
+    const texts = [];
+    for (const shot of project.shots || []) for (const l of walkLayers(shot.layers || [])) if (l.type === 'text' && typeof l.text === 'string') texts.push(l.text);
+    for (const c of project.captions || []) if (typeof c.text === 'string') texts.push(c.text);
+    if (texts.some(t => VIETNAMESE_CHARS.test(t))) {
+      hand = path.join(ROOT, 'assets/fonts/NotoSans.ttf');
+      if (!warnedFontFallback) { warnedFontFallback = true; console.error('Warning: headline text contains Vietnamese diacritics, which the default Caveat font does not cover; falling back to bundled NotoSans for the hand font. Set project.font (e.g. NotoSans-Bold) to choose explicitly.'); }
+    }
+  }
   return {
-    hand: project.font ? mediaPath(project.base, project.font) : process.env.AUTOPILOT_FONT ? mediaPath(project.base, process.env.AUTOPILOT_FONT) : path.join(ROOT, 'assets/fonts/Caveat.ttf'),
+    hand,
     caption: project.captionFont ? mediaPath(project.base, project.captionFont) : path.join(ROOT, 'assets/fonts/NotoSans.ttf'),
   };
 }

@@ -5,8 +5,24 @@ import {ROOT, STYLES, FFMPEG, FFPROBE, run, probe, loadProject, outputDir, save,
 import {BRIAN} from './b4-runtime.mjs';
 import {initB5} from './character-explainer.mjs';
 
-const [command, ...args] = process.argv.slice(2);
-const option = (flag, fallback) => args.includes(flag) ? args[args.indexOf(flag) + 1] : fallback;
+const [command, ...rawArgs] = process.argv.slice(2);
+// PATCH (fork 2026-11-09): accept flags before or after the positional argument,
+// in `--flag value` or `--flag=value` form. Previously `preview --replace PROJECT`
+// treated `--replace` as the project path and failed. Boolean flag: --replace.
+// Value flags: --seconds, --style, --note, --lead.
+const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead']);
+const flagValues = {};
+const args = [];
+for (let i = 0; i < rawArgs.length; i++) {
+  const a = rawArgs[i];
+  if (a === '--replace') { flagValues['--replace'] = true; continue; }
+  const eq = a.match(/^(--\w+)=(.*)$/);
+  if (eq && VALUE_FLAGS.has(eq[1])) { flagValues[eq[1]] = eq[2]; continue; }
+  if (VALUE_FLAGS.has(a)) { flagValues[a] = rawArgs[i + 1]; i++; continue; }
+  args.push(a);
+}
+const option = (flag, fallback) => flagValues[flag] !== undefined ? flagValues[flag] : fallback;
+const hasFlag = flag => flagValues[flag] !== undefined;
 async function main() {
   if (command === 'doctor') {
     const checks = {node: Number(process.versions.node.split('.')[0]) >= 20};
@@ -34,11 +50,16 @@ async function main() {
     console.log(JSON.stringify({output: path.resolve(args[1])}));
   } else if (['validate', 'preview', 'approve', 'render'].includes(command)) {
     if (args[0] && json(path.resolve(args[0])).style === 'B5') throw new Error('B5 uses the code-authored route: node scripts/character-explainer.mjs --help; not the B1–B4 manifest renderer');
-    const scoped = command === 'preview' || command === 'validate' && args.includes('--seconds');
+    const scoped = command === 'preview' || command === 'validate' && hasFlag('--seconds');
     const seconds = scoped ? Number(option('--seconds', 20)) : undefined;
     if (scoped && (!Number.isFinite(seconds) || seconds <= 0 || seconds > 60)) throw new Error('Preview length must be greater than 0 and at most 60 seconds');
     let p;
     if (command !== 'approve') p = loadProject(args[0], scoped ? {seconds} : {});
+    // PATCH (fork 2026-11-09): warn when the requested preview is longer than the
+    // actual narration. Word counts do not convert to seconds across languages
+    // (Vietnamese 50 words read naturally in 11.92s); never stretch the audio.
+    // See references/narration-language.md for language-specific estimates.
+    if (p && scoped && seconds > p.duration) console.error(`Warning: preview requested ${seconds}s but narration+lead+tail is only ${p.duration.toFixed(2)}s; the preview will be ${p.rangeEnd.toFixed(2)}s. To reach ${seconds}s, extend the approved script (Vietnamese ≈80 words for ~20s, English ≈50 words) and add shots.`);
     if (command === 'validate') { const {painter} = await import('./autopilot-render.mjs'); const draw = await painter(p); for (const cue of p.captions) draw(Math.min(p.rangeEnd - 0.001, (cue.start + cue.end) / 2)); console.log(JSON.stringify({valid: true, fingerprint: p.fingerprint, duration: p.duration, checked_seconds: p.rangeEnd, shots: p.shots.length})); return; }
     const base = p?.base ?? path.dirname(fs.realpathSync(path.resolve(args[0])));
     const out = outputDir(p ?? {base, inputs: []}), approvalPath = path.join(out, 'approval.json'), reportPath = path.join(out, 'preview-report.json');
@@ -64,7 +85,7 @@ async function main() {
       const a = json(approvalPath);
       if (a.preview_fingerprint !== reviewed.fingerprint || a.preview_seconds !== report.preview_seconds || a.preview_sha256 !== report.output_sha256) throw new Error('Approval invalidated; preview and user approval required again');
     }
-    const {render} = await import('./autopilot-render.mjs'); console.log(JSON.stringify(await render(p, {full: command === 'render', seconds, replace: args.includes('--replace')}), null, 2));
-  } else throw new Error('Commands: doctor | probe FILE | init DIR | captions WORDS OUTPUT [--lead N] | validate PROJECT [--seconds N] | preview PROJECT [--seconds N] [--replace] | approve PROJECT --note TEXT | render PROJECT [--replace]');
+    const {render} = await import('./autopilot-render.mjs'); console.log(JSON.stringify(await render(p, {full: command === 'render', seconds, replace: Boolean(flagValues['--replace'])}), null, 2));
+  } else throw new Error('Commands: doctor | probe FILE | init DIR | captions WORDS OUTPUT [--lead N] | validate PROJECT [--seconds N] | preview PROJECT [--seconds N] [--replace] | approve PROJECT --note TEXT | render PROJECT [--replace] (flags may come before or after PROJECT)');
 }
 main().catch(e => { console.error(e.message); process.exitCode = 1; });

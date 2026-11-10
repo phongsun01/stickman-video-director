@@ -8,10 +8,11 @@ const root = new URL('../', import.meta.url);
 const read = file => fs.readFileSync(new URL(file, root), 'utf8');
 const opening = read('references/b4-opening-direction.md');
 
+// Fork note: SKILL.md is a 24-line router — it routes to the B4 guide, which
+// routes to the opening direction. B4 detail lives in references/, not SKILL.md.
 test('B4 entrypoint and drawing contract route to opening direction', () => {
-  for (const file of ['SKILL.md', 'references/b4-survival-storytelling.md']) {
-    assert.ok(read(file).includes('b4-opening-direction.md'), file);
-  }
+  assert.ok(read('SKILL.md').includes('b4-survival-storytelling.md'), 'SKILL.md');
+  assert.ok(read('references/b4-survival-storytelling.md').includes('b4-opening-direction.md'), 'references/b4-survival-storytelling.md');
 });
 
 test('opening is story-led, distinct, acted and not a universal horror preset', () => {
@@ -34,7 +35,7 @@ test('opening escalation gives setup/payoff hierarchy and a real picture-state c
     'creative acceptance as pending']) {
     assert.ok(opening.includes(text), text);
   }
-  assert.ok(read('SKILL.md').includes('first-three-second visual escalation gate'));
+  assert.ok(read('references/mode-execution-boundaries.md').includes('first-three-second visual escalation gate'));
 });
 
 test('sound uses minimum motivated layers with honest local acceptance', () => {
@@ -53,7 +54,7 @@ test('held-pose B4 is explicitly valid and does not weaken other styles or requi
   }
   assert.ok(opening.includes('no compulsory limb animation'));
   assert.ok(qa.includes('For B4 apply its deliberate-hold exception'));
-  assert.ok(read('SKILL.md').includes('limb animation is not a completion requirement'));
+  assert.ok(read('references/mode-execution-boundaries.md').includes('limb animation is not a completion requirement'));
 });
 
 test('B4 uses pictured facts instead of redundant labels, but retains useful structural text', () => {
@@ -72,7 +73,7 @@ test('all opening reference links resolve inside the portable Skill', () => {
 
 test('horror visibility gate is reachable, genre-scoped and preserves identity, reveal order and held poses', () => {
   const guide = read('references/b4-survival-storytelling.md');
-  assert.ok(read('SKILL.md').includes('story-led horror visibility gate'));
+  assert.ok(read('references/b4-opening-direction.md').includes('story-led horror visibility gate'));
   assert.ok(opening.includes('b4-survival-storytelling.md#story-led-horror-visibility-gate'));
   for (const text of ['## Story-led horror visibility gate', 'For **B4 horror stories**',
     'across the opening, body and ending', 'Other genres follow their own stakes',
