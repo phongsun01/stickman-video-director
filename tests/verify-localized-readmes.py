@@ -14,7 +14,7 @@ source = (root / "README.md").read_text()
 navigation = (
     ("en", "🇺🇸 EN"), ("zh-CN", "🇨🇳 简中"), ("ja", "🇯🇵 日本語"),
     ("ko", "🇰🇷 한국어"), ("fr", "🇫🇷 FR"), ("pt-BR", "🇧🇷 PT-BR"),
-    ("tr", "🇹🇷 TR"), ("id", "🇮🇩 ID"),
+    ("tr", "🇹🇷 TR"), ("id", "🇮🇩 ID"), ("vi", "🇻🇳 VI"),
 )
 expected_files = {"README.md", *(f"README.{locale}.md" for locale, _ in navigation)}
 assert {p.name for p in root.glob("README*.md")} == expected_files
@@ -202,8 +202,8 @@ for name in selected:
     assert len(re.findall(r"^- \*\*", b5, re.M)) == 3, name
     assert all(token in b5 for token in ("The Pharaoh 3", "Claire", "Crazy Mei")), name
     assert b5.count('<th width="50%"') == 2 and b5.count('width="360"') == 2, name
-    host_terms = {"en": "Animated Host", "zh-CN": "动画主讲", "ja": "アニメの語り手", "ko": "애니메이션 진행자", "fr": "Présentateur animé", "pt-BR": "Apresentador animado", "tr": "Animasyon sunucu", "id": "Pembawa acara animasi"}
-    rights_terms = {"en": "permission is required to use well-known characters", "zh-CN": "使用知名角色需获得授权", "ja": "有名なキャラクターを使う場合は許諾が必要", "ko": "유명 캐릭터를 사용하려면 허가가 필요", "fr": "l’utilisation de personnages connus nécessite une autorisation", "pt-BR": "o uso de personagens conhecidos exige autorização", "tr": "tanınmış karakterleri kullanmak için izin gerekir", "id": "penggunaan karakter terkenal memerlukan izin"}
+    host_terms = {"en": "Animated Host", "zh-CN": "动画主讲", "ja": "アニメの語り手", "ko": "애니메이션 진행자", "fr": "Présentateur animé", "pt-BR": "Apresentador animado", "tr": "Animasyon sunucu", "id": "Pembawa acara animasi", "vi": "Người dẫn chuyện hoạt hình"}
+    rights_terms = {"en": "permission is required to use well-known characters", "zh-CN": "使用知名角色需获得授权", "ja": "有名なキャラクターを使う場合は許諾が必要", "ko": "유명 캐릭터를 사용하려면 허가가 필요", "fr": "l’utilisation de personnages connus nécessite une autorisation", "pt-BR": "o uso de personagens conhecidos exige autorização", "tr": "tanınmış karakterleri kullanmak için izin gerekir", "id": "penggunaan karakter terkenal memerlukan izin", "vi": "việc sử dụng các nhân vật nổi tiếng cần có sự cho phép"}
     assert host_terms[active] in b5, (name, "localized animated host caption")
     introduction = b5.split('<table', 1)[0]
     assert rights_terms[active] in introduction, (name, "inline localized rights reminder")
@@ -272,7 +272,7 @@ for name in selected:
     modes = section(text, "creation-modes", '<a id="quick-start"></a>')
     assert text.count('<!-- project-sponsor:start -->') == text.count('<!-- project-sponsor:end -->') == 1, name
     partner_block = text.split('<!-- project-sponsor:start -->', 1)[1].split('<!-- project-sponsor:end -->', 1)[0]
-    headings = {"en": "API Partners", "zh-CN": "API 合作伙伴", "ja": "API パートナー", "ko": "API 파트너", "fr": "Partenaires API", "pt-BR": "Parceiros de API", "tr": "API İş Ortakları", "id": "Mitra API"}
+    headings = {"en": "API Partners", "zh-CN": "API 合作伙伴", "ja": "API パートナー", "ko": "API 파트너", "fr": "Partenaires API", "pt-BR": "Parceiros de API", "tr": "API İş Ortakları", "id": "Mitra API", "vi": "Đối tác API"}
     assert f'#### {headings[active]}' in partner_block, (name, "localized partner heading")
     assert partner_block.count('<tr>') == 2 and len(re.findall(r'<td\b', partner_block)) == 4, name
     assert partner_block.index('sponsor-sjolt') < partner_block.index('sponsor-apimart'), name

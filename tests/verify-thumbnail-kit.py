@@ -77,7 +77,7 @@ for image_path in image_paths:
 roadmap_labels = {
     'en': 'Roadmap', 'zh-CN': '路线图', 'ja': 'ロードマップ', 'ko': '로드맵',
     'fr': 'Feuille de route', 'pt-BR': 'Roteiro de evolução',
-    'tr': 'Yol haritası', 'id': 'Peta jalan',
+    'tr': 'Yol haritası', 'id': 'Peta jalan', 'vi': 'Lộ trình',
 }
 for locale, roadmap in roadmap_labels.items():
     filename = f'README.{locale}.md'
