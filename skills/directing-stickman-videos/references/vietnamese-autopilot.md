@@ -17,6 +17,7 @@ Cài VieNeu local (TTS tiếng Việt, chạy CPU, không cần key):
 ```bash
 python3 -m venv ~/workspace/vieneu-venv
 ~/workspace/vieneu-venv/bin/pip install vieneu
+# Gọi TTS bằng đúng Python trong venv (không dùng python3 toàn cục).
 ```
 
 Tải model v3 Turbo từ Hugging Face rồi materialize về một thư mục chung
@@ -31,6 +32,7 @@ torch CUDA ~1 GB trên máy chỉ có CPU):
 ```bash
 python3 -m venv ~/workspace/whisper-venv
 ~/workspace/whisper-venv/bin/pip install faster-whisper soundfile
+# Gọi aligner bằng đúng Python trong venv (không dùng python3 toàn cục).
 ```
 
 ## 2. Làm 1 video (mẫu đã kiểm chứng: "Áp lực của người trưởng thành")
@@ -41,20 +43,21 @@ node scripts/autopilot.mjs init /absolute/path/my-video --style B1
 # muốn ~20 giây thì viết ~80 từ, đừng kéo dài audio giả tạo)
 
 # Lời dẫn bằng VieNeu local, giọng Hải Đăng (mặc định)
-python3 scripts/vieneu-local.py --text-file script.txt \
+~/workspace/vieneu-venv/bin/python scripts/vieneu-local.py --text-file script.txt \
   --output /absolute/path/my-video/narration.wav --voice "Hải Đăng"
+# Nếu file đã có, lệnh dừng. Dùng --replace khi muốn thay file đó.
 # Script tự kiểm tra file bằng ffprobe và in thời lượng thật — dùng số này
 # để viết shots, đừng ước lượng bằng số từ.
 
 # Word timestamps tiếng Việt
-python3 scripts/align_captions_fast.py /absolute/path/my-video/narration.wav \
+~/workspace/whisper-venv/bin/python scripts/align_captions_fast.py /absolute/path/my-video/narration.wav \
   --output /absolute/path/my-video/words.json --language vi \
   --script script.txt
 node scripts/autopilot.mjs captions /absolute/path/my-video/words.json \
   /absolute/path/my-video/captions.json --lead 0.15
-# Kiểm tra lại text phụ đề bằng mắt: Whisper nghe sai thì sửa 1:1 theo
-# script đã duyệt, giữ nguyên timestamps (flag --script làm sẵn việc này
-# khi số từ khớp).
+# Đối chiếu text với script đã duyệt; công cụ giữ bản Whisper và báo lệch.
+# Chỉ dùng --replace-text-by-order khi đã nghe xác nhận từng từ khớp thời gian;
+# cùng số từ không đảm bảo hai chuỗi căn hàng chính xác.
 
 # Font: headline tiếng Việt KHÔNG dùng được font Caveat mặc định (thiếu dấu
 # ệ ồ ữ ắ ơ ư ố ả). Runtime đã tự fallback sang NotoSans khi gặp dấu tiếng
@@ -87,4 +90,4 @@ node scripts/autopilot.mjs render /absolute/path/my-video/project.json
 | Headline tiếng Việt mất dấu | Runtime tự fallback NotoSans; hoặc set `project.font` là NotoSans-Bold |
 | `align_captions.py` đòi torch CUDA | Dùng `align_captions_fast.py` (faster-whisper, CPU int8) |
 | Preview ngắn hơn 20 giây | Bình thường: thời lượng = audio thật. Muốn dài hơn thì viết thêm script |
-| Whisper nghe sai từ | Dùng `--script` để sửa text 1:1, giữ timestamps; kiểm tra lại bằng mắt |
+| Whisper nghe sai từ | `--script` chỉ báo khác biệt; sửa caption sau khi đối chiếu audio. Chỉ dùng `--replace-text-by-order` khi đã nghe xác nhận khớp vị trí |

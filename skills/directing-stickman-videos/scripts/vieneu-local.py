@@ -117,6 +117,8 @@ def main():
     group.add_argument("--list-voices", action="store_true",
                        help="List preset voices and exit")
     parser.add_argument("--output", help="Output WAV file (required unless --list-voices)")
+    parser.add_argument("--replace", action="store_true",
+                        help="Replace an existing output WAV after successful synthesis")
     parser.add_argument("--voice", default=os.environ.get("VIENEU_VOICE", DEFAULT_VOICE),
                         help=f'Voice ID (default: "{DEFAULT_VOICE}")')
     parser.add_argument("--precision", default="fp32",
@@ -128,6 +130,9 @@ def main():
     args = parser.parse_args()
     if not args.list_voices and not args.output:
         parser.error("--output is required (unless --list-voices)")
+    output = Path(args.output).expanduser() if args.output else None
+    if output and output.exists() and not args.replace:
+        parser.error(f"Output already exists: {output}; choose another path or pass --replace")
     _ensure_vieneu()
     models_dir = Path(args.models_dir).expanduser()
     t0 = time.time()
@@ -153,9 +158,18 @@ def main():
     t1 = time.time()
     audio = tts.infer(text, voice=args.voice)
     infer_s = time.time() - t1
-    output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
-    tts.save(audio, str(output))
+    temp_output = output.with_name(output.stem + ".pending" + output.suffix)
+    if temp_output.exists():
+        raise SystemExit(f"Temporary output exists; inspect it before retrying: {temp_output}")
+    try:
+        tts.save(audio, str(temp_output))
+        if not temp_output.is_file() or temp_output.stat().st_size == 0:
+            raise SystemExit("VieNeu did not produce a non-empty WAV")
+        os.replace(temp_output, output)
+    finally:
+        if temp_output.exists():
+            temp_output.unlink()
     result = {"output": str(output.resolve()), "voice": args.voice,
               "init_seconds": round(init_s, 1),
               "infer_seconds": round(infer_s, 1),

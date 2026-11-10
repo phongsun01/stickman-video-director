@@ -11,8 +11,8 @@ it unchanged: {"words": [{"start", "end", "word"}], "method": ...}.
 Usage:
     python3 scripts/align_captions_fast.py narration.wav --output words.json \
         --language vi --model base
-    # Optionally correct Whisper's word TEXT 1:1 to the approved script,
-    # keeping timestamps untouched (Whisper often mis-hears words):
+    # Compare Whisper text against the approved script; retain recognition
+    # and timestamps for review. Replacing text by order requires an opt-in:
     python3 scripts/align_captions_fast.py narration.wav --output words.json \
         --language vi --script approved-script.txt
 
@@ -39,9 +39,11 @@ def main():
     parser.add_argument("--vad-filter", action="store_true",
                         help="Enable Silero VAD filtering (helps long audio)")
     parser.add_argument("--script",
-                        help="Approved script text file; if its word count "
-                        "matches Whisper's, word TEXT is replaced 1:1 "
-                        "(timestamps unchanged)")
+                        help="Approved script text file; compare its words "
+                        "with Whisper output and report differences")
+    parser.add_argument("--replace-text-by-order", action="store_true",
+                        help="Explicitly replace Whisper words by script order "
+                        "when counts match; verify alignment by listening")
     args = parser.parse_args()
     if args.output.exists():
         parser.error("Output exists; will not overwrite")
@@ -84,17 +86,22 @@ def main():
               f"language={args.language}; human text/timing review required")
     if args.script:
         approved = Path(args.script).read_text(encoding="utf-8").split()
-        if len(approved) == len(words):
+        if args.replace_text_by_order and len(approved) == len(words):
             words = [{"start": w["start"], "end": w["end"], "word": correct}
                      for w, correct in zip(words, approved)]
-            method += ("; word text human-corrected 1:1 to approved script, "
-                       "timestamps unchanged")
-            print(f"script word-text correction applied: {len(words)} words",
-                  flush=True)
+            method += ("; text replaced by script order at user request; "
+                       "alignment must be checked by listening")
+            print("Warning: text replaced by position only; equal word counts "
+                  "do not prove temporal alignment. Listen and correct cues.",
+                  file=sys.stderr)
         else:
-            print(f"Warning: script has {len(approved)} words but Whisper "
-                  f"returned {len(words)}; keeping Whisper words unchanged. "
-                  f"Review the text manually.", file=sys.stderr)
+            mismatches = sum(a.casefold() != w["word"].casefold()
+                             for a, w in zip(approved, words))
+            print(f"Script/Whisper comparison: {len(approved)} script tokens, "
+                  f"{len(words)} aligned tokens, {mismatches} positional "
+                  "differences. Keeping Whisper text and timestamps; review "
+                  "and edit captions against the approved script.",
+                  file=sys.stderr)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("x", encoding="utf-8") as output:
         json.dump({"words": words, "method": method}, output,
