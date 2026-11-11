@@ -1,0 +1,1258 @@
+diff --git a/skills/directing-stickman-videos/PATCH-NOTES.md b/skills/directing-stickman-videos/PATCH-NOTES.md
+index 2d1af13..7993e6c 100644
+--- a/skills/directing-stickman-videos/PATCH-NOTES.md
++++ b/skills/directing-stickman-videos/PATCH-NOTES.md
+@@ -1,5 +1,14 @@
+ # PATCH-NOTES — local patch on the phongsun01 fork (2026-11-09)
+ 
++## Local change 2026-11-11 — shared video-shotcraft checks: rhythm rules + sound design (borrowed rules, B1–B5)
++
++- **What:** 2 things borrowed from video-shotcraft (`Vincentwei1021/video-shotcraft`, Apache-2.0, main, single commit `1266a3e`, reviewed 2026-11-06; Pandu's review copy is the `xitrum14/video-shotcraft` fork), as a **shared layer for all B styles**, not owned by any single style: (1) rhythm rules (R1–R4, Q5, P4, promo-energy-arc), (2) sound design (S1–S5, Freesound sourcing with manifest, beat-sync only when BGM is chosen).
++- **Files added:** `references/shared-shotcraft-checks.md` (the checks, with Vietnamese adaptation, B4 worked example for Tập 3 camera-room, and known conflicts: B4 deliberate-hold, B4 3.0s narrative-shot limit, B4 no-BGM, Tập 3 ~70s length decision), and `references/shotcraft/` (local copies of the source material: `aesthetic-rules.md`, `sound-design.md`, `music-beat-sync.md`, `sfx-sourcing.md`, `final-review.md`, `promo-energy-arc.md`, plus `SOURCES.md` provenance note — 76 KB, all `.md`, byte-identical to the source, verified with `cmp`). **Rules/text only — no Remotion/TS/JS code copied.** `tests/shared-shotcraft-checks.test.mjs` (3 tests: autopilot wiring, rule/conflict coverage, source-copy inventory).
++- **Wiring:** `references/autopilot.md` line 17 now points every B style at `shared-shotcraft-checks.md` alongside `autopilot-production-qa.md`. No file of any single B style (B1–B5) was modified; no whiteboard work was done in this change (whiteboard application is a separate notes document, not a skill change).
++- **Key adaptations (do NOT apply the promo numbers blindly):** the 1.28f AAC output-offset constant is from their Remotion pipeline — §2.4 requires measuring it per pipeline by cross-correlation and recording the 4 pipeline factors; B4 has no BGM, so beat-sync (§2.3) does not apply to B4; B4 loudness stays suspense-quiet (Tập 2 measured −17.93 LUFS / −0.26 dBTP; from Tập 3 keep true peak under −1 dBTP in the mix).
++- **Not done (deferred):** verification — the first checklist run is the B4 Tập 3 **full** build (~70s), not the ~20s preview. If a rule fails on real footage, fix `shared-shotcraft-checks.md` and record it; do not carry it blind into Tập 4.
++- **Scope note:** this change is in the fork-patched copy and in the new `.patch` file `stickman-skill-shotcraft-rhythm-sound.patch` (2026-11-11). The shorts-kit borrowing and the 65s→71s preview-cap change live in the installed skill only and are NOT in this patch.
++
+ Base: fork `phongsun01/stickman-video-director`, HEAD
+ `1383d19fd3effd908c65c4968994ef7de8d3da9d`
+ ("Refine skill routing, story pacing, delegated defaults and narration languages",
+diff --git a/skills/directing-stickman-videos/references/autopilot.md b/skills/directing-stickman-videos/references/autopilot.md
+index 461b8f5..ea3499e 100644
+--- a/skills/directing-stickman-videos/references/autopilot.md
++++ b/skills/directing-stickman-videos/references/autopilot.md
+@@ -14,7 +14,7 @@ Resolve each setting in this order: **explicit user choice → selected B-style
+ 
+ B3 has independent design/motion requirements and a declarative layered runtime: paths, rounded shapes, nested pivot groups and a composition-level television finish. Select `style: B3` explicitly; do not alias another style. Inspect its bundled implementation stills/motion and derived guide before authoring story-specific poses, objects and state changes. Original-video excerpts are not redistributed. If an authorized original is available privately, compare its visual effects directly; otherwise record that source-fidelity evidence is missing. Accepted examples are secondary evidence, not a replacement style standard, automatic gait engine or plot template. New samples still require normal design, motion and user-review gates.
+ 
+-Shared B rules govern source fidelity, required narration/subtitles, native named voices by default, voice-led timing, configuration/cost checks, sample review and delivery. Read and apply the required [B common production and acceptance checklist](autopilot-production-qa.md) before shot planning, sample review and full-film delivery. Its opening-30s hook, natural caption phrasing, sharp screenshots, relevant icons, no filler repetition, maximum 2.5-second principal-picture inactivity and whole-film detail gates apply to every B style. Style defaults customize expression, not waive this common quality floor; they do not impose one caption design or voice ID on every style. A does not inherit these gates.
++Shared B rules govern source fidelity, required narration/subtitles, native named voices by default, voice-led timing, configuration/cost checks, sample review and delivery. Read and apply the required [B common production and acceptance checklist](autopilot-production-qa.md) before shot planning, sample review and full-film delivery. Its opening-30s hook, natural caption phrasing, sharp screenshots, relevant icons, no filler repetition, maximum 2.5-second principal-picture inactivity and whole-film detail gates apply to every B style. Style defaults customize expression, not waive this common quality floor; they do not impose one caption design or voice ID on every style. A does not inherit these gates. Alongside it, read the [shared shotcraft rhythm and sound checks](shared-shotcraft-checks.md) — rhythm rules (R1–R4, Q5, P4, energy arc) and sound design (S1–S5, Freesound sourcing, beat-sync only with BGM) borrowed from video-shotcraft, shared across B1–B5; its B4 conflicts and Vietnamese measurements take precedence over the promo numbers.
+ 
+ For every B preview/film and every genre, read the required [story-led sound system](autopilot-sound-system.md) before sound spotting, sourcing and final mix review. Save its scene/beat-level sound script: environment bed, material/distance-aware action, emotional progression and exact source text, with voice recommendations separate from SFX. Plan a bed for each scene, preserving intentional AUDIO CUT. Choose the palette from this story; suspense is only one conditional module, not B's default. Do not impose horror, always-on layers or jump scares on unrelated B styles. Library candidates require asset-specific rights checks, not blanket “free/no copyright” assumptions.
+ 
+diff --git a/skills/directing-stickman-videos/references/shared-shotcraft-checks.md b/skills/directing-stickman-videos/references/shared-shotcraft-checks.md
+new file mode 100644
+index 0000000..edc347e
+--- /dev/null
++++ b/skills/directing-stickman-videos/references/shared-shotcraft-checks.md
+@@ -0,0 +1,224 @@
++# Lớp kiểm tra chung mượn từ video-shotcraft — luật nhịp + thiết kế âm thanh, dùng cho mọi kiểu B1–B5
++
++> **Vị trí:** lớp dùng chung, đặt cạnh `autopilot-production-qa.md` và
++> `shared-shorts-kit-checks.md`. Nó KHÔNG sửa bất kỳ file của riêng kiểu
++> nào (B1–B5 giữ nguyên contract visual, phụ đề, giọng, nhịp và SFX của
++> mình) và KHÔNG thay thế `autopilot-production-qa.md` — đó vẫn là
++> quality floor bắt buộc — cũng KHÔNG thay thế `autopilot-sound-system.md`
++> hay `b4-audio-direction.md` (B4). File này chỉ thêm 2 thứ mượn từ
++> video-shotcraft, ở tầng chung: (1) luật nhịp, (2) thiết kế âm thanh.
++> Chế độ A (Director) không kế thừa lớp này.
++>
++> **Nguồn mượn:** video-shotcraft, `Vincentwei1021/video-shotcraft`
++> (bản Pandu review là fork `xitrum14/video-shotcraft`), Apache-2.0,
++> main, commit duy nhất `1266a3e`, review ngày 2026-11-06. Bản chép
++> local tại `references/shotcraft/` trong skill này (xem
++> `references/shotcraft/SOURCES.md`); clone gốc ở `/tmp/video-shotcraft/`
++> (bản sao tạm, có thể mất khi VM reset — bản trong `references/shotcraft/`
++> mới là bản lưu). Chỉ chép rules/văn bản, **không chép code Remotion/TS/JS**,
++> không chép demo, texture hay audio của repo đó.
++>
++> **Nguyên tắc mượn:** mọi con số của video-shotcraft đều là "đo trên phim
++> quảng cáo sản phẩm của họ, phải đo lại cho phim của mình", không phải
++> chân lý. Chỗ nào xung đột với contract B đã có thì contract B thắng,
++> và xung đột được ghi rõ ở §1.4 / §2.5, không áp mù.
++
++## §1. Luật nhịp (mượn từ `aesthetic-rules.md` R1–R4, Q5, P4 + `sequences/promo-energy-arc.md`)
++
++### §1.1 Các luật — áp cho mọi kiểu B
++
++| Luật (shotcraft) | Nội dung | Ghi chú cho B1–B5 |
++|---|---|---|
++| R1 — Thông tin rơi xuống phải thở | Yếu tố mang thông tin (chữ lớn / số / toàn cảnh / wordmark) sau khi rơi vào vị trí phải đứng yên **≥1s** rồi mới cắt cảnh. Khoảng thở ưu tiên cho điểm cần nhớ (wordmark, reveal chính), không cho card nội dung thường. | B4: áp cho cú reveal cuối (màn hình đen, tiếng gõ cuối) và title mở đầu. Hold là **có chủ đích, ghi lý do**, không phải shot bị đứng hình. |
++| R2 — Tốc độ đến từ gia tốc, không phải chạy nhanh đều | Chuyển động vào/ra phải phi tuyến (easing) + lệch pha không đều; chuyển động đều đọc như PPT rẻ tiền. Nhiều phần tử cùng vào thì **càng về sau càng nhanh** (gắn ẩn dụ vật lý nếu được, ví dụ phát bài), rồi **đứng yên 0,5s** mới cắt. | B4: tiếng kéo lê lần 2, bóng xuất hiện lại gần hơn — phải nhanh/dồn hơn lần 1, rồi dừng thở, không lặp y hệt lần 1 với cùng tốc độ. |
++| R3 — Nhịp thà chậm chứ đừng nhanh | Mở đầu: cung hành động chính của chủ thể (tụ → tiến → lơ lửng → về vị trí) **≥3s**. Diễn tương tác (gõ, tìm, bấm) theo tốc độ người thật — khán giả phải theo kịp. Khi xếp timeline, **trừ trước ngân sách hold/rest** (R1 ≥30f, cuối cụm ≥15f) rồi mới xếp động tác, không xếp xong mới tìm chỗ thở. Lịch sử của họ: mọi feedback đều là "chậm lại", chưa từng có "chậm quá". | B4: cung hành động ≥3s áp cho reveal (bóng trên màn hình, bóng tiến lại gần). Không dùng zoom-only để kéo dài shot cho đủ giờ. |
++| R4 — Chấn động toàn khung ≤3 lần/phim | Tác động lên toàn khung / tầng camera (scale cả khung, rung màn, flash, negative) tính là một "slam" lớn: **tối đa 3 lần/phim**, chỉ đặt ở hit mạnh nhất, hai lần cách nhau ≥16 nhịp (nếu có nhạc). Các nhịp còn lại chỉ động ở tầng phần tử. Kick/bump nào cũng đập toàn khung thì đọc thành "camera rung theo nhạc". | B4 **không có BGM** nên dịch ra: không flash/rung/scale toàn khung theo từng nhịp; một cú chấn toàn khung (nếu có, ví dụ màn hình tắt phụt) chỉ dùng ở payoff đã kiếm được, tối đa 3 lần/tập, và ghi rõ hit nào. |
++| Q5 — Mở đầu chỉ một nhân vật chính | Mở đầu: một chủ thể, một cung hành động trọn vẹn (tụ → tiến → lơ lửng → về vị trí). Nhiều phần tử cùng múa không làm nên ấn tượng đầu. | B4 Tập 1/2/3 đều đã làm đúng kiểu này (một bóng / một thùng / một màn hình). Giữ. |
++| P4 — Một thủ pháp chỉ làm nhân vật chính một lần/phim | Liệt kê chức năng/beat trước, mỗi beat map một shot; một thủ pháp (bay vào / xếp chồng / lật trang) chỉ làm chính **một lần/phim**; shot lặp thông tin thì cắt. | B4 (30 tập): áp **trong từng tập**, không áp xuyên tập — "bóng xuất hiện trên camera" là motif series, nhưng trong một tập không được dùng cùng một kiểu reveal hai lần với cùng một cách. Kiểm tra 4-gram của shorts-kit vẫn chạy riêng cho chống lặp lời. |
++
++### §1.2 Khung năng lượng toàn phim (promo-energy-arc)
++
++Sườn mặc định cho phim 30–60s, 4 đoạn: (1) mở đầu thương hiệu, năng lượng
++thấp, wordmark hold ≥1s; (2) một nhân vật chính lập thân, năng lượng trung
++bình, nhịp chậm nhất, cung hành động ≥3s; (3) leo chức năng/beat, năng lượng
++trung-cao **xen kẽ** với chữ thở ở giữa (mỗi 1–2 beat chèn một chữ thở ~1,8s);
++(4) kết thúc ở đỉnh cao nhất — mọi phần tử đã xuất hiện quay lại "chụp chung"
++quanh wordmark, rồi hold ≥1s. Đây là sườn mặc định, không phải lệnh: lệch
++có chủ đích thì ghi vào spec của tập đó.
++
++Dịch sang B4 (tập 60s, thriller, không phải promo): (1) hook im lặng/thấp;
++(2) một mối đe dọa / một vật chứng duy nhất; (3) leo căng thẳng xen kẽ khoảng
++lặng (im lặng cũng là một nhịp thở, không phải lỗi); (4) đỉnh sợ rồi giữ bóng
++tối. **Không copy tỉ lệ % của promo** (8–12% / 12–15% / 55–65% / 13–16% là
++số đo trên phim mẫu của họ) — chỉ mượn thứ tự và nguyên tắc xen kẽ.
++
++### §1.3 Mỗi kiểu chạm vào những luật nào
++
++- **B1 Minimal Line Art:** R1/R3 là chính — chữ lớn cần thời gian đọc, cung
++  hành động chậm; R2 áp cho cụm nét vẽ vào theo đợt.
++- **B2 Colorful Hand-Drawn:** P4 là chính — nhiều nhân vật/đạo cụ dễ lặp thủ
++  pháp; Q5 giữ mở đầu chỉ một nhân vật.
++- **B3 Retro TV:** R4 là chính — hiệu ứng TV (nhiễu, flash) rất dễ lạm thành
++  chấn toàn khung; đếm slam trước khi giao.
++- **B4 Survival Thriller:** R1 (hold cuối), R2 (lần 2 dồn hơn lần 1), R3
++  (reveal ≥3s), R4 (không chấn toàn khung theo nhịp), khung năng lượng §1.2
++  dịch sang thriller. Xem §1.5 cho ví dụ Tập 3.
++- **B5 Character Explainer:** P4 + Q5 — một nhân vật giải thích, một thủ pháp
++  minh họa chỉ làm chính một lần; R1 cho định nghĩa/kết luận cần nhớ.
++
++### §1.4 Xung đột đã biết — contract B thắng
++
++- **B4 deliberate-hold vs quota 2,5s:** `autopilot-production-qa.md` đã có
++  ngoại lệ deliberate-hold cho B4 (pose đẹp được phép đứng yên, không bắt
++  cử động để đủ quota). R1/R3 **không mâu thuẫn** với ngoại lệ này: hold
++  trong R1/R3 là hold **có ghi lý do kể chuyện** (reveal, đọc, thở), đúng
++  bản chất của deliberate-hold. Hold không lý do, hold để lấp giờ, vẫn fail
++  như cũ.
++- **Giới hạn shot kể chuyện 3,0s của B4** (`b4-opening-direction.md`): vẫn
++  giữ — đổi góc nhìn/trạng thái có ý nghĩa trước 3,0s. R3 (cung ≥3s) không
++  có nghĩa là một shot được đứng yên 3s: cung hành động diễn ra **trong**
++  3s đó (tụ → tiến → về vị trí), không phải freeze 3s.
++- **B1–B3 quota 2,5s inactivity:** vẫn giữ nguyên; R1 hold ≥1s nằm trong
++  quota này (hold 1s < 2,5s), không phải ngoại lệ mới.
++
++### §1.5 Ví dụ áp cho B4 Tập 3 (phòng camera) — kiểm tra ở bản full, không sửa kịch bản đã duyệt
++
++Kịch bản Tập 3 đã duyệt (261 từ, ~62s; preview ~20s đã xong 2026-11-11):
++bóng cao đứng yên trên camera #7, biến mất, xuất hiện lại gần hơn trên
++camera hành lang, rồi ở màn hình cuối ngoài cửa phòng camera nó với tay
++tới ống kính, màn hình đen, một tiếng gõ nhẹ — "bạn có ở trong đó không."
++
++- R3: mỗi lần xuất hiện của bóng là một cung ≥3s (đứng yên → nhận ra →
++  biến mất), không cắt vụt 1s cho "nhanh".
++- R2: lần xuất hiện thứ hai phải dồn/nhanh hơn lần đầu (gần hơn = nguy
++  hiểm hơn), rồi đứng yên 0,5s trước khi cắt sang màn hình cuối.
++- R1: màn hình đen cuối giữ ≥1s sau tiếng gõ — đó là điểm cần nhớ, không
++  cắt ngay sang outro.
++- R4: màn hình tắt phụt tính là một chấn toàn khung (nếu làm flash/scale);
++  cả tập tối đa 3 lần kiểu này, và chỉ ở payoff.
++- P4: trong tập này, kiểu reveal "bóng trên màn hình" chỉ làm chính một
++  lần theo một cách — các lần sau phải đổi cách (biến mất / gần hơn / với
++  tay tới ống kính), không lặp y hệt shot camera #7 ba lần.
++
++## §2. Thiết kế âm thanh (mượn từ `sound-design.md` S1–S5 + `music-beat-sync.md` + `sfx-sourcing.md`)
++
++### §2.1 Các luật — áp cho mọi kiểu B
++
++| Luật (shotcraft) | Nội dung | Ghi chú cho B1–B5 |
++|---|---|---|
++| S1 — Chọn âm theo "loại phim", không theo "sự kiện" | Bảng từ SFX theo thể loại: whoosh (vận động máy), impact (rơi/đập), riser (dồn), sparkle (sáng), transition (chuyển cảnh). **Cấm âm sắc game** (pluck/bloop synth, nhảy cartoon, thang game-over) — cấm **âm sắc**, không cấm **động tác**: hình có cú click thật thì vẫn dùng tiếng click thật của vật đó. | B4: bảng từ của B4 là foley thật (gõ, kéo lê, máy phát rì rì, chốt cửa, tiếng bước) theo `autopilot-sound-system.md` + `b4-audio-direction.md`, KHÔNG phải bảng từ promo (tech-house + whoosh/impact liên tục). Không mang BGM tech-house của họ vào phim suspense im lặng. |
++| S2 — SFX quản lý bằng bảng ghim frame | Một bảng trung tâm `{from, src, volume}[]`, mỗi dòng ghi chú động tác tương ứng; `from` suy ra từ `SHOTS` / beat, không ghi số frame tuyệt đối rải rác. Cùng loại cue lặp lại thì chống "máy bắn": **đổi 2 mẫu luân phiên + âm lượng giảm dần theo dãy + khoảng cách theo đường cong động tác mà ngắn lại**; dày quá không nghe rõ từng cái thì thu lại thành swoosh. | B4 Tập 2 đã làm đúng tinh thần này (tiếng kéo lê 2 lần, lần 2 gần/to hơn). Từ nay ghi thành bảng, không để trong đầu. |
++| S3 — Âm thanh làm sau khi hình đã khóa | BGM/SFX xếp sau khi cấu trúc hình cơ bản đã khóa; **bất cứ lần nào đổi độ dài/thứ tự shot thì làm lại toàn bộ bảng SFX** — lệch âm-hình là mục kiểm tra bắt buộc trước giao. | Áp thẳng cho B4: Tập 3 bản full (~70s, xem §2.5) mà đổi shot thì bảng SFX của preview không được mang nguyên sang. |
++| S4 — Foley thật ưu tiên hơn âm trang trí | Hình có động tác nào thì dùng tiếng thật của động tác đó (gõ bàn phím dùng tiếng phím, rơi từng món dùng từng tiếng pop); mẫu dài cắt đúng độ dài động tác (dùng `durationInFrames` cho mẫu >5s); mẫu nhẹ peak <-12dB thì đổi mẫu hoặc tiền xử lý trước, gain >1 chỉ khi đã kiểm trên bản render thật. | B4: "lời nói có tiếng kính vỡ" không thay được tiếng kính vỡ thật; tiếng kéo lê phải là tiếng kéo lê, không phải swoosh chung chung. |
++| S5 — Bù hai độ trễ (đo, không đoán) | Công thức: `from = khung peak đích − trễ peak của file − trễ output`. (a) **Trễ output:** toàn bộ track audio của file xuất ra bị trễ cố định do chuỗi encode (AAC encoder priming, 48kHz điển hình 2048 samples ≈ **1,28 frame @30fps** trong pipeline Remotion 4.x + AAC 48kHz của họ — **KHÔNG copy hằng số này mù**; xem §2.4). (b) **Trễ peak của từng file:** peak năng lượng không nằm ở đầu file (mẫu dồn dần, hơi thở đầu), đo từng file (ví dụ của họ: brush-write 2f, paper-slide 10f, ink-char 24f). | Đây là luật mới nhất cho B4: tiếng gõ cuối Tập 3 phải rơi đúng khung tay chạm ống kính / màn hình đen, không được trễ 2–3 frame mà nghe như "đánh trượt". |
++
++### §2.2 Chọn nguồn SFX (mượn từ `sfx-sourcing.md`)
++
++- Ghi nhu cầu thành: shot/động tác, nguồn âm/vật liệu, độ dài đích, attack/tail,
++  âm sắc, license yêu cầu. Tìm theo **nguồn âm** (ví dụ `dry paper slide`,
++  `mechanical switch click`), không tìm từ chung chung (`click`, `impact`).
++- Mặc định **CC0**; chấp nhận ghi công (attribution) thì mới dùng CC BY; loại BY-NC / Sampling+ /
++  license không rõ. Tải về phải đọc lại trang chi tiết để chốt license thật,
++  không lấy kết quả search làm bằng chứng license.
++- Mỗi file tải về giữ **manifest**: nguồn URL, tác giả, license URL/phiên bản,
++  đánh dấu preview hay file gốc, thời gian tải, SHA-256, phân tích thực đo
++  (format, sample rate, độ dài, sample peak, RMS, peak 10ms) và `changes`
++  nếu đã xử lý. Manifest này **ghi thêm vào** sound/rights manifest đã có
++  trong `autopilot-sound-system.md` (ghi path/fingerprint/provenance/license),
++  không thay thế nó. Không được ghi file preview MP3 thành "file gốc không nén".
++- Không tải cả thư viện, chỉ lấy đúng cue cần; không dùng HTML trang lỗi giả
++  làm audio; một lần chỉ một tiến trình `get` trên cùng một thư mục đích.
++- Nguồn Freesound là nguồn **bổ sung**, không thay thế cửa rights gate đã có
++  trong `autopilot-sound-system.md` (Pixabay/Uppbeat/Ghosthack vẫn giữ nguyên
++  quy tắc kiểm tra từng asset của chúng).
++
++### §2.3 Beat-sync — CHỈ khi đã chọn BGM
++
++Chỉ áp dụng khi user đã chọn BGM **và** phim là phim có nhịp mạnh. B4 hiện
++**không có BGM** — không được thêm BGM chỉ để áp mục này.
++
++- **Nhạc trước, phân tích trước, storyboard sau:** đo lưới nhịp bằng
++  least-squares fit trên chuỗi beat (không tin con số tempo của beat tracker
++  — ví dụ của họ: báo 129,2 vs thật 131,97 BPM), residual ≤±15ms mới tin;
++  kiểm tra nhầm 0,5x/1x/2x bằng độ phủ kick; track phức tạp thì tách drum
++  stem trước (HPSS / Demucs).
++- Timeline viết bằng **số nhịp** (`beatF(n)`), không viết số frame tuyệt đối;
++  đổi nhạc thì chỉ đổi 2 hằng số (t0, T) là cả phim xếp lại. Cut/quan trọng
++ ghim đúng nhịp; trọng âm lẻ thì ghim đúng transient thật, không nội suy lưới.
++- **Kiểm tra sau render:** trích audio từ file MP4 đã xuất, đo lại lưới,
++  đối chiếu từng cut — sai số **≤3 frame** mới đạt (ngưỡng cảm nhận), lý
++  tưởng ≤1,5f. Sai hệ thống cùng chiều thì kiểm tra trễ output (§2.4), không sửa
++  từng điểm.
++- Đổi BGM thì làm lại phân tích; không xóa/sửa lời dẫn để vừa nhạc.
++
++### §2.4 Đo trễ output cho pipeline của mình — không copy hằng số 1,28f
++
++Hằng số 1,28f của video-shotcraft đo trên **pipeline của họ** (Remotion 4.x
+++ AAC 48kHz mp4, 2026-08-23, 2 probe click/impact). Pipeline stickman dùng
++ffmpeg encode khác, nên:
++
++1. Render xong một bản, trích audio: `ffmpeg -i out/film.mp4 -vn -acodec pcm_s16le /tmp/render-audio.wav`.
++2. Lấy 2–3 SFX sắc (ví dụ tiếng gõ) làm probe, cross-correlate file gốc với
++   audio đã xuất; vị trí peak trừ đi frame thiết kế = trễ output. Chỉ tin
++   khi các probe cho cùng một số (residual nhất quán).
++3. Ghi lại kèm **4 yếu tố pipeline** (renderer/version + codec + sample
++   rate + container) và ngày đo. Đổi bất cứ yếu tố nào thì đo lại.
++4. Tách sổ sách: hằng số phân tích nhạc gốc (t0/BPM) không bao giờ trộn trễ
++   output vào; trễ output là một hằng số riêng trong công thức `from`.
++5. Trễ peak từng file đo bằng energy envelope, ghi vào manifest của file đó
++   (§2.2), không dùng peak toàn file cho mọi cue.
++
++### §2.5 Xung đột đã biết — contract B / B4 thắng
++
++- **Loudness:** `autopilot-sound-system.md` đã chốt điểm làm việc cho web
++  video **−16 đến −14 LUFS, trần −1 đến −2 dBTP** (không phải luật YouTube).
++  `shared-shorts-kit-checks.md` §1.1 ghi −13 LUFS / trần −1 dBTP cho short
++  kiến thức. B4 trầm lặng nên ngồi thấp hơn là **có chủ đích** — Tập 2 đo
++  **−17,93 LUFS / true peak −0,26 dBTP** (vượt trần −1 dBTP 0,74 dB;
++  Pandu đã chốt "Đăng như hiện tại" 2026-11-11). **Từ Tập 3: giữ true peak
++  dưới −1 dBTP ngay lúc mix** (Tập 3 preview đo −22,06 LUFS / −3,41 dBTP,
++  đạt trần nhờ narration đã hạ −3 dB — bản full phải dùng file narration
++  đã hạ đó, `narration-att.wav`). Không "sửa" loudness B4 cho bằng −13 LUFS.
++- **BGM:** S1 của shotcraft gắn với BGM tech-house mạnh; B4 không dùng BGM.
++  Không áp S1 theo nghĩa "phải có nhạc nền mạnh".
++- **Tập 3 dài ~70,2s:** vượt trần preview 65s của skill và gate approve/render
++  >60s (bản preview-as-final của Tập 1/2 không dùng được cho Tập 3). Đây là
++  vấn đề độ dài/timeline, **không phải** luật nhịp hay âm thanh — không dùng
++  luật ở đây để cắt bớt 30 từ hay nâng trần thay cho quyết định của Pandu.
++  **Đã chốt 2026-11-11 14:43:** Pandu chọn (a) giữ bản ~70s, nâng trần
++  preview lên 71s (trần 65s→71s; gate approve/render >60s giữ nguyên, bản
++  full vẫn giao dạng preview-render như Tập 1/2). Preview ~20s đã xong;
++  bản full ~70s đang dựng ở chat Stickman.
++- **Âm thanh mở đầu B4:** `b4-audio-direction.md` đã có first-frame audio
++  gate + `b4-opening-audio-check.mjs` (onset 100ms, −36 dBFS mid-band).
++  S5 bù trễ **cộng thêm** vào đó (tiếng đầu tiên cũng phải đúng frame),
++  không thay thế ngưỡng onset của B4.
++
++## §3. Per-style touchpoints (một dòng mỗi kiểu — chi tiết vẫn ở contract riêng)
++
++- **B1:** R1 cho chữ đọc, S4 cho tiếng viết/vẽ tay (brush/paper) — đo trễ
++  peak của tiếng bút (họ đo brush-write 2f).
++- **B2:** P4 chống lặp thủ pháp màu, S1: âm sắc vui nhưng không dùng âm game.
++- **B3:** R4 đếm slam (nhiễu/flash TV), Q11 chữ ≥56px phụ đề / ≥32px phụ
++  (đo trên frame thật, xem `aesthetic-rules.md` Q11 trong `references/shotcraft/`).
++- **B4:** xem §1.5 + §2.5.
++- **B5:** P4 + R1 cho định nghĩa/kết luận; S2 bảng ghim frame cho từng cử chỉ
++  minh họa của avatar.
++
++## §4. Cái KHÔNG mượn
++
++- Capture trang web thật bằng Puppeteer (không hợp stickman vẽ tay).
++- Template Ink Press / Workbench / xuất JianYing của video-shotcraft (khung
++  Remotion của họ; B đã có runtime riêng).
++- Beat-sync bằng librosa làm bắt buộc (chỉ khi có BGM, §2.3).
++- BGM tech-house / bảng từ promo làm mặc định cho mọi kiểu.
++- Chuyển hẳn pipeline sang Remotion của họ — chỉ mượn luật, không mượn khung.
++
++## §5. Kiểm chứng (deferred — như shorts-kit)
++
++Chưa kiểm chứng trên phim thật. Lần chạy checklist đầu tiên là **bản full
++Tập 3 B4** (không phải preview ~20s đã xong): chạy §1 (R1/R2/R3/R4/P4) và
++§2 (bảng SFX, S5 đo trễ output + trễ peak tiếng gõ cuối, true peak <−1 dBTP
++trong lúc mix) trên bản full, ghi kết quả frame-số vào project. Nếu luật nào
++sai trên phim thật (ví dụ trễ output đo được khác xa 1,28f, hay R2 làm hỏng
++nhịp suspense), sửa file này và ghi rõ, không áp mù sang Tập 4.
+diff --git a/skills/directing-stickman-videos/references/shotcraft/SOURCES.md b/skills/directing-stickman-videos/references/shotcraft/SOURCES.md
+new file mode 100644
+index 0000000..1f6f828
+--- /dev/null
++++ b/skills/directing-stickman-videos/references/shotcraft/SOURCES.md
+@@ -0,0 +1,26 @@
++# Nguồn mượn — video-shotcraft
++
++- **Repo:** `Vincentwei1021/video-shotcraft` (bản Pandu review là fork
++  `xitrum14/video-shotcraft`), Apache-2.0, main, commit duy nhất `1266a3e`,
++  review ngày 2026-11-06.
++- **Ngày chép:** 2026-11-11. Chép từ clone `/tmp/video-shotcraft/`
++  (bản sao tạm — bản trong thư mục này mới là bản lưu).
++- **Phạm vi:** chỉ văn bản luật (rules), **không chép code Remotion/TS/JS**,
++  không chép demo, texture, audio hay `package.json` của repo đó. Mọi file
++  dưới đây đều là `.md`, byte-identical với bản gốc (đã kiểm bằng `cmp`).
++
++| File trong thư mục này | File gốc trong video-shotcraft |
++|---|---|
++| `aesthetic-rules.md` | `references/aesthetic-rules.md` |
++| `sound-design.md` | `references/sound-design.md` |
++| `music-beat-sync.md` | `references/music-beat-sync.md` |
++| `sfx-sourcing.md` | `references/sfx-sourcing.md` |
++| `final-review.md` | `references/final-review.md` |
++| `promo-energy-arc.md` | `references/sequences/promo-energy-arc.md` |
++
++- **File áp dụng:** `../shared-shotcraft-checks.md` — bản dịch/áp dụng
++  luật nhịp (R1–R4, Q5, P4, energy arc) + âm thanh (S1–S5, Freesound,
++  beat-sync) cho B1–B5, kèm xung đột đã biết với contract B/B4 và số đo
++  tiếng Việt. Đọc file đó để áp dụng; các file gốc ở đây chỉ để đối chiếu.
++- **License:** Apache-2.0 (`LICENSE` của video-shotcraft). Giữ nguyên
++  attribution cho repo gốc khi phát hành lại skill có kèm các file này.
+diff --git a/skills/directing-stickman-videos/references/shotcraft/aesthetic-rules.md b/skills/directing-stickman-videos/references/shotcraft/aesthetic-rules.md
+new file mode 100644
+index 0000000..419078b
+--- /dev/null
++++ b/skills/directing-stickman-videos/references/shotcraft/aesthetic-rules.md
+@@ -0,0 +1,193 @@
++# 审美准则（判例式）
++
++来源：多支宣传片实战返工的判例沉淀（成片模板见 `template/`）。
++
++**使用方式**：
++- 每条 = 规则（一句可执行的话）+ 判例（用户原话 / 返工经过）+ 自检问题，三要素缺一不可。
++- pipeline.md 阶段 7 验收时**逐条过一遍**，输出自检报告，格式：`编号 ✓` 或 `编号 ✗(位置)`（位置 = 镜头名/帧号）。
++- 准则可以有意识违反（风格需要时），但每次违反必须写进该项目的说明文档（写明违反了哪条、为什么）。
++- 编号体系：R(节奏) / Q(质感·运镜·构图) / S(声音) / C(文案) / P(流程)，编号一经发布不重排，新增条目只追加。
++
++## 目录
++
++- 节奏（R）
++- 质感、运镜与构图（Q）
++- 声音（S）
++- 文案（C）
++- 流程（P）
++
++---
++
++## 节奏（R）
++
++### R1. 关键信息落定后必须呼吸，品牌字标 hold 满 1 秒
++规则：承载信息的元素（字卡/数字/网格全貌）落定后静止 ≥1s 再切镜；呼吸感停顿优先给品牌记忆点（wordmark 落定时刻），不给普通内容卡片。
++判例：用户："第一个标题打出来之后停留一秒"、"不是第一个字卡，我说的是开头和结尾的AI field lab出现的动画，出现后延长停留1秒"。先停错了对象、revert 后重做，定案为开头结尾两处 wordmark 各 hold 满 1 秒。
++自检：每个"想让观众记住的画面"是否有完整静止时刻？停顿给的是品牌/关键信息，还是随手给了普通元素？
++
++### R2. 速度感来自加速度，不是匀速快；群体运动挂物理隐喻，收尾留 0.5s 停顿
++规则：飞入/滚动一律非线性缓动 + 非均匀错峰，匀速运动读作廉价 PPT；大量同类元素入场用"越来越快"的硬加速节拍，最好绑一个物理隐喻（如牌堆发牌），满板后静止 0.5s 再切下一拍。
++判例：用户："卡片不断往下堆叠时，应该越来越快，scroll的速度也越来越快，并在最后停顿0.5秒"、"最后速度也不够快……卡片自动按顺序飞向自己的位置，归位越来越快"。先做成加速 scroll + 0.5s 停顿，再改成发牌式硬加速——抽象 flood 五轮不收敛、换成发牌隐喻一轮通过。
++自检：有没有任何元素在做匀速直线运动？批量入场是否越来越快、末尾有无静止呼吸？
++
++### R3. 节奏宁慢勿快：初版默认放慢一档，主体动作弧 ≥3s，交互演示按真人操作速度
++规则：开场主体动作（聚焦→悬浮→归位一条完整弧线）至少 3 秒；模拟真实交互（打字、筛选、点击）按人真实操作的速度走，观众要能跟着做一遍；排时间线时预留 hold/rest 帧预算——第一版几乎总是偏快。
++判例：全片六次独立反馈全部指向"放慢/停留"，从未有一次"太慢了"的反向反馈。用户："第一个镜头还是太快了，放慢到3秒"、"进入搜索框打字，然后筛选出卡片的过程太快了，放慢一些"。开场几经放慢到 3s macro opening，交互段落改成不慌不忙的 type-and-filter。
++自检：把每个镜头当第一次看：哪里没看清？交互段落自己能不能跟着操作一遍？
++
++### R4. 卡点约束时机不放大幅度：全画面级节拍冲击全片 ≤3 处，默认只动元素层
++规则：强节奏 BGM 片"切点落拍"不等于"逐拍打画面"——作用于整画面/相机层的冲击（整画面 scale 泵/震屏/闪帧/负片帧）视同大 slam 管理：全片 ≤3 处、钉 music-beat-sync §2b 的最强 hit 清单、相邻两处间隔 ≥16 拍；其余拍点动效只作用主角元素层；节拍泵类连打单次 ≤4 拍、全片 ≤1 次。kick 命中表是候选池不是触发器。**计数单位是一次手法/set-piece 使用，不按内部子事件数**：一张卡的一次应用（paparazzi 三连闪、trailer-bumper 三刀切）算一个名额，卡自身标注的连发结构与全片次数上限照旧生效，不因本条被逐帧重复计数。
++判例：用户反馈（2026-08-22）："如果给音乐，镜头会随节奏抖动，影响观感"——根因是把 music-beat-sync 的 kick→冲击映射执行成了逐拍全画面泵：强鼓点曲 kick 几乎每拍都有，逐拍"被砸"叠上相机层就是节拍频率的画面抖动。与 Q3 同族：Q3 封噪声性抖动（handheld），本条封节拍性抖动。
++自检：高能段任取连续 8 拍逐帧回放：整画面 scale/位移是否在逐拍脉冲？数全片作用于整画面/相机层的冲击：超过 3 处了吗？每处对得上最强 hit 清单吗？
++
++---
++
++## 质感·运镜·构图（Q）
++
++### Q1. 复刻既有页面必须真实截图；手搓 UI 限非复刻场景且质量/表达达标；数据按风险口径处理
++规则：凡是表现产品既有页面的镜头，第一步就用无头浏览器截真实页面（整页纹理 + 元素级抠图 + 坐标 json），不手搓仿真贴图复刻；非复刻场景（抽象开场/品牌段/页面上不存在的独立展示组件）允许手搓 UI，但质量（出版级质感，对照 Q10 标准）与表达明确性（观众一眼看懂它是什么）是硬门槛，达不到回截图路线。公开演示数据只有在产品简报明确确认后可保留；客户、个人、内部、密钥、实时或其他敏感内容必须先虚构、脱敏或冻结。对手搓素材同样适用该口径。
++判例：用户："我希望的是用真实的页面，然后加入动画"、"不要用真实数据，造一份fake的，不要提到客户名字"。改用真实 dashboard 页面重建，此前一下午手搓纹理复刻版整体作废。修订（2026-07-13 用户裁决）："不一定都要来自真实页面截图，可以手搓UI组件，只是要保证质量和表达的明确性"——判例约束收窄为"不用手搓复刻既有页面"。
++自检：每块 UI 素材：它在复刻既有页面吗？是则必须来自截图；手搓件的质感和表达能过 Q10 级审视吗？源数据是否符合已确认的数据口径，且不含未授权的客户、个人、内部或密钥信息？
++
++### Q2. 3D 透视下 UI 纹理按原生尺寸 rasterize 后缩小使用；文字发糊先查纹理分辨率链路
++规则：3D 场景里的 UI 纹理按显示尺寸的 2–4 倍原生栅格化、在 3D 里向下采样（放大走布局级 CSS zoom 而非 transform scale）；文字模糊先查栅格化路径，别先动相机/DoF。
++判例：用户三轮追打："明显卡片变得模糊了"、"还是不够高清……有像素点的方块"、"第一个镜头的文字清晰度还是没有解决"。先调 DoF 治标无效，改成按原生尺寸 rasterize 拿到真正 4x 锐度，最后把 CSS zoom 推广到全部 3D 页面层根治。
++自检：放大/透视镜头逐帧截图看文字边缘：有没有像素方块？纹理源分辨率是否 ≥ 显示尺寸 2 倍？
++
++技法展开（原 hires-rasterize-3d-text 技法卡沉淀于此，参考实现 template/src/aifl/live/PageCam.tsx）：
++- **根因**：Chromium 对 3D 合成层按 1920 布局宽栅格化再 GPU 放大——内容先降采样后放大必糊，与相机/景深参数无关。
++- **解法**：放大量不走 `transform: scale(zoom)` 而走 CSS `zoom` 属性（布局级缩放），让 Chromium 按放大后的设备尺寸栅格化，从高清源向下采样。坐标要按 `Tx = 960/zoom − cx` 换算保持与平面模式取景一致（PageCam.tsx:100-114 有完整推导），漏换算会跑焦点。
++- **配套**：全页 2x（deviceScaleFactor: 2）、hero 元素单独 4x 元素级截图，推进期 6f 交叉淡入盖住低倍页面纹理（淡入太长会看到两层错位）。
++- **排查顺序**：文字糊 → 先查纹理源分辨率链路（截图倍率→栅格化路径→缩放方式），最后才考虑相机。DoF 只做氛围，永远不是清晰度的解法（实证无效）。验证用逐帧截图裁剪放大看字边缘，肉眼看缩略图发现不了。
++
++### Q3. 镜头要稳：产品宣传片默认不加手持抖动
++规则：亮场 UI 宣传片禁用 handheld shake；相机噪声只在暗场氛围片明确追求纪实感时用极小值，且必须自查渲染帧确认无意外抖动。
++判例：用户："镜头视角很差，而且有小抖动不知道怎么回事"。去掉 handheld shake、重新构图后抖动零投诉；另一支暗场氛围片保留 shake=0.02 未被投诉——适用边界由此划定（推测边界）。
++自检：逐镜头看渲染帧：有没有任何非叙事意图的相机抖动？
++
++### Q4. 高光/扫光特效宁缺毋滥：不群发，一个镜头最多给主角一次，且必须裁进圆角边界
++规则：glint/泛光划过类特效不做群发——批量元素入场靠运动本身而非逐个发光；保留的光效必须被承载元素的 border-radius/overflow 裁剪，光溢出圆角是廉价感的典型来源。光效类技术路径本身不封杀：单点、给主角、实现质量过硬的 sheen/泛光可以做，做完对着渲染帧自问"好看吗"再交。
++判例：用户两次否决："不需要每个卡片都闪烁一下"、"卡片出现时的泛光划过的特效取消，不好看"。据此去掉逐卡 glint、撤掉泛光划过、把 chip 高光扫光裁进圆角边界内。澄清（2026-07-13 用户）：否决针对的是"实现的版本不好看"，"不代表这个技术路径/特效类型就不可行"——群发禁令与圆角裁剪不变，但泛光/扫光类手法可以带着更高实现标准重试。
++自检：数一数全片 glint/sweep 出现次数：有没有超过"主角元素一次"？每处光效是否被圆角裁剪？留下的每处光效，正常速度回放自己看过并觉得好看吗？
++
++### Q5. 开场只给一个主角：单主体 + 完整动作弧，胜过群体群舞
++规则：开场信息宁少而聚焦——一个主角元素、一条完整弧线（聚光→推近→悬浮→描边光→归位），多元素并舞撑不起第一印象。
++判例：用户："第一个镜头，只需要聚焦在一张卡片，并让它更有质感"。开场一夜推倒六次，单卡结构定型后直到成片未再动结构。
++自检：开场镜头有几个"想让观众看"的东西？主角的动作弧是否完整（起-承-落）？
++
++### Q6. 机位服务可读性：信息密集镜头正视，文字特写侧向水平，风格化倾斜逐镜头验证
++规则：风格化机位按镜头逐个决定——叙事/情绪镜头可倾斜，列表/堆叠等信息密集镜头保持正视；含文字的卡片特写用侧向水平机位，避免大角度仰拍/俯拍破坏文字可读性；禁止全局一刀切套用某种机位风格。
++判例：全片统一倾斜化被用户否决"做的并不好……对于内容列表页（模板片中为论文列表）的改动也不好，回滚"，随即单独把列表页 revert 回正视；用户："聚焦到一个卡片……是从左侧拍摄而不是从下方"，改为左侧 hero 机位。
++自检：每个倾斜机位镜头：斜的理由是什么？画面里的文字在这个角度还读得清吗？
++
++### Q7. 物件特写四件套：侧面倾斜角 + 可感知高度 + orbit 环绕 + 反差深色材质背景
++规则：物件/资产特写镜头做足环境戏——侧面倾斜机位、堆叠出可感知的体积高度、镜头绕主体环绕，背景用与主场景反差的深色材质（如拉丝金属），再用拉远同步过渡回主场景。
++判例：用户："镜头应该是倾斜从侧面拍摄，堆叠的项目应该有一定的高度，然后镜头围着堆叠做旋转。真个场景应该是暗色的金属质感背景。然后在镜头拉远，同时出现dashboard背景"。从 pile 特写 orbit 初版做到定稿——暗色拉丝金属背景 + 更高的堆叠 + 环绕运镜。
++自检：特写镜头的主体有没有体积感和环境反差？相机是死机位还是有环绕/拉远？
++
++### Q8. 结尾做成"发布会合影"：全片元素四方飞入围住字标，能量推到全片峰值
++规则：多功能产品的收尾用"全家福"结构——每个已展示过的功能抽一个代表元素多方向飞入定格；规格匹配全片能量峰值（crane 运镜 + 舞台光 + 粒子），初版收尾几乎总是偏保守，默认加码一档。
++判例：用户："各个页面的核心元素从不同方向飞来……形成一个类似于合影的画面"、"加一些更多的特效、动画、运镜……像一个产品发布"。从合影式组装做到发布会级别——crane 运镜、舞台光、金粉。
++自检：结尾是不是全片能量最高点？合影里是否每个已展示的功能都有代表元素？
++
++### Q9. 飞入动画的终点必须是页面布局里的真实槽位，元素不悬浮在页面上方
++规则：元素飞入后要"嵌入"页面（归位到真实格位、扩展滚动流），不落地悬浮其上会显得假。
++判例：用户："研究问题的list应该从空中飞入，嵌入dashboard"、"不要让10张项目卡悬浮其上，而是接着往下scroll，然后排到下面去，不要重叠"。据此让行元素飞入并嵌入布局、把网格改成随滚动延展（近整文件重写）。
++自检：每个飞入元素落定后，它在页面布局里有真实坐标吗？有没有元素永久浮在页面之上？
++
++### Q10. 文档类镜头的 mock 内容要出版级：原生排版、文字铺满、完整版式入镜
++规则：观众会读清屏幕上每个字——文档/报告类镜头的 mock 必须用产品原生排版灌满真实密度的假内容，侧栏/评论栏等版式元素完整入镜；"贴图+标语"级别的假文档整镜头返工。
++判例：用户："周报内容的文字要用和现在排版和风格一致的，只是内容mock，文字内容铺满，且要完整展示左边栏和右边评论栏"（模板片中该镜头为周报页）。初版"贴图+标语"级假文档被整镜头重做，最终版为原生排版全量 mock、双栏完整入镜。
++自检：暂停在文档镜头任意一帧：内容读起来像真的吗？版式（侧栏/评论/页眉）完整吗？
++
++### Q11. 要被读的文字有最低有效字高：字幕 ≥5% 帧高，辅助文字 ≥3%；按最终像素量，不按 fontSize
++规则：1080p 成片按手机/内嵌小窗播放校准可读性——镜头叙事字幕**有效字高 ≥56px（≥5.2% 帧高，推荐 60px 档）**，副标题/统计/URL 等辅助文字 ≥32px（≥3%）；有效字高 = fontSize × 全部祖先 scale × 透视压缩（3D 镜头按 `cos(rotY)` 估算），验收量渲染帧上的实际像素，不看代码里的 fontSize。文字只有两态：**"纹理"**（截图 cutout 里的装饰小字，必须明显虚化/降亮度让观众不去读）或 **"要读"**（达标字号 + 足够对比度，压过浅色背景时配 scrim/投影），不存在"重排了但仍读不清"的中间态——读不到的文字宁可删掉。收尾 URL/行动号召是全片最不该小的一行。
++判例：用户（2026-07-25）："里面有几个镜头，你可以发现它配的字很小……现在那些镜头里面的字太小了，根本就看不见"。审查 gallery 介绍片：S1/S2/S4 字幕 38–40px（约 3.5% 帧高）、S6 副句 30px、收尾 URL 25px 全部低于线，其中 S2 面板"为可读性重排"的副标题只给了 19px——重排却没达标即中间态反例；六处统一提到 60/40/34px 档后整改通过。
++自检：抽每个含字幕的镜头一帧缩到 480px 宽（模拟手机小窗）：每句还读得清吗？逐帧量"要读"文字的实际像素高：字幕 ≥56px、辅助 ≥32px 吗？有没有哪块文字处于"想让人读但读不清"的中间态？
++
++---
++
++## 声音（S）
++
++### S1. 配乐与音效按"片种"选，不按"事件"选：强鼓点电子底 + 电影系 SFX 词汇，禁游戏音包音色（禁音色不禁动作）
++规则：产品宣传片 SFX 词汇表 = whoosh(运镜)/impact(落地)/riser(铺垫)/sparkle(光效)/transition(转场)，禁用游戏音包音色；BGM 选强鼓点、强节奏的电子底（tech-house 类），候选曲必须垫进成片试听——单听曲子无法判断气质。
++判例：用户："这个配乐和音效都太像游戏了。你帮我找那种鼓点强的，节奏感强的，然后音效要那种典型的产品宣传视频的音效"。用 Mixkit tech-house + whoosh/impact/riser/sparkle 整批替换掉此前引入的全部 Kenney CC0 游戏音；BGM 34 分钟内三易其稿后定稿沿用。
++
++**禁的是音色，不是动作**（易误读，务必分清）：本条否掉的是"合成器 pluck/bloop、卡通弹跳、game-over 音阶"这类游戏音包**质感**，不是"不许给点击配声"。画面里真有点击/开关/碎裂，就该配它的拟音——那是 S4 的要求。判别问句：这个音像**真实世界里那个物件发出的声音**（快门、机械开关、玻璃、纸），还是像**游戏引擎里的反馈提示音**？前者用，后者弃。
++- 模板片自己就用 `click-camera.mp3` 且给了全片最高 SFX 响度 0.6——真实快门声，不是 UI 提示音。
++- Freesound 的 UI 搜索结果也要逐个检查：真实开关拟音与合成 confirmation/tone/bleep/
++  notification 常混在一起；后者只在片子刻意表现系统提示时使用，见 sound-design §3.3。
++- 真实玻璃、纸张等材质声属于拟音，按画面需求选取。
++
++
++自检：闭眼只听音轨：像产品发布会预告，还是像手机游戏？BGM 是在成片里试听后选定的吗？每个 UI 类音效，是真实物件质感还是游戏反馈提示音？
++
++### S2. SFX 逐拍钉帧管理；连发音效做双样本交替 + 音量阶梯递减 + 间隔加速，不同响度复读
++规则：SFX 用"帧号 + 音源 + 音量"的声明式表集中管理，逐条注释对应的画面动作，杜绝凭感觉铺音效；同类元素连发时防机枪感靠三招——双样本交替、沿序列音量阶梯递减（如 0.40→0.25 六级）、间隔跟随动画曲线加速，密到糊成一片时让声音淡出成 swoosh（本仓库实证无 playbackRate 变调，防机枪不靠变调）。
++判例：用户："周报左侧栏的每周出现时可以换个音效，能配合每个周的出现的"（模板片中为周报页）。先立起逐拍钉帧的 SFX 帧号表结构（沿用至成片），再做 pluck 双样本交替、间隔 8→3f 加速，最后把 per-week pop 六连发音量做成 0.40→0.25 阶梯递减。
++自检：每条 SFX 是否钉在具体帧号并注释了对应动作？连发段落听起来是"数得出来的节奏"还是机械复读？
++
++### S3. 声音在画面锁定后做；时间线一动，SFX 全表重钉
++规则：BGM/SFX 排在画面结构基本锁定之后；任何改变镜头时长/顺序的修改，收尾动作固定包含"全表 SFX 帧号重对"——音画错位是交付前必查项。
++判例：用户："改完这些后重新调整音效位置以匹配新的时间线"。据此按新时间线（总长 1085f）重钉全表 SFX；教训链：首版 SFX 钉完 11 小时后画面大改导致全表重钉，三次重钉中两次纯属画面返工的连带成本。
++自检：本轮有没有镜头时长/顺序变化？变了的话 SFX 表逐条重对过了吗？
++
++### S4. 拟音优先于装饰音：画面动作配该动作的真实声音，音频裁到与动作严格等长
++规则：画面里发生什么动作就配什么声音（打字画面配键盘声、逐条落入配逐个 pop），泛用 swoosh 盖不住有辨识度的画面动作；长样本按画面段落裁剪（Sequence 截断），时长与动作严格等长。
++判例：用户："周报页面内容出现的时候可以配打字音效"（模板片中为周报页）。据此给文档页揭示配打字机音，keyboard.mp3 按语境裁 24f/44f 两个用途。
++
++操作要点（sound-design §4.1）：按新下载文件的实际测量确定播放窗口和增益。
++**>5s 的动作样本显式给 `durationInFrames`**，环境声按镜头长度铺，impact 混响保留自然尾音。
++**峰值 <-12dB 的轻音素材**：`volume` 是乘法系数，给到 1.0 仍可能被 BGM 盖住；
++首选换素材或预处理，必要时给 >1 增益并以渲染产物验峰，处理后重测并更新来源记录。
++
++
++自检：每个有辨识度的画面动作（打字/点击/落地）有没有自己的拟音？音效有没有拖到动作结束之后还在响？每条音效在成片里真的听得见吗（轻音素材音量够不够）？
++
++### S5. 音画对齐补两项偏移：输出音轨偏移逐渲染管线实测统一扣，音源峰值滞后逐文件量
++规则：渲出成片的整条音轨相对视频有固定滞后，根因在输出编码/封装链路（AAC encoder priming，48kHz 典型 2048 samples ≈1.28f@30fps；Remotion 跟踪 remotion-dev/remotion#7099），不是 `<Audio>`/`Sequence.from` 的行为——按渲染管线（Remotion 版本 + codec + sample rate + 容器）实测记档（渲出成片抽音轨，拿 2–3 个尖锐 SFX 原文件做归一化交叉相关，残差一致才算量准），补偿在渲染层的 from 计算式统一扣除，不逐条改帧号；音源自身的峰值滞后（峰值不在文件头）逐文件量。统一公式 `from = 目标峰值帧 − 峰值滞后 − 输出偏移`，方法与边界（截断型音效窗口不加长、片头 2f 内无法全补）见 sound-design §4.6。
++判例：AiflPromo 实测 click 滞后 2032 samples、impact 2066 samples（≈1.27–1.29f），与 AAC priming 指纹吻合，渲染品 elst 未声明裁剪垫头；promo-ink 时代实测过 4f（≈133ms，远超 priming 量级，根因未验证）——常数不可跨管线搬运。不补时两项叠加最重一击晚 0.27s，明显读作音画不同步；卡点片里差 2–3 帧就足以让合理的卡点动效被读作无端抖动（2026-08-22 用户反馈的成因之一）。
++自检：本管线的输出音轨偏移实测过吗（Remotion 版本/codec/采样率/容器随值记录在哪）？补偿是 from 计算式统一扣的还是散落在各条帧号里？带明显攻击峰的音源，峰值滞后量过了吗？
++
++---
++
++## 文案（C）
++
++### C1. 文案在画面锁定后按最终镜头重写一遍，纯动画段落也配解说
++规则：初稿文案只是占位——画面定稿后对照成片逐镜头重写；纯动画镜头配短解说 caption，不留"哑巴段落"（品牌收尾镜头除外，保持干净）。
++判例：用户："你根据我现在完整的视频内容，重新写文案的词，我感觉现在的和视频画面不是很匹配，再就是在动画的部分是不是也加一些解说？"。据此重写标题文案，并给实拍镜头补上 caption 解说。
++自检：逐句对照：每句文案和它所在的画面匹配吗？有没有超过 3 秒的无解说动画段落？
++
++### C2. 标语写"团队 + 产品功能名 + 具体收益"，抽象隐喻词一律具体化
++规则：标语要具体、带产品功能名（Paper Radar / weekly report），避免抽象隐喻词（board/place 类泛化口号）；重要功能出场前加一张引导字卡。
++判例：用户逐字改稿："'All your research, one board' 改成'All team's research, one place to go'…'The morning reading'那句改成'Paper Radar, tailored for your morning reading'"；"最后文档页展示前，还应该加个文字画面"（模板片中为周报页）。据此三句逐词替换，并加一张文档页 lead-in 引导字卡。
++自检：每句标语里有没有具体的功能名/收益词？有没有只靠隐喻撑着的句子？
++
++### C3. 3D 镜头里的注记文字活在同一 3D 空间：page-space、同透视、斜拍，大字 + 荧光笔 highlight
++规则：给 3D 场景中的主体配画内注记时，文字必须进同一 3D 空间（页面坐标系、同一台相机透视、translateZ 悬浮 + 落影），平面叠字与场景脱节；样式用大衬线字 + 马克笔 highlight 关键词。
++判例：用户："字在左侧，大一些醒目一下，有highlight，然后字的视角也是3d悬空，并且斜着拍摄的"（第一版平面字卡被否后重做）。改为把 hero-hover 注记放进 3D——页面坐标系斜视、马克笔 highlight。
++自检：3D 镜头里的每块文字：它跟着场景相机动吗，还是贴在屏幕玻璃上？
++
++---
++
++## 流程（P）
++
++### P1. 交付前必须自己渲染截帧逐一检查，不把首检交给用户
++规则：每轮修改后先自行渲染关键帧截图逐一检查（构图/抖动/文字锐度/穿帮），必要时用像素级工具（裁剪放大/两帧 diff）自证，再交用户。
++判例：用户第一次看片即质问："你自己有截图检查质量吗？镜头视角很差，而且有小抖动不知道怎么回事"。此后管线里长出 crop/diff/measure 自检脚本与 out/qa/ 逐版本静帧归档，双方进入基于帧的评审。
++自检：这一版交出去之前，我自己看过哪些帧？关键镜头有没有截图证据？
++
++### P2. 参考素材先逐帧拆解成手法清单，再逐镜头判断适配性，不全局套用
++规则：有参考片先抽帧做 motion breakdown（每个动画/转场/特效的实现方式清单）写进 spec，按项目适配性取舍；图片参考描述的是"某一类镜头"的感觉而非全片风格令——落地前逐镜头判断适不适用，改完自查再交。
++判例：用户："从原视频里截取尽可能多的帧……加以复现然后适配到我们的项目，不适合的不用强行适配"——把参考片的 motion breakdown 写进 spec 后连续放行；反例：三张参考图被全局套用为统一倾斜机位，被否"做的并不好……回滚"后逐镜头重做。
++自检：参考素材的每个手法有没有"采用/弃用"的显式决定？有没有把一张参考图当成了全片风格令？
++
++### P3. 指代含糊的反馈先确认对象；改错了整 commit 干净 revert，不在错误版本上打补丁
++规则："第一个标题"式模糊反馈先确认所指再动手；落错对象立即整 commit revert 重来；每个改动保持独立 commit 以便干净回滚。
++判例：用户："不是第一个字卡，我说的是开头和结尾的AI field lab出现的动画"。先理解错、hold 了 card1，8 分钟内干净 revert，再对正确对象重做通过。
++自检：这条反馈的指代对象我确定吗？当前 commit 粒度出了错能一键回滚吗？
++
++### P4. 先列功能清单逐一对应镜头；一种动画手法全片只当一次主角，重复镜头/信息一律删
++规则：开拍前列产品功能清单（dashboard/详情/论文/周报/品牌）逐一映射镜头，核心功能漏拍等于返工；一种手法（飞入/堆叠/翻页）全片只当一次主角；剪辑自查按"这个镜头给了什么新信息"过滤，同一素材/信息全片只出现一次，重复即删。
++判例：用户："其他动画有些同质了。没有充分展示整个网站的特性"、"很不错了，但是没有周报部分的展示？"（模板片中为周报页）——据此补功能镜头；"倒数第二个镜头是重复的项目卡片的镜头，可以去掉了"——据此删掉重复的概览镜头、去重收尾标语。
++自检：功能清单每项都有对应镜头吗？有没有两个镜头在用同一种手法当主角、或讲同一件事？
+diff --git a/skills/directing-stickman-videos/references/shotcraft/final-review.md b/skills/directing-stickman-videos/references/shotcraft/final-review.md
+new file mode 100644
+index 0000000..67671ad
+--- /dev/null
++++ b/skills/directing-stickman-videos/references/shotcraft/final-review.md
+@@ -0,0 +1,121 @@
++# final-review — 成片独立终检
++
++独立审查 Agent 使用本清单验证“成片是否符合当前创作模式的制作基准”，并结合
++`aesthetic-rules.md` 检查视觉技术质量。审查 Agent 必须处于干净上下文，不参与
++制作；不要给它制作过程中的理由、辩解、修改历史或预期结论。
++
++## 审查输入
++
++- 最新成片 MP4 和每镜头关键帧；
++- 创作模式：直接使用模板、自主自由创作或共同创作；
++- 产品视频简报与必须展示的功能；
++- 需求到执行决策表；
++- 共同创作中用户确认、自主自由创作中 Agent 记录的视觉方向、品牌 tokens、
++  styleframe（或跳过理由）和禁用风格；模板模式则提供原模板结构与实际替换记录；
++- 功能到镜头映射；
++- 用户指定或 Agent 在设计 spec 中记录的 Gallery 卡名与具体变体；
++- `gallery/api/library.json` 中对应卡片与 `style-key` 记录；
++- 卡片文档定位到的准确 demo TSX 源码；
++- 对应 Gallery 参考样片，或从参考样片抽出的关键帧/contact sheet；
++- 最终分镜、字幕、页面状态和 SFX 计划；
++- 选中的 `references/shots/*.md`；
++- `aesthetic-rules.md`；
++- 数据合规口径。
++
++缺少某项输入时标记“无法验证”，不要自行猜测制作基准。索引、卡片文档、
++demo 源码与 Gallery 参考样片互相冲突时，明确报告冲突来源，不自行挑一个当真相。
++
++## 检查项
++
++### P — 产品目标
++
++- P1：产品定位、目标用户和核心卖点是否清楚；
++- P2：成片是否把注意力放在当前模式确认或记录的功能优先级上；
++- P3：是否出现项目不存在、未经确认或容易误导的功能宣称。
++- P4：需求到执行决策表中的执行选择，是否能在分镜、文案、页面状态、音频和素材中
++  找到对应落地；不得用固定的“受众/用途→风格”刻板映射替代项目依据。
++
++### F — 功能完整性
++
++- F1：每个“必须展示的功能”是否至少有一个清楚可辨的镜头；
++- F2：每镜头是否提供新信息，是否存在重复功能或重复 tagline；
++- F3：页面状态是否能让观众理解功能，而不只是装饰性运动。
++
++### V — 视觉方向
++
++- V1：字体、色板、材质、圆角、光感和信息密度是否符合确认或记录的视觉方向；
++- V2：动效速度、过冲、停留和能量曲线是否符合确认或记录的动效性格；
++- V3：是否偏离制作基准，漂移到 Ink Press、赛博霓虹或其他无关风格；
++- V4：禁用的颜色、效果或品牌特征是否被使用。
++
++### S — 镜头卡与 Gallery 变体
++
++- S1：功能映射中的镜头卡是否实际出现在对应镜头；
++- S2：用户点名 `卡名 · 样式名` 时，`style-key`、准确 demo TSX 和 Gallery
++  参考样片是否指向同一变体，成片是否使用该变体；
++- S3：对照准确 demo TSX 与 Gallery 参考样片，是否保留配方卡/demo 的动作
++  语法、关键时值、缓动关系和遮罩时机；
++- S4：是否违反卡片标注的“已知坑/命门”；
++- S5：适配后的产品截图、坐标和品牌 token 是否自然。
++- S6：标为“仅供参考，需要自定义实现”的样式是否得到用户明确点名，并在报告中标注
++  其实现风险；标为“缺少预览”的样式是否避免声称与动态样片一致。
++
++不要求和 Gallery 样片像素级一致。检查的是运动语法和关键参数是否忠实，同时
++允许为目标产品调整截图、坐标、文案、品牌视觉和必要构图。
++
++### B — 分镜一致性
++
++- B1：镜头顺序、时长和功能信息是否符合确认或记录的最终分镜；
++- B2：主动作、页面状态、素材来源、字幕、转场和 SFX 是否一致；
++- B3：品牌字标 hold 是否至少 1 秒，批量动效收尾是否至少静止 0.5 秒；
++- B4：是否在最终分镜放行后，无依据地删除、替换或增加关键镜头。
++
++### D — 数据与素材安全
++
++- D1：是否遵守真实数据、虚构数据或脱敏口径；
++- D2：是否暴露客户、个人、密钥、内部地址或其他敏感信息；
++- D3：表现真实产品页面时是否使用真实截图，而非低质量手搓复刻；
++- D4：截图状态、字体、图片和动态数据是否完整加载。
++- D5：公开演示数据是否有可复核的公开属性；客户、个人、内部、密钥、实时
++  或其他敏感数据是否已虚构、脱敏或冻结。
++
++### A — 音频与节奏
++
++- A1：BGM 是否符合确认或记录的音频方向，音量是否给 SFX 和可选配音留出空间；
++- A2：SFX 是否钉在真实动作关键帧，是否出现明显错位；
++- A3：强节奏音乐的切点误差是否不超过 3 帧；
++- A4：结尾能量峰值和 riser→impact→sparkle 句式是否成立（若分镜采用，按实际动作选材）；
++- A5：长样本（尤其 >5s 的动作样本）是否都显式给了 `durationInFrames`，有没有音效拖到动作结束后还在响；
++- A6：每条 SFX 在**渲染产物**里是否真的听得见（不看预览——预览把 volume 钳到 1.0）；本身录得轻的素材（峰值 <-12dB）即便给 1.0 仍可能被 BGM 盖住，是否已换素材／预归一化／给足 >1 的增益，且渲染后 max_volume 未削波；
++- A7：UI 类音效是否为适合片种的真实物件质感；合成 tone/bleep/notification 若出现，
++  是否有“系统提示”的叙事理由（sound-design §3.3）。
++- A8：配了 BGM 的片子是否交付了带 BGM / 无 BGM（保留 SFX）两版成片，
++  且两版出自同一时间线（无 BGM 版画面与 SFX 与带 BGM 版逐帧一致）；
++- A9：卡点/SFX 密集片是否对成片实测并补偿了输出音轨偏移与音源峰值
++  滞后（sound-design §4.6），补偿常数是否附实测记录（渲染管线四要素、
++  探针、测法、日期），源分析值与输出偏移是否分开记账（SOURCE_BEAT0
++  未被污染）；渲后回测误差表是否无系统性同向偏移（music-beat-sync §5b）。
++- A10：新制作/换音的 SFX 是否来自 Freesound（用户指定音源除外）；每个实际使用的文件
++  是否有素材页、作者、确切许可 URL/版本、预览或原文件标记、哈希和分析记录；
++  CC BY 是否附可用于发布的署名，未知/BY-NC 许可是否被排除；处理后是否更新记录；
++  Remotion 是否读随工程保存的文件，未将测量或热度冒充试听结论。
++
++### Q — 视觉技术质量
++
++完整执行 `aesthetic-rules.md`。至少检查文字锐度、构图、圆角遮罩、3D 纹理
++清晰度、元素落位、相机抖动、转场接缝、光效廉价感、可读时长和确定性渲染。
++
++## 报告格式
++
++每条结论使用编号，并给问题附帧号或截图：
++
++```text
++P1 ✓ 产品定位和核心卖点清楚。
++F2 ✗ 第 340 帧：已确认的知识图谱功能没有出现在成片。
++V3 ✗ 第 420 帧：大面积琥珀纸张材质偏离已确认的深蓝科技方向。
++S2 ✗ 第 515 帧：用户选择 whip-pan，实际实现为 flash-cut。
++Q2 ✗ 第 615 帧：3D 推近后正文文字发糊，见关键帧 f615.png。
++```
++
++最后按严重程度列出必须修复项、建议优化项和无法验证项。不要用没有证据的
++“整体不错”代替逐项检查，也不要为了报告好看而全部标记通过。
+diff --git a/skills/directing-stickman-videos/references/shotcraft/music-beat-sync.md b/skills/directing-stickman-videos/references/shotcraft/music-beat-sync.md
+new file mode 100644
+index 0000000..0eee85a
+--- /dev/null
++++ b/skills/directing-stickman-videos/references/shotcraft/music-beat-sync.md
+@@ -0,0 +1,257 @@
++# music-beat-sync — BGM 节奏分析与卡点方法论
++
++强节奏 BGM 的片子，**所有转场和关键动效必须落在拍上**。本文档给出从
++"拿到一首曲子"到"成片切点误差 ≤3 帧"的完整可复现流程。实测：一支
++70s、18 镜、131.97 BPM 的强鼓点宣传片按此法制作，渲后回测全部切点
++误差 ≤2.2f（感知阈值约 3f）。
++
++## 目录
++
++- 何时启用
++- 节拍网格测定
++- 鼓点分类与能量结构
++- 网格验收与产物
++- 用拍号编排时间线
++- 渲后回测
++- 工具备忘
++
++## 0. 何时启用
++
++阶段 0 先检查用户是否已指定音乐。
++- 已选好 → 走本文档：先分析节奏，再让分镜的每个切点/动效锚到拍号
++- 未选 → BGM 选型放到阶段 6（见 pipeline.md），此时动效时间线按
++  内容节奏排，不强行卡点
++
++**铁律：音乐先行。** 网格没验收通过之前不设计分镜；时长对不上时改
++时间参数，不删改用户文案。分析全程用浮点秒记录时刻，**换算成帧只发生
++在进 Remotion 的最后一步**（提前取整会让误差在管线里滚雪球）。
++
++## 1. 节拍网格测定（不要相信 beat_track 的 tempo 标量）
++
++用 `uv run --with librosa --with scipy --python 3.11` 跑一次性脚本：
++
++```python
++import numpy as np, librosa
++
++y, sr = librosa.load("bgm.mp3", sr=None, mono=True)
++tempo, beats = librosa.beat.beat_track(y=y, sr=sr, tightness=400, units="time")
++
++# 关键一步：对 beat 序列做最小二乘等距网格拟合，求真实 BPM 与相位。
++# beat_track 返回的 tempo 标量可能偏差 2%+（实测 129.2 vs 真值 131.97），
++# 但它输出的 beat 时刻序列本身是好的——用整个序列拟合直线 t_i = t0 + i*T：
++i = np.arange(len(beats))
++A = np.vstack([i, np.ones_like(i)]).T
++(T, t0), *_ = np.linalg.lstsq(A, beats, rcond=None)
++bpm = 60.0 / T
++residual = beats - (t0 + i * T)
++print(f"BPM={bpm:.2f}  t0={t0:.4f}s  T={T:.5f}s  残差±{np.abs(residual).max()*1000:.0f}ms")
++```
++
++验收标准：残差 ≤ ±15ms（半帧内）说明曲子是机器鼓点、网格可信；
++残差大说明有变速段，需要分段拟合。
++
++**半倍/双倍歧义必查**：beat 检测常在 2x/0.5x 之间跳（70 BPM 报成
++140）。判据不是听感，是下一节的鼓点数据——正确的网格下 kick 应该
++主要落在整数拍；如果 kick 一半落拍一半落半拍，多半是网格快了一倍。
++拿 0.5x/1x/2x 三个候选按 §3 的指标各算一遍分数，选覆盖率最高的。
++
++**复杂曲先分离鼓 stem**：人声/贝斯厚的编曲会把鼓的攻击埋掉，
++beat_track 和 onset 都会漂。轻量方案 `librosa.effects.hpss` 取打击
++成分；重方案 Demucs 分离整条鼓轨（见 §6），之后所有鼓点检测都在
++鼓 stem 上做，不在全混音上做。
++
++## 2. 鼓点分类与能量结构（决定什么钉在哪一拍）
++
++### 2a. 三分类瞬态检测
++
++不同鼓件驱动不同类型的动效，分频段各测一遍（在鼓 stem 或 hpss
++打击成分上）：
++
++| 类别 | 频段 | 驱动的动效 |
++|------|------|-----------|
++| kick | 40–160 Hz | 冲击 / slam / 骤缩——画面"被砸"的一拍 |
++| snare | 150–500 Hz 体 + 1–3 kHz 打击面（两者都要有） | 替换 / 闪切 / 构图切换——"换一件事"的一拍 |
++| hihat | 6–14 kHz | 微动密度——hihat 密的段落微动效可以密，稀的段落必须收 |
++
++```python
++from scipy.signal import butter, sosfilt
++def band_env(y, sr, lo, hi):
++    sos = butter(4, [lo, hi], btype="band", fs=sr, output="sos")
++    env = librosa.onset.onset_strength(y=sosfilt(sos, y), sr=sr)
++    return env, librosa.times_like(env, sr=sr)
++
++kick_env, times = band_env(y, sr, 40, 160)
++# 把每个整数拍位置的 env 能量列出来，排序找最强 hit：
++for n in range(int((times[-1]-t0)/T)):
++    t = t0 + n*T
++    e = kick_env[np.argmin(np.abs(times - t))]
++    # 记录 (拍号 n, 能量 e)，取 top 若干作为"大 slam 候选拍"
++```
++
++命中记成 `{t 秒, s 强度, k 类别}` 的列表存档，设计分镜时按类别取用。
++
++**命中表是候选池，不是触发器。** 检测到的每个 kick 不等于都要配一次
++画面冲击——强鼓点曲（tech-house 类）kick 几乎每拍都有，逐拍执行
++"被砸"就是"镜头随节奏抖动"（实际用户投诉，见 aesthetic-rules R4）。
++kick→冲击的映射只用于从候选池里选出 §2b 的最强 hit（全片 2–3 处）；
++其余 kick 只作为切点和元素级动效的**时机**参照，不驱动画面幅度。
++
++### 2b. RMS 能量曲线与结构表
++
++`librosa.feature.rms` 拉全曲能量曲线，配合鼓点密度切出段落边界。
++产出两样东西进设计 spec：
++
++- **音乐结构表**：能量从第几拍起满、breakdown/静默段在第几拍——
++  分镜的能量曲线要贴着它排（breakdown 处放品牌呼吸位是天然结构），
++  高能段镜头可以多层动效并行，低能段收到 1–2 层
++- **最强 hit 拍号清单**：全片 2–3 个最大 slam（开题/高潮/收尾）
++  必须钉在这些拍上
++
++**易错点（实测踩过）**：最大 slam 钉在了 b52.5（两拍之间）而最强
++kick 在整数拍 b52 上，渲后回测偏差 +5.75f。强鼓点曲的重音几乎总在
++整数拍上，半拍钉点必须有 env 数据支持，不能凭听感。
++
++## 3. 网格验收与产物（先验收，后分镜）
++
++拿候选网格（含 0.5x/1x/2x）逐一对齐最近的真实鼓点瞬态，算四个指标：
++
++| 指标 | 含义 | 门槛 |
++|------|------|------|
++| match | 网格拍命中真实瞬态的比例 | ≥98% |
++| mean_abs_ms | 平均绝对对齐误差 | <10ms |
++| drift | 残差对时间做线性回归的斜率（漂移） | 全曲累计 <5ms |
++| 首拍有效性 | 网格第 0 拍是否落在真实的音乐攻击上 | 必须 |
++
++按分数选出获胜网格，把**所有候选和获胜理由**写进分析产物留档。
++拿不准时给候选网格各合成一条 click 轨叠回原曲听一遍，但最终以
++指标定夺，不以听感定夺。
++
++分析产物随项目留档（是每一个切点的审计链）：
++
++```text
++analysis/
++  beat_data.json    # bpm, t0, T, beats[], hits[{t,s,k}], rms[], sections[]
++  grid_drift.json   # 各候选网格的 match/误差/漂移 与获胜理由
++  click_*.wav       # 候选 click 轨（可选，听感复核用）
++```
++
++`beat_data.json` 里的时刻永远是浮点秒、不预取整；下游只依赖
++`bpm / beats / hits / rms / sections` 这几个字段名。
++
++## 4. 时间线用拍号写，不用帧号写
++
++Remotion 项目里把网格常量化，一切镜头边界/动效关键帧用 `beatF()` 表达：
++
++```ts
++export const FPS = 30;
++export const SOURCE_BEAT0 = 0.2244;  // 源音乐分析 t0，秒，与 beat_data.json 一致
++export const BEAT_INT = 0.45465;     // T，秒
++export const OUTPUT_AUDIO_OFFSET_SEC = 0; // 渲后回测确认有输出音轨偏移时填实测值（§5b）
++export const beatT = (n: number) =>
++  SOURCE_BEAT0 + OUTPUT_AUDIO_OFFSET_SEC + n * BEAT_INT;           // 拍→秒
++export const beatF = (n: number) => Math.round(beatT(n) * FPS);    // 拍→帧
++
++export const SHOTS = {
++  s0_open:  { from: 0,        to: beatF(8) },
++  s1_slam:  { from: beatF(8), to: beatF(16) },
++  // …每个镜头边界都是 beatF(整数拍)；镜头内部动效用局部拍：
++};
++export const localBeat = (shot: {from: number}, n: number) => beatF(n) - shot.from;
++```
++
++好处：换曲/换段落时改两个常量全片重排；SFX 钉帧表也写 `beatF(n)`，
++与画面共用同一事实源，永不错位。源分析值与渲染偏移分开记账：
++`SOURCE_BEAT0` 是审计真值永不改，输出偏移只进 `OUTPUT_AUDIO_OFFSET_SEC`。
++
++**锚点绑定规则**（哪些用网格、哪些用真实瞬态）：
++
++- 密集规则切点（每拍/每两拍一切）→ 用获胜网格的 `beatF(n)`
++- 稀疏重音、孤立定格 → **钉真实瞬态**，不用网格插值点（网格在稀疏
++  处的微小漂移会被单个重音放大成可感偏差）
++- 结尾定格 → 最后一个真实瞬态 + RMS 静默确认（防止钉在余韵尾巴上）
++- 视频素材/SFX 按**内部峰值**对齐，不按文件头对齐：
++  `素材起始 = 目标拍时刻 − (峰值时刻 − 裁剪偏移)`；峰值用音频能量
++  包络或 FFmpeg 帧差定位
++
++设计规矩：
++- 镜头时长以拍为单位（4/8 拍一镜），加速段可用半拍/四分之一拍阶梯
++  （如 CUT_BEATS = [48, 49.5, 50.5, 51, 51.25] 的收敛逼近）
++- 每拍一动作的步进类镜头（清单逐项、马赛克逐格）直接 map 拍号
++- BGM 鼓点已密时 SFX 克制：只钉画面独有动作，大 slam 只给 2–3 处，
++  其余让位给 BGM 的鼓
++- **全画面级冲击有硬上限**（整画面 scale 泵/震屏/闪帧/负片帧等一切
++  作用于整画面或相机层的瞬时冲击）：全片 ≤3 处、与 §2b 最强 hit
++  清单一一对应、相邻两处间隔 ≥16 拍；节拍泵类连打单次 ≤4 拍
++  且全片 ≤1 次，打完接足 hold（各卡标注值是底线）。
++  计数单位是**一次手法使用**（一张卡的一次应用 = 一个名额），含
++  多次内部闪帧的卡（连闪/多刀切串）不逐帧重复计数，其内部
++  结构由各卡自身的参数表与次数上限管辖
++- **卡点动效默认落在主角元素层**（卡片/标题/数字），整画面与相机层
++  默认不参与逐拍运动；"每拍一动作"指内容步进（清单逐项/马赛克
++  逐格），不是画面幅度脉冲
++- 结构性运动（形变/运镜/位姿）用连续帧函数；冲击事件（出现/替换/
++  闪/骤缩）在选定的那一帧上开关。多层动效同帧命中构成重音；要错
++  开只错 1–2 帧且必须是设计意图，不允许来自取整的意外错位
++
++## 5. 渲后回测（闭环，必做）
++
++### 5a. 两种误差分开报，不混为一谈
++
++- **音频真值误差**：设计切点秒值 vs 真实瞬态秒值的距离，验的是
++  分析管线；门槛：平均 <5ms，全部 ±33ms 内，90% 在 ±15ms 内
++- **视觉量化误差**：秒值换算到最近可渲染帧引入的取整误差，验的是
++  帧率够不够；`beatF()` 取整那一步的误差就是它，逐锚点记录
++
++最近帧取整的误差上限由 FPS 决定：30fps 是 ±16.7ms、60fps 是
++±8.3ms、120fps 是 ±4.2ms。**30fps 交付不要声称 <5ms 的视觉精度**；
++量化误差报表超出容忍时升帧率，而不是去改音频分析。
++
++### 5b. 渲出成片抽音轨回测
++
++```bash
++ffmpeg -i out/promo.mp4 -vn -acodec pcm_s16le /tmp/render-audio.wav
++```
++
++对渲出音轨重跑第 1 步的网格拟合（BGM 从视频里量，不从源文件量——
++这样连音频编码/对齐偏移一起验），然后逐一对比：
++**设计切点帧号 vs 最近测得拍的帧号**，输出误差表。
++
++| 判定 | 误差 |
++|------|------|
++| 合格 | ≤3f（感知阈值） |
++| 理想 | ≤1.5f |
++| 必修 | >3f 的任何切点 |
++
++误差超标的钉点回第 4 步改拍号或帧偏移，重渲再测，直到全表合格。
++
++**系统性同向偏移先查输出音轨偏移，不逐点手改。** 误差表若呈同向
++等量偏移（所有切点一致 +N 帧），根因几乎总是渲染输出链路的音轨
++偏移（AAC encoder priming 等编码/封装环节，48kHz 典型 ≈1.28f，
++机制与实测方法见 sound-design §4.6），不是节拍分析错。诊断：拿
++BGM 原文件与渲出音轨做归一化交叉相关量出偏移量。修复：**输出偏移
++单设常量，不写回源分析值**——`beat_data.json` 里的 t0 是源音乐的
++分析真值和审计基准，混入渲染偏移会在换 codec/重新分析时造成二次
++补偿。代码里分开记账：
++
++```ts
++export const SOURCE_BEAT0 = 0.2244;        // 源音乐分析 t0，与 beat_data.json 一致，永不掺入渲染偏移
++export const OUTPUT_AUDIO_OFFSET_SEC = 0.0427; // 输出音轨偏移，按渲染管线实测（sound-design §4.6）
++export const beatT = (n: number) => SOURCE_BEAT0 + OUTPUT_AUDIO_OFFSET_SEC + n * BEAT_INT;
++```
++
++全片切点随 `beatT` 一次归位，**不要逐锚点手改拍号**；SFX 侧的补偿
++走 sound-design §4.6 的同一常量。这类错位的观感危害不止"不准"：
++冲击画面差 2–3 帧听不出是跟着鼓的，合理的卡点动效会被读作无端抖动。
++
++## 6. 工具备忘
++
++- librosa 不在系统 python：`uv run --with librosa --with scipy --python 3.11 script.py`
++- 只有人声/复杂编曲的曲子 beat_track 会漂：先用 `librosa.effects.hpss`
++  分离打击成分再测；仍不干净时上 Demucs 分离鼓轨——
++  `uvx --from demucs demucs --two-stems=drums -n htdemucs bgm.mp3 -o analysis/`，
++  之后 §1/§2 全部在 `drums.wav` 上跑
++- BPM 拿不稳（多方法交叉验证）：madmom 的 RNN+DBN 和 Essentia 的
++  RhythmExtractor2013 可作 librosa 之外的第二、第三票；三者对不齐时
++  回 §3 用瞬态覆盖率投票，不猜
++- 变速曲（DJ 转场、accelerando）：先用 librosa 局部 tempogram
++  （约 5s 窗）确认变速点，再按能量段分段拟合，各段各自 t0/T
+diff --git a/skills/directing-stickman-videos/references/shotcraft/promo-energy-arc.md b/skills/directing-stickman-videos/references/shotcraft/promo-energy-arc.md
+new file mode 100644
+index 0000000..f5deea9
+--- /dev/null
++++ b/skills/directing-stickman-videos/references/shotcraft/promo-energy-arc.md
+@@ -0,0 +1,50 @@
++---
++name: promo-energy-arc
++一句话: 全片能量骨架——低开品牌 → 单主角立传 → 字卡呼吸间隔的功能爬升段 → 发布会峰值收场
++适用: 30–60s 多功能 web 产品宣传片的默认全片结构（分镜阶段先填骨架再挑卡）
++段数: 4 段位 + 2–4 张呼吸字卡
++---
++
++## 意图
++
++把散落在 R1–R3/Q5/Q8/P4 的节奏规则合成一条可直接填空的全片曲线。
++模板片成片（1085f）与两次独立复现（各 900f）三次成表均收敛到同一
++骨架——它是默认项，不是令：逐项目可有意识偏离，偏离写进项目 spec。
++
++## 段位表
++
++| 段位 | 时长占比 | 能量 | 职责 | 候选配方卡 |
++|------|----------|------|------|------------|
++| ① 品牌开场 | 8–12%（30s 片）；开场+立传合计可达 20%（模板片） | 低 | 字标压印 + hold ≥1s（R1），交棒产品页面 | brand-ink-open |
++| ② 单主角立传 | 12–15% | 中（质感最高、节奏最慢） | 一个主角、一条完整动作弧 ≥3s（Q5/R3），立出产品原子单位 | spotlight-hero-card（+aesthetic-rules.md Q2 高清 rasterize 技法） |
++| ③ 功能爬升段 | 55–65% | 中高⇄低交替 | 每镜绑一个独特功能、一种手法只当一次主角（P4）；镜与镜之间按需插呼吸字卡 | deck-deal-flyin / type-and-filter / list-stack-press / row-embed / document-typewriter-reveal |
++| ④ 发布会收场 | 13–16% | 峰值（全片最高） | 已展示功能各出代表元素合影围住字标（Q8），sign-off hold ≥1s（R1） | outro-group-photo-launch |
++
++呼吸字卡（paper-title-card）规则：每 1–2 个功能镜头后插一张，单张
++50–55f（≈1.8s），全片 2–4 张；重要功能出场前用作引导字卡（C2）。
++模板片 10 镜里字卡占 4 席，两次复现各 2 席——密度按功能镜头数取。
++
++## 填空流程（替代 ad-hoc 推导）
++
++1. 列产品功能清单（P4），数出功能镜头数 N。
++2. 按段位表分配总帧数：先扣 ①②④ 与字卡的预算，剩余给 ③ 均分。
++   每镜预算内**先划走 hold/rest 帧**（R1 落定 ≥30f、批量收尾 15f，R3）
++   再排动效——不是排完动效再找空隙。
++3. ③ 段能量交替：高能量镜（发牌/堆叠）与稳节奏镜（交互/读字段）
++   间隔排列，信息密度最高的镜头（文档/报告类）放在峰值收场之前——
++   模板片与两次复现均把文档/报告类镜头排在倒数第 2–3 位。
++4. 逐槽位扫 shots/ frontmatter 挑卡，选中的卡读全文。
++5. 镜头排定后逐接缝选转场式（shot-transitions 技法卡三式选型），
++   写进分镜表"关键动效"列——转场帧从相邻镜头预算划走。
++
++## 已知坑
++
++- 骨架当风格令全局硬套：段位占比是模板片单例实证（标注：单例判例），
++  15s 短片或单功能产品应大胆合并段位，但 ①hold/④峰值两端不可省。
++- ③ 段只堆高能量镜：连续高能量读作嘈杂，交替与字卡就是节奏本身。
++- 呼吸字卡写成第二遍 tagline：字卡与 outro 文案重复即删（P4 判例：
++  outro tagline 去重）。
++
++## 参考实现
++
++template/src/aifl/Main.tsx AIFL_SHOTS 段位表（sum=1085f）。
+diff --git a/skills/directing-stickman-videos/references/shotcraft/sfx-sourcing.md b/skills/directing-stickman-videos/references/shotcraft/sfx-sourcing.md
+new file mode 100644
+index 0000000..ca7a2c9
+--- /dev/null
++++ b/skills/directing-stickman-videos/references/shotcraft/sfx-sourcing.md
+@@ -0,0 +1,95 @@
++# Freesound 音效选材
++
++新制作与换音直接从 [Freesound](https://freesound.org) 获取 SFX，不再使用共享本地音效库。
++用户指定的音源仍优先。BGM 沿用独立选曲流程，见 [sound-design.md](sound-design.md) §2。
++本模块负责选材、下载与来源记录；钉帧、混音、输出偏移补偿继续按 sound-design 执行。
++
++## 1. 把画面写成声音需求
++
++每个 cue 记录：对应镜头/动作、声源或材质、目标时长、攻击/尾音、音色和许可要求。
++例如纸卡滑入：`paper slide`，0.2–0.8s，干燥、单次、无长尾、CC0。
++以声源匹配为先，再比较时长、录音描述与热度；不要只搜索抽象情绪或宽泛的 `click`。
++
++- 单击/滑动不要选混有多个动作的长段录音，除非能明确裁出所需动作。
++- 下载量与评分人数用于辅助排序，不能替代匹配度；大量评分的 4.4 分通常比 6 人评出的
++  4.9 分更有参考性。推荐时引用实际数据，缺失值保留未知，不能编造。
++- 上传者描述提供声源、设备、处理方式线索；优先清晰且匹配的实际声源。
++  名牌设备不保证质量，口技或内置麦克风也不自动意味着不可用，按项目质感判断。
++- UI 动作的拟音与合成提示音分开判断，遵守 aesthetic-rules S1/S4。
++
++## 2. 搜索
++
++脚本独立实现，Python 3.9+ 标准库，无需 Freesound API key；下载/分析需 ffmpeg、ffprobe。
++从 skill 根目录执行；路径含空格时加引号。安装在其他位置时用脚本绝对路径。
++
++```bash
++python3 assets/scripts/sfx-source.py search "paper slide" --max-duration 1 --limit 5 --output /path/to/video/audio-search.json
++python3 assets/scripts/sfx-source.py search "short cinematic impact" --license by --max-duration 3 --pages 2
++```
++
++输出 JSON 含 ID、标题、作者、素材页、预览地址、描述、时长、下载量、评分和人数。
++保留搜索相关性顺序，并在本地再次过滤许可与时长。`--pages` 最多 3 页，先缩窄关键词，
++不以抓取更多页面代替选材。搜索输出只用于比较，不作为下载时的许可凭据。
++
++许可默认 `cc0`；`by` 允许 CC0 和 CC BY。商用产品片不接受 BY-NC、Sampling+ 或未知许可。
++用户愿意接受署名时可用 `--license by`，无需对每条声音重复询问。
++
++## 3. 下载到当前视频工程
++
++把 ID 换成本次搜索返回的候选；`get` 也支持已知 ID，不依赖全局缓存。
++
++```bash
++python3 assets/scripts/sfx-source.py get fs:12345 fs:67890 --out-dir /path/to/video/public/audio/sfx
++```
++
++需要 CC BY 时在 `get` 上同样传 `--license by`。下载前重新读取各素材的详情页、
++核对实际许可 URL 与版本，再有界并发下载。不会修改网络代理，也不会自动切换其他音源。
++
++产物：
++
++- `fs-<id>.mp3`：Freesound 的高质量 **有损 MP3 预览**，不是上传者的原始 WAV。
++- `audio-manifest.json`：来源、作者、素材页、许可 URL/版本、预览标记、下载时间、
++  SHA-256、修改记录与实际音频分析。
++- `FREESOUND-CREDITS.md`：可随工程交付的来源与署名清单；CC BY 条目需进入发布页说明
++  或成片署名，不能仅留在工程文件中。剪辑、变速、归一化等改动需补写 `changes`。
++
++重复下载会核对文件哈希，不覆盖自行修改或来源不明的同名文件。每个输出目录同一时间
++只运行一个 `get`。部分下载失败时成功项仍保留清单，命令退出非零；根据逐条结果只重试失败 ID。
++无匹配候选时调整查询；网站超时/限流/页面结构变化时停止该来源的自动调用，说明具体问题。
++可给出素材页供人工下载，再按同样字段记录来源；不能用 HTML 错误页冒充音频。
++
++原音质或无损处理有明确要求时，从素材页走 Freesound 支持的登录/下载流程取得原文件；
++不能把预览转 WAV 后标成“原始无损素材”。记录真实文件种类、地址、哈希并重新分析。
++
++## 4. 分析、试听与接入
++
++`get` 自动用 ffprobe 与 ffmpeg 解码验收，记录实际格式/采样率/声道、时长、sample peak、
++整体 RMS、10ms RMS 能量峰和相对峰值 -40dB 的活动区间。这些不是 LUFS、true peak 或精确动作起点。
++多个动作的录音需要选择正确的峰值，不能直接将全文件最大峰用于所有 cue。
++
++单独分析处理后的文件：
++
++```bash
++python3 assets/scripts/sfx-source.py analyze /path/to/video/public/audio/sfx/fs-12345.mp3 --output /path/to/video/audio-analysis.json
++```
++
++处理后更新 manifest 的文件名、SHA-256、`analysis` 和 `changes`；原文件与处理后文件的
++峰值时间分开记录。浏览器试听或把候选垫入片段检查音色、底噪、尾音与音乐的关系。
++工具只有元数据/测量能力时，明确写“未试听”，不要将下载数、波形或 ffmpeg 分析描述成听感。
++自主创作可基于证据选定并继续；用户要求听候选时给素材页或支持的本地音频预览。
++
++随后将固定文件接入中央 SFX 表，`from` 从 `SHOTS`/`beatF` 派生，并根据
++sound-design §4.6 补偿音源峰值与输出偏移。下载文件必须随工程保存，不能只引用远程 URL。
++工作台显示工程音频；新增下载后重新运行 `node workbench/scripts/open.mjs <工程目录>` 更新索引。
++
++## 5. 模板与交付
++
++`template/public/audio/` 的历史文件保留供原样运行与验证，不作为新项目的选材池。
++用模板为新产品制作时，沿用 SFX 的动作语义和钉帧结构，从 Freesound 选音后重新测量、对齐；
++用户明确要求复现原声音时保留该要求，并按模板授权记录核实音源。
++共享 SFX 目录移除前的完整记录可从 Git 历史查询，BGM 授权仍在 `assets/audio/ATTRIBUTION.md`。
++
++交付音频文件、manifest、署名清单和 SFX 时间表。终检见 [final-review.md](final-review.md) A10。
++
++选材方法参考 [vibe-motion/sound](https://github.com/vibe-motion/sound)（查阅版本 `01f81d6`）；
++本仓库的 CLI 为独立实现，未引入其脚本或个人 Clash 配置。
+diff --git a/skills/directing-stickman-videos/references/shotcraft/sound-design.md b/skills/directing-stickman-videos/references/shotcraft/sound-design.md
+new file mode 100644
+index 0000000..8ef8cec
+--- /dev/null
++++ b/skills/directing-stickman-videos/references/shotcraft/sound-design.md
+@@ -0,0 +1,170 @@
++# sound-design — 声音设计
++
++声音是时间线级资产：集中管理 SFX 钉帧表，场景组件不内嵌音频。
++新制作与换音统一从 **Freesound** 搜索、下载，操作见 [sfx-sourcing.md](sfx-sourcing.md)。
++仓库不再维护共享 SFX 库；模板的历史音频只用于原样预览与回归验证。
++
++## 1. 方法
++
++1. 分镜阶段记下动作、材质、时长和音色；画面时间线锁定后再精确钉 SFX。
++   用户已指定 BGM 的卡点片仍先按 [music-beat-sync.md](music-beat-sync.md) 分析再分镜。
++2. 先铺 BGM 定能量骨架，再钉画面独有动作。强鼓点本身已有节拍，不给每拍重复加 impact。
++3. SFX 按片种与真实声源选：whoosh（运镜）、impact（落地）、riser（铺垫）、
++   sparkle（光效）、transition（转场），有辨识度的动作另配真实拟音。
++4. 候选在成片语境中试听。下载量、评分、描述、波形是筛选证据，不能被写成“已经听过”。
++5. 下载到当前工程 `public/audio/sfx/`，随文件保留 `audio-manifest.json` 与
++   `FREESOUND-CREDITS.md`；Remotion 只读这些固定本地文件，渲染时不联网找音。
++6. 声音时间表从 `SHOTS` 派生并供工作台复用；时间线变更后逐条复核，最终按
++   [final-review.md](final-review.md) 的 A 项验收。
++
++## 2. BGM 选型与混音
++
++Freesound 路线负责 SFX。BGM 保留用户指定音乐或 `assets/audio/bgm/` 的备选，
++授权见 `assets/audio/ATTRIBUTION.md`，不能把 SFX 许可套到音乐上。
++
++- 音乐能量应匹配片子结构。产品宣传片可优先试鼓点清楚的电子底；用户的调性要求优先。
++  候选曲垫进成片试听，避免只因“欢快/好听”选择与产品气质不符的音乐。
++- 音量按素材实测给。模板中 0.34 的 BGM、0.2–0.6 的 SFX 只是历史参考，
++  `volume` 是乘法系数，不是目标响度。多轨叠加后检查削波和人声/SFX 是否被掩盖。
++- 用 `interpolate` 做首尾淡入淡出；有配音时在说话段压低音乐。
++- BGM `<Audio>` 单独受 `bgm` inputProp（默认 true）控制；配 BGM 的片子从同一
++  时间线交付带 BGM / 无 BGM（保留 SFX）两版。跨平台无 BGM 渲染使用
++  `--props=props-nobgm.json`，文件内容 `{"bgm":false}`。
++
++## 3. 音色与选材
++
++### 3.1 从画面组织搜索词
++
++完整选材规则和 CLI 在 [sfx-sourcing.md](sfx-sourcing.md)。先明确声源、质感、
++攻击长度和尾音，再查 Freesound；不要只用 `click` 或 `impact` 这类宽泛词。
++
++| 画面 | 查询示例 | 筛选重点 |
++|---|---|---|
++| 卡片飞入 / 运镜 | `short soft whoosh` | 攻击峰位置、无过长拖尾 |
++| 纸卡滑入 / 翻页 | `dry paper slide` / `single page turn` | 真实纸声、单次动作 |
++| 开关 / 轻点 | `mechanical switch click` | 短促物理质感，避免提示音 |
++| 字标落地 | `short cinematic impact` | 重量感、低频不盖住 BGM |
++| 打字 | `computer keyboard typing` | 节奏密度、段落长度、底噪 |
++| 组装与余韵 | `cinematic riser` / `subtle shimmer` | 渐强能否抵达落点、尾音是否自然 |
++
++### 3.2 连发候选先检查重复
++
++两个名称或两个 Freesound ID 可能对应相同声音。用清单的 SHA-256 发现相同文件，
++再试听确认音色差异；不同编码的同一录音可能哈希不同。不能把同一声音的改名副本
++当成双样本交替。不要下载整库，只取当前动作需要的候选。
++
++### 3.3 UI 动作仍要逐个判断音色
++
++S1 禁的是游戏式合成提示音质感，不是点击动作。真实开关、快门、玻璃、纸张拟音可用；
++`confirmation tone`、`bleep`、`notification` 往往是合成反馈，不能因为搜索词匹配
++就入选。片子刻意表现“系统提示”时可以使用，在设计记录中说明叙事理由。
++
++录音描述有明确声源与设备是有用线索；`made with my mouth`、`built-in mic`
++可能不适合干净的产品片。设备名字不能保证质量，仍需结合片中试听。
++
++## 4. 对齐技巧
++
++### 4.1 钉帧、时长和音量
++
++- 中央注册表保持 `{ from, src, volume }[]`，可扩展 `durationInFrames`；
++  每条注释对应动作，渲染层用 `<Sequence>` 挂载。工作台从同一张表派生轨道。
++- 以下载文件的 `analysis` 为准，不能把网页列出的原文件时长/采样率当成预览文件实测。
++  `get` 自动分析；处理或换文件后再运行 `analyze`，更新清单和哈希。
++- 动作声显式设置播放窗口，特别是 >5s 的键盘、环境与机械长样本。
++  Sequence 裁剪贴动作时长；底噪铺满对应段落；impact 的自然混响可越过落点，避免硬截。
++- 峰值低于 -12dB 的轻音素材先考虑换更干净的候选，或预处理后重新分析。
++  必要时可用 >1 增益，但预览与渲染的行为可能不同，以成片实测防削波。
++- 工具给出 10ms 窗口的 RMS 能量峰、sample peak 和整体 RMS，**不是 LUFS 或 true peak**。
++  多次敲击或渐强素材需人工选择语义落点，不能机械地把全文件最大峰当作每个动作的落点。
++
++### 4.2 连发防机枪感
++
++双样本交替、音量阶梯递减（如 0.40→0.25）、间隔跟随动画加速。
++密到无法逐个听清时收成 swoosh 或淡出，不让多个长尾叠成噪声。
++
++### 4.3 riser→impact→sparkle：镜头收束句式
++
++组装铺垫起 riser，主体落地钉 impact，余韵配 sparkle。按镜头实际落点确定
++三者间隔，从 Freesound 选匹配的三个声源；不沿用模板文件名或绝对帧号。
++是否使用该句式服从分镜，不强行给所有结尾套同一种声音。
++
++### 4.4 画面返工后的复核
++
++镜头时长、顺序或动作峰值变了，复核对应声音窗口和其后所有钉点；
++只调整画面而不检查声音会导致错位。选材可以提前，精确钉帧在时间线锁定后做。
++
++### 4.5 相对 shot 起点钉帧
++
++写 `SHOTS.<shot>.from + offset`，卡点片写 `beatF(n)`；新项目不写裸绝对帧号。
++镜头起点变化时 SFX 自动跟随，但镜头内部动作变化后仍需复核。
++
++### 4.6 音画对齐补两项偏移（硬规则）
++
++设计意图是"音源峰值落在目标拍帧上"，从意图到成片隔着两项偏移，都
++不补时会叠加——本仓库实测最重一击晚了 0.27s，明显读作音画不同步；
++卡点片里差 2–3 帧就足以让观众听不出"这一下是跟着鼓的"，合理的卡点
++动效被读作无端抖动（S5 判例）。统一公式（浮点计算，最后一步取整）：
++
++```
++Sequence.from = 目标峰值帧 − 音源峰值滞后帧 − 输出音轨偏移帧
++```
++
++**偏移一：最终输出音轨偏移（逐渲染管线实测）。**
++渲出成片的整条音轨相对视频有一个固定滞后。根因在**输出编码/封装
++链路**，不是 `<Audio>` 或 `Sequence.from` 的行为：AAC 编码器有
++encoder priming（头部垫入的预热样本），48kHz 下典型值 2048 samples
++= 1.28f@30fps。本仓库 AiflPromo 实测 click 滞后 2032 samples、
++impact 2066 samples（≈1.27–1.29f），与 priming 指纹吻合；且渲染品
++（aifl-ref.mp4）音轨的 edit list（elst media time=0）未声明裁剪这段
++垫头，解码后就体现为真实偏移。Remotion 官方跟踪同族问题：
++remotion-dev/remotion#7099。
++
++- **按管线记录，不按"片"**：偏移由 Remotion 版本 + 音频 codec +
++  sample rate + 容器四要素决定，实测值随四要素一起记档；四要素不变
++  可复用，换任何一样必须重测。priming 量级依编码器而异（ffmpeg 内置
++  aac ≈1024、fdk-aac 2048、Apple ≈2112 samples），不能预设常数。
++- promo-ink 时代实测过 **4f**（≈133ms/6400 samples），量级远超
++  priming 所能解释、根因未验证——仅作为"旧常数不可跨管线搬运"的
++  警示数据保留，不作机制陈述。
++
++实测方法（渲后做，同管线量准一次通用）：
++
++```bash
++ffmpeg -i out/promo.mp4 -vn -acodec pcm_s16le /tmp/render-audio.wav
++```
++
++拿 2–3 个尖锐 SFX 的**原文件**对渲出音轨做归一化交叉相关（numpy
++`np.correlate` 即可），峰值位置减去设计帧号就是偏移量；多个探针
++残差一致才算量准，只测一个点可能撞上音源自身的峰值滞后。
++
++**偏移二：音源自身的峰值滞后（逐文件量）。**
++很多素材的能量峰不在文件头（渐强攻击、前置气口），按文件头对齐等于
++晚到。实测例：brush-write 2f、paper-slide 10f、ink-char 深达 24f。
++峰值位置用音频能量包络定位，新音效入库时随 max_volume 一并记录
++（见 4.1；与 music-beat-sync §4 "素材按内部峰值对齐，不按文件头
++对齐"同一条原则）。
++
++渲染层实现——SFX 表保持 §4.1 的 `{ from, src, volume }` schema 不变，
++三项拆分发生在 `from` 的计算表达式里（审计链完整，绝不逐条手改帧号）：
++
++```tsx
++// 本管线实测：Remotion 4.x + AAC 48kHz mp4，2026-08-23，click/impact 双探针交叉相关
++const OUTPUT_AUDIO_OFFSET_F = 1.28;
++const PEAK_F: Record<string, number> = { 'impact-deep-whoosh.mp3': 2 /* 逐文件实测 */ };
++const sfxFrom = (targetPeakF: number, src: string) =>
++  Math.max(0, Math.round(targetPeakF - (PEAK_F[src] ?? 0) - OUTPUT_AUDIO_OFFSET_F));
++// 表内写法：{ from: sfxFrom(SHOTS.outro.from + 35, 'impact-deep-whoosh.mp3'), src: …, volume: 0.55 }
++```
++
++两个边界注意：
++- **durationInFrames 不加偏移**：窗口整体前移后起止点在听感上一起
++  归位；给截断型音效（显式 durationInFrames 裁长样本的）加长窗口，
++  会多播出本该裁掉的内容。
++- `Math.max(0, …)` 兜底意味着片头约 2f 内的钉点无法完成全部补偿，
++  残差记进验收表；片头重音尽量不要设计在前 2 帧。
++
++BGM 侧同理但记账位置不同：源音乐网格常量 `SOURCE_BEAT0` 保持分析
++真值不动，输出偏移单独设常量参与 `beatT` 换算，见 music-beat-sync
++§5b——两处共用同一套交叉相关实测法。
++
++验收：补偿后重渲，对 2–3 个探针重跑交叉相关，残差 ≤0.5f 为合格。
+diff --git a/skills/directing-stickman-videos/tests/shared-shotcraft-checks.test.mjs b/skills/directing-stickman-videos/tests/shared-shotcraft-checks.test.mjs
+new file mode 100644
+index 0000000..e4a0aaa
+--- /dev/null
++++ b/skills/directing-stickman-videos/tests/shared-shotcraft-checks.test.mjs
+@@ -0,0 +1,36 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import fs from 'node:fs';
++
++const root = new URL('..', import.meta.url).pathname;
++const read = p => fs.readFileSync(`${root}${p}`, 'utf8');
++
++test('autopilot routes every B style at the shared shotcraft rhythm+sound checks', () => {
++  const autopilot = read('references/autopilot.md');
++  assert.match(autopilot, /shared-shotcraft-checks\.md/);
++  assert.match(autopilot, /rhythm rules \(R1–R4/);
++  assert.match(autopilot, /sound design \(S1–S5/);
++});
++
++test('shared shotcraft checks cover rhythm and sound with B4 conflicts recorded', () => {
++  const checks = read('references/shared-shotcraft-checks.md');
++  for (const rule of ['R1', 'R2', 'R3', 'R4', 'Q5', 'P4', 'S1', 'S2', 'S3', 'S4', 'S5']) {
++    assert.ok(checks.includes(rule), `missing rule ${rule}`);
++  }
++  assert.match(checks, /deliberate-hold/);
++  assert.match(checks, /không có BGM/);
++  assert.match(checks, /1,28f/);
++  assert.match(checks, /KHÔNG copy hằng số này mù/);
++  assert.match(checks, /true peak/);
++  assert.match(checks, /1266a3e/);
++});
++
++test('shotcraft source copies are markdown only and present', () => {
++  const dir = `${root}references/shotcraft/`;
++  const files = fs.readdirSync(dir).sort();
++  for (const f of ['aesthetic-rules.md', 'sound-design.md', 'music-beat-sync.md', 'sfx-sourcing.md', 'final-review.md', 'promo-energy-arc.md', 'SOURCES.md']) {
++    assert.ok(files.includes(f), `missing source copy ${f}`);
++  }
++  assert.ok(files.every(f => f.endsWith('.md')), 'source copies must be markdown only, no code');
++  assert.match(read('references/shotcraft/SOURCES.md'), /Vincentwei1021\/video-shotcraft/);
++});

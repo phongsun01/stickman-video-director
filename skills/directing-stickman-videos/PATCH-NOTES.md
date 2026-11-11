@@ -1,5 +1,14 @@
 # PATCH-NOTES — local patch on the phongsun01 fork (2026-11-09)
 
+## Local change 2026-11-11 — shared video-shotcraft checks: rhythm rules + sound design (borrowed rules, B1–B5)
+
+- **What:** 2 things borrowed from video-shotcraft (`Vincentwei1021/video-shotcraft`, Apache-2.0, main, single commit `1266a3e`, reviewed 2026-11-06; Pandu's review copy is the `xitrum14/video-shotcraft` fork), as a **shared layer for all B styles**, not owned by any single style: (1) rhythm rules (R1–R4, Q5, P4, promo-energy-arc), (2) sound design (S1–S5, Freesound sourcing with manifest, beat-sync only when BGM is chosen).
+- **Files added:** `references/shared-shotcraft-checks.md` (the checks, with Vietnamese adaptation, B4 worked example for Tập 3 camera-room, and known conflicts: B4 deliberate-hold, B4 3.0s narrative-shot limit, B4 no-BGM, Tập 3 ~70s length decision), and `references/shotcraft/` (local copies of the source material: `aesthetic-rules.md`, `sound-design.md`, `music-beat-sync.md`, `sfx-sourcing.md`, `final-review.md`, `promo-energy-arc.md`, plus `SOURCES.md` provenance note — 76 KB, all `.md`, byte-identical to the source, verified with `cmp`). **Rules/text only — no Remotion/TS/JS code copied.** `tests/shared-shotcraft-checks.test.mjs` (3 tests: autopilot wiring, rule/conflict coverage, source-copy inventory).
+- **Wiring:** `references/autopilot.md` line 17 now points every B style at `shared-shotcraft-checks.md` alongside `autopilot-production-qa.md`. No file of any single B style (B1–B5) was modified; no whiteboard work was done in this change (whiteboard application is a separate notes document, not a skill change).
+- **Key adaptations (do NOT apply the promo numbers blindly):** the 1.28f AAC output-offset constant is from their Remotion pipeline — §2.4 requires measuring it per pipeline by cross-correlation and recording the 4 pipeline factors; B4 has no BGM, so beat-sync (§2.3) does not apply to B4; B4 loudness stays suspense-quiet (Tập 2 measured −17.93 LUFS / −0.26 dBTP; from Tập 3 keep true peak under −1 dBTP in the mix).
+- **Not done (deferred):** verification — the first checklist run is the B4 Tập 3 **full** build (~70s), not the ~20s preview. If a rule fails on real footage, fix `shared-shotcraft-checks.md` and record it; do not carry it blind into Tập 4.
+- **Scope note:** this change is in the fork-patched copy and in the new `.patch` file `stickman-skill-shotcraft-rhythm-sound.patch` (2026-11-11). The shorts-kit borrowing and the 65s→71s preview-cap change live in the installed skill only and are NOT in this patch.
+
 ## Local change 2026-11-11 — shared shorts-kit checks (borrowed rules, B1–B5)
 
 - **What:** 3 things borrowed from shorts-kit (`howznguyen/shorts-kit`, MIT,
