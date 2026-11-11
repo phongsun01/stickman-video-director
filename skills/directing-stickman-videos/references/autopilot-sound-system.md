@@ -17,6 +17,8 @@ Use the existing shot ledger plus a project-local sound/rights manifest. Each cu
 
 Build three **functional layers**, with dialogue/VO kept separately in front:
 
+> **Local Library Support:** You can search 585 pre-cataloged local SFX/BGM tracks with measured onsets and loudness using `py scripts/sfx-catalog-local.py suggest --action "..." --mood "..." --style b1..b5` (see [local SFX library guide](local-sfx-thu-vien.md)).
+
 1. **Place/continuity — 底色环境 (Ambience):** plan an appropriate bed for every scene, including a quiet room's subtle air/clock or outdoor weather. Let it evolve with locations and story state, with clean loops and transitions. A drone is one possible texture, not a requirement. Avoid accidental digital silence; deliberate AUDIO CUT is the explicit exception below.
 2. **Physical/spatial events — 具象动态 (Foley/Action SFX):** consequential Foley, props, devices, offscreen activity or creatures. Infer plausible audible details from the actual setting/action, naming close/medium/distant perspective, material, weight and occlusion. Do not invent an unseen door opening, weapon, extra character or other plot event just to add sound. Synchronize implied details only to an established action or explicitly planned scene.
 3. **Emotional punctuation — 情绪推进 (Impact/Riser/Cut):** design anticipation, surprise, relief, warmth, humor or revelation at meaningful beats. A restrained chime, pause, soft release or removal of sound may serve better than a riser/impact. Establish hierarchy rather than making every sound a climax.

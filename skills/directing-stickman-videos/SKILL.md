@@ -24,4 +24,6 @@ Read [first-use and stage guidance](references/getting-started.md) after verifie
 
 Local patch on this fork copy (see [PATCH-NOTES.md](PATCH-NOTES.md)): Vietnamese Autopilot without Gemini — VieNeu local TTS, faster-whisper alignment, Vietnamese font fallback — quick-start at [Vietnamese Autopilot](references/vietnamese-autopilot.md). Non-Gemini providers follow [selected-provider execution](references/autopilot.md#selected-provider-execution).
 
+Local sound library & cinematic motion: look up 585 local SFX/BGM via [local SFX library](references/local-sfx-thu-vien.md) (`scripts/sfx-catalog-local.py`) and apply cinematic camera/motion styles via [cinematic motion toolkit](references/motion-graphics-cinematic-toolkit.md).
+
 Repair failed checks in the selected route before delivery; report any review that remains unavailable.
