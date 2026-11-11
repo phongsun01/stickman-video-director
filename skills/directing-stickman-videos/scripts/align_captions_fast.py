@@ -9,7 +9,7 @@ align_captions.py exactly, so `node scripts/autopilot.mjs captions` accepts
 it unchanged: {"words": [{"start", "end", "word"}], "method": ...}.
 
 Usage:
-    python3 scripts/align_captions_fast.py narration.wav --output words.json \
+    python3 scripts/align_captions_fast.py narration.wav --output words.json \\
         --language vi --model base
     # Compare Whisper text against the approved script; retain recognition
     # and timestamps for review. Replacing text by order requires an opt-in:

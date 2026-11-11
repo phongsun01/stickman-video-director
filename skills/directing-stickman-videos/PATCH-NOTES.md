@@ -1,5 +1,35 @@
 # PATCH-NOTES — local patch on the phongsun01 fork (2026-11-09)
 
+## Local change 2026-11-11 — shared shorts-kit checks (borrowed rules, B1–B5)
+
+- **What:** 3 things borrowed from shorts-kit (`howznguyen/shorts-kit`, MIT,
+  v2.0.0, HEAD `828e120`, trial clone at `workspace/shorts-kit-trial/`),
+  as a **shared layer for all B styles**, not owned by any single style:
+  (1) lint thresholds (`thresholds.json`), (2) fact/continuity ledger schema,
+  (3) the shot-card transition dictionary.
+- **Files added:** `references/shared-shorts-kit-checks.md` (the checks, with
+  Vietnamese re-measurements for B4 and known conflicts with the B caption
+  rules; includes a §4 trial run against B4 Tập 2 and a §2.3 continuity-ledger
+  seed `b4-c01`–`b4-c12` from bible v2.3), and `references/shorts-kit/`
+  (local copies of the source material: `thresholds.json`, `facts/` schema +
+  empty templates, `shots/` — 171 `.md` cards, 1.3 MB — plus `SOURCES.md`
+  provenance note). **Rules and numbers only — no Remotion/TS/JS code copied**
+  (verified: every file under `references/shorts-kit/` is `.md` or `.json`;
+  `thresholds.json` and `shots/` are byte-identical to the trial clone).
+  The trial clone's own `facts.json`/`sources.json` were NOT copied (they hold
+  the rainbow-trial facts f-0005–f-0010); templates are empty instead.
+- **Wiring:** `references/autopilot.md` line 17 already points every B style
+  at `shared-shorts-kit-checks.md` alongside `autopilot-production-qa.md`.
+  No file of any single B style (B1–B5) was modified; no whiteboard work was
+  done in this change.
+- **Not done (deferred by Pandu):** verification — the next checklist run is
+  for B4 Tập 3, not Tập 2 (the §4 trial run on Tập 2 in the checks file
+  predates this change and was left as-is, not re-run).
+- **Scope note:** this change is local to the installed skill only, like the
+  2026-11-10 preview-cap change below. It is NOT in the fork-patched copy or
+  the `.patch` file. The fork's `references/autopilot.md` routing is untouched.
+
+
 Base: fork `phongsun01/stickman-video-director`, HEAD
 `1383d19fd3effd908c65c4968994ef7de8d3da9d`
 ("Refine skill routing, story pacing, delegated defaults and narration languages",
@@ -99,3 +129,21 @@ that test pass.
 - No B1 pose-atlas expansion / B2 pose compatibility change.
 - No SKILL.md rewrite or docs shortening (fork already restructured SKILL.md
   into a 24-line router; further trimming was not requested).
+
+## Local change 2026-11-10 — preview-length cap 60s → 65s (B4 60s build)
+
+- The stock skill caps every preview at 60s (`autopilot-core.mjs`
+  `loadProject`: `number(seconds, 'preview length', 0.001, 60)` and the
+  `autopilot.mjs` CLI parser). The B4 "30 ngày kẹt trong siêu thị" Tập 1
+  60s cut runs 63.05s (262-word approved script at the real 4.17 w/s pace),
+  so a stock 60s scoped preview would cut the sunrise ending (shots 30–31)
+  and the final line "Và bạn sẽ bắt đầu Ngày 2."
+- Raised BOTH preview caps to 65s so `preview --seconds 64` renders the
+  whole 63.05s film as a preview (`output/preview.mp4`, `full: false`).
+  This is a preview-cap change only: no approve/render was run, and the
+  approve/render gate (`autopilot.mjs`, `report.preview_seconds > 60`)
+  was deliberately NOT changed — a 63.05s preview report will still be
+  rejected by the stock `approve`/`render` CLI, which the parent agent
+  must decide on when Pandu approves the preview (the preview already
+  covers the whole approved script, as in the 21s build where preview and
+  full render were byte-identical).

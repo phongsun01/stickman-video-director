@@ -52,7 +52,7 @@ async function main() {
     if (args[0] && json(path.resolve(args[0])).style === 'B5') throw new Error('B5 uses the code-authored route: node scripts/character-explainer.mjs --help; not the B1–B4 manifest renderer');
     const scoped = command === 'preview' || command === 'validate' && hasFlag('--seconds');
     const seconds = scoped ? Number(option('--seconds', 20)) : undefined;
-    if (scoped && (!Number.isFinite(seconds) || seconds <= 0 || seconds > 60)) throw new Error('Preview length must be greater than 0 and at most 60 seconds');
+    if (scoped && (!Number.isFinite(seconds) || seconds <= 0 || seconds > 65)) throw new Error('Preview length must be greater than 0 and at most 65 seconds');
     let p;
     if (command !== 'approve') p = loadProject(args[0], scoped ? {seconds} : {});
     // PATCH (fork 2026-11-09): warn when the requested preview is longer than the

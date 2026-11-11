@@ -10,7 +10,7 @@ onnxruntime 1.31.1): init ~13s + ~11s inference for 5.7s of audio.
 
 Usage (run with the VieNeu venv python, or let the script re-exec into it):
     python3 scripts/vieneu-local.py --text "Xin chào." --output narration.wav
-    python3 scripts/vieneu-local.py --text-file script.txt --output narration.wav \
+    python3 scripts/vieneu-local.py --text-file script.txt --output narration.wav \\
         --voice "Hải Đăng"
     python3 scripts/vieneu-local.py --list-voices
 
