@@ -17,12 +17,17 @@ import unicodedata
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-# Default fallback locations for sfx-thu-vien
+# Default fallback locations for sfx-thu-vien (Windows, macOS, Linux)
 DEFAULT_SFX_DIRS = [
     os.environ.get("SFX_THU_VIEN_DIR", ""),
     r"D:\Video creator\Hoang Lma\sfx-thu-vien",
     r"D:\workflow\assets\sfx-thu-vien",
+    str(Path.home() / "sfx-thu-vien"),
+    str(Path.home() / "Movies" / "sfx-thu-vien"),
+    str(Path.home() / "Video creator" / "Hoang Lma" / "sfx-thu-vien"),
     str(Path(__file__).resolve().parents[3] / "sfx-thu-vien"),
+    str(Path.cwd() / "sfx-thu-vien"),
+    str(Path.cwd().parent / "sfx-thu-vien"),
 ]
 
 
