@@ -6,3 +6,5 @@ node_modules/
 __pycache__/
 *.pyc
 autopilot-work/
+projects/
+skills/directing-stickman-videos/examples/b1/output/

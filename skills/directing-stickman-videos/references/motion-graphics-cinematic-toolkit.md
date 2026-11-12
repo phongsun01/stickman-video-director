@@ -82,3 +82,4 @@ Bạn có thể yêu cầu Director Mode kết hợp nét vẽ Stickman với c�
 - **SFX:** `062_Ticking clock intense` (00:00) -> `044_Pop sound` (00:01.80, onset: 12ms).
 - **BGM:** Suspense beat (-24 dB ducking).
 ```
+

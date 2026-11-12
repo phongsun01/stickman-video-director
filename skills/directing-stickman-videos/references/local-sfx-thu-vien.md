@@ -71,3 +71,4 @@ py skills/directing-stickman-videos/scripts/sfx-catalog-local.py search "heartbe
 # 3. Xuất thông số dạng JSON để nối vào pipeline render:
 py skills/directing-stickman-videos/scripts/sfx-catalog-local.py inspect "283_Doss" --json
 ```
+
