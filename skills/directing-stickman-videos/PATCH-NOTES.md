@@ -1,5 +1,10 @@
 # PATCH-NOTES — local patch on the phongsun01 fork (2026-11-09)
 
+## Local change 2026-11-12 — preview-length cap 65s → 71s (`docs/stickman-skill-preview-cap-71s.patch`)
+
+- Raised preview length cap from 65s to 71s in `scripts/autopilot-core.mjs` and `scripts/autopilot.mjs`.
+- Enables running previews up to 71s (e.g. for B4 Tập 3 ~70.2s full builds).
+
 ## Local change 2026-11-11 — shared video-shotcraft checks: rhythm rules + sound design (borrowed rules, B1–B5)
 
 - **What:** 2 things borrowed from video-shotcraft (`Vincentwei1021/video-shotcraft`, Apache-2.0, main, single commit `1266a3e`, reviewed 2026-11-06; Pandu's review copy is the `xitrum14/video-shotcraft` fork), as a **shared layer for all B styles**, not owned by any single style: (1) rhythm rules (R1–R4, Q5, P4, promo-energy-arc), (2) sound design (S1–S5, Freesound sourcing with manifest, beat-sync only when BGM is chosen).
