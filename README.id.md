@@ -87,7 +87,7 @@ Gaya visual terus diperbarui untuk channel **penjelasan sains, psikologi gelap, 
 
 ⭐ **Beri Star pada proyek ini agar tidak ketinggalan gaya dan fitur baru berikutnya.**
 
-[Mulai di sini](#quick-start) · [Gaya Director](#a-styles) · [Gaya Autopilot](#b-styles) · [Tanya jawab](#faq) · [Peta jalan](#road-to-10000-stars--creator-ecosystem)
+[Mulai di sini](#quick-start) · [Gaya & Demo](#style-gallery) · [Tanya jawab](#faq) · [Peta jalan](#road-to-10000-stars--creator-ecosystem) · [Komunitas](#community)
 
 </div>
 
@@ -102,9 +102,8 @@ Gaya visual terus diperbarui untuk channel **penjelasan sains, psikologi gelap, 
 | **Cara kerja** | **Anda mengendalikan produksi, AI menyusun arahan:** dapatkan storyboard dan prompt, lalu atur sendiri pembuatan klip dan editing. | **Berikan topik atau kebutuhan, terima video jadi:** ilustrasi, narasi, subtitle, animasi ringan, dan penggabungan video dikerjakan otomatis. |
 | **Durasi** | **Diutamakan untuk video pendek**, misalnya 30 detik–3 menit; video lebih panjang juga bisa dibuat per bagian. | **Diutamakan untuk video panjang**, terutama video bernarasi **10 menit ke atas**; juga mendukung video pendek dan cerita bersambung. |
 | **Alat** | Rencanakan dengan asisten AI yang mendukung Skill, buat klip di generator video pilihan Anda (Google Flow, Runway, Luma, Kling, dan lainnya), lalu susun di CapCut atau Premiere. | Dijalankan melalui agen seperti **Codex atau Claude Code** yang dapat membaca dan menulis file, memakai alat, serta menjalankan perintah untuk menghubungkan pembuatan materi dengan penggabungan video lokal. |
-| **Visual** | **Animasi per adegan:** berfokus pada gerakan, arahan kamera, dan interaksi karakter. | **Storyboard ilustrasi + animasi ringan:** pergantian adegan, zoom, dan pergeseran kamera mengikuti narasi, tanpa harus menghasilkan animasi penuh untuk setiap bagian. |
+| **Visual** | **Animasi per adegan:** berfokus pada gerakan, arahan kamera, dan interaksi karakter. | **Storyboard ilustrasi + animasi lokal:** ekspresi, reaksi karakter, dan gerakan objek mengikuti narasi, didukung pergantian adegan, zoom, dan pergeseran kamera. Gerakan kamera atau kemunculan teks saja tidak dihitung sebagai animasi adegan. |
 | **Hasil** | Rancangan penyutradaraan, storyboard, prompt video per bagian, dan arahan suara. | **File video lengkap dengan narasi, subtitle, dan animasi ringan.** |
-| **Mulai** | <div align="center"><a href="#director-start">Gunakan mode Director</a></div> | <div align="center"><a href="#autopilot-start">Gunakan mode Autopilot</a></div> |
 
 Kedua alur kerja bisa dimulai dari topik mentah, tautan web, atau naskah lengkap. Pilih rasio aspek (9:16, 16:9, 1:1), bahasa narasi, dan suara dengan bebas. Durasi di atas adalah rekomendasi, bukan batas mutlak.
 
@@ -116,7 +115,7 @@ Kedua alur kerja bisa dimulai dari topik mentah, tautan web, atau naskah lengkap
 <!-- project-sponsor:start -->
 <a id="project-sponsor"></a>
 
-#### Mitra API
+#### Mitra API · [Dukung proyek ini ↗](https://telegram.me/CrazyKaomei)
 
 <table>
 <tr>
@@ -126,6 +125,10 @@ Kedua alur kerja bisa dimulai dari topik mentah, tautan web, atau naskah lengkap
 <tr>
 <td width="140" align="center" valign="middle"><a id="sponsor-apimart"></a><a href="https://go.apimart.ai/tw-stickman-video-director"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@2335d82fc55fa60bb3e20296b5da835498f4abaa/assets/sponsors/apimart.png" alt="APIMart" width="110"></a></td>
 <td><p>APIMart adalah platform API berbiaya rendah untuk pembuatan gambar dan video AI — GPT-Image-2 mulai dari US$0,006 per gambar, lebih dari 160 gambar per dolar. Satu API asinkron mencakup gambar dan video: kirim tugas, dapatkan ID, lalu ambil hasil lewat polling atau callback. Proses puluhan ribu gambar sekaligus tanpa timeout dan ganti model tanpa mengubah kode. Bayar sesuai pemakaian, tanpa biaya bulanan — <a href="https://go.apimart.ai/tw-stickman-video-director">daftar di sini</a> untuk mulai menggunakan.</p></td>
+</tr>
+<tr>
+<td width="140" align="center" valign="middle"><a id="sponsor-renoise"></a><a href="https://renoise.ai/mcp?utm_source=crazykaomei-aini-202610&amp;utm_medium=xcom"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@5f5985c73757a643925e06cd010767684c1e926a/assets/sponsors/renoise.png" alt="Renoise" width="64"><br><strong>Renoise</strong></a></td>
+<td><p>Renoise AI adalah platform lengkap untuk pembuatan video dan gambar AI bagi pemasar, pengiklan, dan kreator konten. Cukup jelaskan kebutuhan Anda kepada agen dengan bahasa sehari-hari: agen akan menulis prompt, membagi ide menjadi adegan, dan membuat video secara massal sambil menjaga konsistensi karakter atau produk yang sama di setiap shot.</p><p>Berkreasilah langsung lewat web atau aplikasi iOS dan Android, atau hubungkan Renoise ke Claude atau ChatGPT (Codex) melalui MCP. Buat aset, edit, dan sempurnakan video langsung di percakapan, tanpa perangkat lunak pengeditan, hingga siap dipublikasikan. <a href="https://renoise.ai/mcp?utm_source=crazykaomei-aini-202610&amp;utm_medium=xcom">Jelajahi Renoise</a> untuk mengenal model dan alat kreatifnya.</p></td>
 </tr>
 </table>
 
@@ -347,7 +350,7 @@ Seperti teman yang menggambar sambil menjelaskan. Wajah ekspresif, garis hitam, 
   </tr>
   <tr>
     <td align="center">Karakter gambar tangan · Teks utama · Animasi ringan</td>
-    <td align="center">Narasi Bodi · Ekspresi hidup · Animasi ringan</td>
+    <td align="center">Google Gemini · Narasi Bodi · Ekspresi hidup · Animasi ringan</td>
   </tr>
 </table>
 
@@ -373,7 +376,7 @@ Kenapa pikiran justru makin ramai saat Anda berusaha tidur? Terinspirasi oleh [@
   </tr>
   <tr>
     <td align="center">Pikiran sebelum tidur · Potongan pemandangan · Gerakan lembut</td>
-    <td align="center">Distraksi sehari-hari · Latar berwarna · Narasi Fola</td>
+    <td align="center">Google Gemini · Distraksi sehari-hari · Latar berwarna · Narasi Fola</td>
   </tr>
 </table>
 
@@ -400,7 +403,7 @@ Seperti tak sengaja menemukan siaran aneh larut malam. Terinspirasi oleh [@Bradi
   </tr>
   <tr>
     <td align="center">Suspense fiksi · Pergantian adegan · Tekstur TV</td>
-    <td align="center">Perilaku hewan · Reaksi lokal · Narasi Bodi</td>
+    <td align="center">Google Gemini · Perilaku hewan · Reaksi lokal · Narasi Bodi</td>
   </tr>
 </table>
 <!-- b3:section:end -->
@@ -548,11 +551,11 @@ Ya. Stickman Video Director 100% gratis dan open source dengan lisensi MIT. Anda
 
 **Agar hasilnya sedekat mungkin dengan contoh, saya merekomendasikan Codex.** Video contoh Mode B saya buat dan uji di Codex; Anda tidak perlu menulis kode sendiri. Skill juga dapat dipasang di agent lain, tetapi perbedaan model, konfigurasi alat, dan cara eksekusi dapat memengaruhi hasilnya.
 
-Untuk gambar, saya memakai model bawaan GPT tanpa menyiapkan API tambahan. Buat sampel pendek terlebih dahulu untuk memeriksa gaya dan hasilnya sebelum melanjutkan video lengkap.
+Contoh saya memakai model gambar bawaan GPT tanpa menyiapkan API tambahan. Agen lain dapat memakai alat gambar yang tersedia di lingkungannya. Pembawa acara B5 berupa orang nyata atau karakter kompleks harus memakai gambar yang dihasilkan atau sudah disetujui, bukan wajah pengganti yang digambar dengan kode. Kredit suara menunjukkan sumber contoh, bukan layanan yang wajib dipakai. Bila perlu, minta agen mengatur layanan pilihan Anda, lalu periksa sampel pendek sebelum membuat video lengkap. Preset gaya adalah titik awal, bukan batasan: minta agen mengubah font, efek teks, atau bahasa video dan menyesuaikan tata letaknya dengan keinginan Anda.
 
 ### Q4. Bisakah saya membuat video tanpa naskah yang sudah jadi?
 
-Ya. Anda bisa menempelkan ide kasar, pemikiran spontan, tautan berita, atau satu artikel blog lengkap. Sutradara AI akan mengambil konflik utama, menulis hook 3 detik yang menarik, lalu menyusun topik Anda menjadi alur cerita padat berisi 6 adegan dengan timing komedi dan arahan narasi.
+Ya. Anda bisa menempelkan ide kasar, pemikiran spontan, tautan berita, atau satu artikel blog lengkap. Sutradara AI akan mengambil konflik utama, menulis hook 3 detik yang menarik, lalu menyusun cerita dan pengambilan gambar sesuai topik, durasi target, dan gaya pilihan Anda, dengan timing komedi dan arahan narasi.
 
 ### Q5. Bagaimana AI menjaga retensi penonton dan membuat video tidak membosankan?
 
@@ -614,9 +617,11 @@ Kami sedang melatih mesin khusus baru untuk niche YouTube tanpa tampil di kamera
 - **Podcast dua mikrofon dan stand-up** — Komedi dialog cepat, pengolahan ulang wawancara, dan saling ledek antarkarakter
 - **Misteri internet dan legenda urban** — Sketsa pensil menyeramkan, gangguan analog, dan kisah misteri Reddit
 
+<a id="community"></a>
+
 ## 💬 Komunitas dan kiriman karya
 
-Ingin mengusulkan gaya atau menampilkan channel Anda? Kirim pesan ke **[@CrazyKaomei](https://telegram.me/CrazyKaomei)** di Telegram:
+Punya ide gaya atau ingin ditampilkan? Bergabunglah dengan [komunitas Telegram kami](https://telegram.me/stickmanskill):
 
 - **Minta gaya**: kirim tautan referensi visual + niche yang ingin Anda bahas.
 - **Tampilkan karya**: sudah membuat video dengan alat ini? Kirim tautannya untuk ditampilkan di README ini dan channel YouTube resmi kami!

@@ -46,9 +46,10 @@ mode_rows = [line for line in mode_comparison.splitlines() if line.startswith("|
 assert not any(row.startswith(("| **操作** |", "| **用途** |")) for row in mode_rows), "Keep the comparison concise without the removed operation and use-case rows"
 assert mode_rows[0] == '|  | <div align="center">A · 导演模式</div> | <div align="center">B · 全自动模式</div> |', "Center only the mode headings"
 assert mode_rows[1] == "|:---:|:---|:---|", "Keep explanatory columns left-aligned"
-assert mode_rows[-1] == '| **开始** | <div align="center"><a href="#director-start">使用导演模式</a></div> | <div align="center"><a href="#autopilot-start">使用全自动模式</a></div> |', "Center the two start links"
-assert all('align="center"' not in row for row in mode_rows[2:-1]), "Do not center the explanatory body text"
-assert "插画分镜＋微动画" in mode_comparison and "插画轮播" not in mode_comparison, "Describe B as illustrated scenes rather than a slideshow; do not impose B1's drawing style on every B style"
+assert len(mode_rows) == 7 and mode_rows[-1].startswith('| **产出** |'), "Keep five explanatory rows without the redundant Start row"
+assert all('align="center"' not in row for row in mode_rows[2:]), "Do not center the explanatory body text"
+assert "插画分镜＋局部动画" in mode_comparison and "插画轮播" not in mode_comparison, "Describe B as illustrated scenes rather than a slideshow; do not impose B1's drawing style on every B style"
+assert "仅有镜头移动或文字入场，不算画面微动画" in mode_comparison
 assert "一次安装，按需选择" not in cn, "Keep the removed mode-selection sentence out of the introduction"
 quick_start_intro = cn.split('<a id="quick-start"></a>', 1)[1].split('<a id="director-start"></a>', 1)[0]
 assert "想尽可能接近展示案例，建议优先使用 Codex。" in quick_start_intro
@@ -70,9 +71,9 @@ assert "填写话题、粘贴文案，也可以直接描述需求" in director_e
 assert "人类的第一份工作是怎么来的" not in director_example, "Use a fill-in template rather than a hard-coded topic"
 assert "也可以直接贴已有文案或文章" not in cn
 assert "[查看画风一览 ↓]" not in cn, "Do not restore the removed per-mode shortcut links"
-assert "[导演模式画风](#a-styles) · [全自动模式画风](#b-styles)" in cn, "Keep the localized top style navigation"
+assert "[画风与样片](#style-gallery)" in cn, "Use one localized style shortcut landing at A then B"
 navigation = next(line for line in cn.splitlines() if line.startswith("[开始使用](#quick-start)"))
-assert navigation.endswith("[常见问题](#faq) · [路线图](#road-to-10000-stars--creator-ecosystem)"), "FAQ followed by the approved roadmap shortcut"
+assert navigation.endswith("[常见问题](#faq) · [路线图](#road-to-10000-stars--creator-ecosystem) · [加入社区](#community)"), "Community follows the roadmap shortcut"
 assert "[最近更新]" not in navigation, "Keep the removed updates shortcut out of the navigation"
 assert '<a id="recent-updates"></a>' not in cn, "Do not restore the removed updates anchor"
 assert "## 最近更新" not in cn, "Do not restore the removed updates section"
@@ -98,8 +99,8 @@ faq_answers = re.split(r"^### Q\d+\. .+\n", faq, flags=re.M)[1:]
 required_copy = (
     ("MIT 开源协议", "$30–$60", "没有任何订阅费", "按需支付官方 API 费用"),
     ("**B · 全自动模式**", "代码驱动", "人物素材图", "不同场景中复用", "**A · 导演模式**", "火柴人角色参考图"),
-    ("**推荐使用 Codex，以尽可能接近案例效果。**", "制作和测试", "其他 Agent", "GPT 内置模型", "没有额外配置生图 API"),
-    ("公众号长文", "前 3 秒爆款黄金钩子", "6 幕式标准分镜"),
+    ("**推荐使用 Codex，以尽可能接近案例效果。**", "制作和测试", "其他 Agent", "GPT 内置生图模型", "没有额外配置生图 API", "不能用代码头像替代", "不绑定服务商"),
+    ("公众号长文", "前 3 秒爆款黄金钩子", "根据主题、目标时长和所选画风安排故事与分镜"),
     ("**视觉叙事心理学**", "**黄金 3 秒钩子**", "**爆款视觉隐喻**", "**卡点与节奏留白**", "Casually Explained"),
     ("搬运重复内容（Reused Content）", "高价值原创内容", "YouTube 创作者收益计划（YPP）", "TikTok 创作者基金"),
     ("专业独立显卡", "**分镜导演模式（Director Mode）**", "**全自动模式（Autopilot Mode）**", "云端 API 或轻量级渲染"),

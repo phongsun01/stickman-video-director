@@ -87,7 +87,7 @@
 
 ⭐ **프로젝트에 Star를 눌러 다음 스타일과 새 기능 공개를 확인하세요.**
 
-[시작하기](#quick-start) · [Director 스타일](#a-styles) · [Autopilot 스타일](#b-styles) · [자주 묻는 질문](#faq) · [로드맵](#road-to-10000-stars--creator-ecosystem)
+[시작하기](#quick-start) · [스타일·샘플 영상](#style-gallery) · [자주 묻는 질문](#faq) · [로드맵](#road-to-10000-stars--creator-ecosystem) · [커뮤니티](#community)
 
 </div>
 
@@ -102,9 +102,8 @@
 | **특징** | **AI가 연출을 제안하고, 최종 결정은 직접**: 스토리보드와 프롬프트를 받아 클립 생성과 편집을 조정합니다. | **주제나 요구사항에서 완성 영상까지**: 일러스트, 내레이션, 자막, 부분 애니메이션, 영상 합성을 자동으로 진행합니다. |
 | **길이** | **짧은 영상에 우선 추천**. 30초~3분이 좋은 출발점이며, 구간을 이어 더 긴 콘텐츠도 만들 수 있습니다. | **긴 영상에 우선 추천**. 특히 **10분 이상**의 내레이션 영상에 적합하며, 짧은 영상이나 연속 스토리도 만들 수 있습니다. |
 | **필요한 환경** | Skill 호환 AI 어시스턴트로 기획하고, 선호하는 영상 생성 도구(Google Flow, Runway, Luma, Kling 등)에서 클립을 생성한 뒤 CapCut이나 Premiere로 편집하세요. | **Codex, Claude Code**처럼 파일을 읽고 쓰고, 도구를 호출하고, 명령을 실행할 수 있는 AI 에이전트에서 소재 생성과 로컬 영상 합성을 연결합니다. |
-| **화면 구성** | **구간별 애니메이션 생성**: 인물의 동작, 카메라 연출, 캐릭터 간 상호작용을 중시합니다. | **일러스트 스토리보드＋부분 애니메이션**: 장면 전환, 줌, 팬을 내레이션에 맞춰 구성합니다. 매번 전체 동작 영상을 생성하지 않아도 이야기를 전할 수 있습니다. |
+| **화면 구성** | **구간별 애니메이션 생성**: 인물의 동작, 카메라 연출, 캐릭터 간 상호작용을 중시합니다. | **일러스트 스토리보드＋부분 애니메이션**: 표정, 인물의 반응, 소품 움직임을 내레이션에 맞추고 장면 전환·줌·팬을 함께 사용합니다. 카메라 이동이나 글자 등장만으로는 화면 속 애니메이션으로 인정하지 않습니다. |
 | **결과물** | 연출 기획안, 스토리보드, 구간별 영상 프롬프트, 사운드 디자인. | **내레이션·자막·부분 애니메이션이 포함된 완성 영상 파일**. |
-| **시작하기** | <div align="center"><a href="#director-start">Director 모드 사용하기</a></div> | <div align="center"><a href="#autopilot-start">Autopilot 모드 사용하기</a></div> |
 
 두 워크플로 모두 간단한 주제, 웹 링크 또는 완성된 대본으로 시작할 수 있습니다. 화면 비율(9:16, 16:9, 1:1), 내레이션 언어, 음성을 자유롭게 선택하세요. 위의 영상 길이는 권장 사항이며 엄격한 제한이 아닙니다.
 
@@ -116,7 +115,7 @@
 <!-- project-sponsor:start -->
 <a id="project-sponsor"></a>
 
-#### API 파트너
+#### API 파트너 · [이 프로젝트 후원하기 ↗](https://telegram.me/CrazyKaomei)
 
 <table>
 <tr>
@@ -126,6 +125,10 @@
 <tr>
 <td width="140" align="center" valign="middle"><a id="sponsor-apimart"></a><a href="https://go.apimart.ai/tw-stickman-video-director"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@2335d82fc55fa60bb3e20296b5da835498f4abaa/assets/sponsors/apimart.png" alt="APIMart" width="110"></a></td>
 <td><p>APIMart는 AI 이미지·영상 생성에 특화된 저가 API 플랫폼입니다. GPT-Image-2는 장당 $0.006부터, 1달러로 160장 이상 생성할 수 있습니다. 이미지와 영상을 하나의 비동기 API로 처리하며, 작업을 제출해 ID를 받고 폴링이나 콜백으로 결과를 가져옵니다. 수만 장을 일괄 생성해도 타임아웃 없이 처리하고, 모델을 바꿔도 코드를 변경할 필요가 없습니다. 월 요금 없이 사용량만큼 결제합니다. <a href="https://go.apimart.ai/tw-stickman-video-director">가입 링크</a> 에서 등록하고 시작하세요.</p></td>
+</tr>
+<tr>
+<td width="140" align="center" valign="middle"><a id="sponsor-renoise"></a><a href="https://renoise.ai/mcp?utm_source=crazykaomei-aini-202610&amp;utm_medium=xcom"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@5f5985c73757a643925e06cd010767684c1e926a/assets/sponsors/renoise.png" alt="Renoise" width="64"><br><strong>Renoise</strong></a></td>
+<td><p>Renoise AI는 마케팅·광고 담당자와 콘텐츠 크리에이터를 위한 올인원 AI 영상·이미지 제작 플랫폼입니다. 일상적인 말로 에이전트에게 원하는 것을 설명하면 프롬프트 작성, 장면 구성, 영상 일괄 생성까지 맡길 수 있습니다. 장면이 바뀌어도 같은 캐릭터나 제품의 일관성을 유지합니다.</p><p>웹과 iOS·Android 앱에서 바로 제작할 수 있으며, MCP를 통해 Claude나 ChatGPT(Codex)에도 연결할 수 있습니다. 대화 안에서 소재 생성부터 편집과 마무리까지 진행해, 별도의 편집 소프트웨어 없이 바로 게시할 수 있는 완성 영상을 얻을 수 있습니다. <a href="https://renoise.ai/mcp?utm_source=crazykaomei-aini-202610&amp;utm_medium=xcom">Renoise 공식 사이트</a>에서 모델과 제작 도구를 살펴보세요.</p></td>
 </tr>
 </table>
 
@@ -340,7 +343,7 @@ B1, B2, B3… 순으로 추가하며, 각 스타일의 일러스트 스토리보
   </tr>
   <tr>
     <td align="center">손그림 캐릭터 · 핵심 문구 · 부분 애니메이션</td>
-    <td align="center">Bodi 내레이션 · 생생한 표정 · 부분 애니메이션</td>
+    <td align="center">Google Gemini · Bodi 내레이션 · 생생한 표정 · 부분 애니메이션</td>
   </tr>
 </table>
 
@@ -366,7 +369,7 @@ B1, B2, B3… 순으로 추가하며, 각 스타일의 일러스트 스토리보
   </tr>
   <tr>
     <td align="center">잠들기 전 생각 · 풍경 컷 전환 · 부드러운 움직임</td>
-    <td align="center">일상의 주의 분산 · 다채로운 장면 · Fola 내레이션</td>
+    <td align="center">Google Gemini · 일상의 주의 분산 · 다채로운 장면 · Fola 내레이션</td>
   </tr>
 </table>
 
@@ -393,7 +396,7 @@ B1, B2, B3… 순으로 추가하며, 각 스타일의 일러스트 스토리보
   </tr>
   <tr>
     <td align="center">창작 서스펜스 · 장면 전환 · TV 질감</td>
-    <td align="center">동물 행동 · 작은 반응 · Bodi 내레이션</td>
+    <td align="center">Google Gemini · 동물 행동 · 작은 반응 · Bodi 내레이션</td>
   </tr>
 </table>
 <!-- b3:section:end -->
@@ -541,11 +544,11 @@ B1, B2, B3… 순으로 추가하며, 각 스타일의 일러스트 스토리보
 
 **시연 영상에 최대한 가까운 결과를 원한다면 Codex를 추천합니다.** B 모드의 시연 영상은 제가 Codex에서 제작하고 테스트했으며, 직접 코드를 작성할 필요는 없습니다. 다른 Agent에도 Skill을 설치할 수 있지만 모델, 도구 설정, 실행 방식에 따라 결과가 달라질 수 있습니다.
 
-이미지는 GPT 내장 모델로 생성하며, 별도의 이미지 생성 API는 설정하지 않았습니다. 짧은 샘플로 화풍과 결과를 확인한 뒤 전체 영상을 제작하는 것을 권합니다.
+제 제작 예시는 GPT 내장 이미지 모델을 사용하며, 별도 이미지 생성 API는 설정하지 않았습니다. 다른 에이전트에서는 해당 환경에서 사용할 수 있는 이미지 도구를 쓰면 됩니다. B5의 실존 인물이나 복잡한 캐릭터는 생성하거나 확인한 이미지 소재를 사용해야 하며, 코드로 그린 대체 얼굴은 허용하지 않습니다. 음성 표기는 예시의 출처일 뿐 특정 서비스를 요구하지 않습니다. 필요하면 에이전트에게 원하는 서비스를 설정하도록 요청하고, 짧은 샘플을 확인한 뒤 전체 영상을 제작하세요. 스타일 프리셋은 기본값이지 제한이 아닙니다. 글꼴, 텍스트 효과, 영상 언어를 바꾸고 싶다면 에이전트에게 요청해 레이아웃을 맞출 수 있습니다.
 
 ### Q4. 미리 작성한 대본이 없어도 영상을 만들 수 있나요?
 
-네. 대략적인 아이디어, 문득 떠오른 생각, 뉴스 링크 또는 블로그 글 전체를 붙여 넣을 수 있습니다. AI 감독이 핵심 갈등을 뽑아내고 매력적인 3초 훅을 작성한 뒤, 코믹 타이밍과 내레이션 지시를 포함한 짜임새 있는 6개 장면의 이야기 구조로 만듭니다.
+네. 대략적인 아이디어, 문득 떠오른 생각, 뉴스 링크 또는 블로그 글 전체를 붙여 넣을 수 있습니다. AI 감독이 핵심 갈등을 뽑아내고 매력적인 3초 훅을 작성한 뒤, 주제와 목표 길이, 선택한 스타일에 맞춰 이야기와 장면을 구성하고 코믹 타이밍과 내레이션 지시를 더합니다.
 
 ### Q5. AI는 어떻게 시청 지속률을 높이고 지루함을 줄이나요?
 
@@ -607,9 +610,11 @@ B1, B2, B3… 순으로 추가하며, 각 스타일의 일러스트 스토리보
 - **투 마이크 팟캐스트와 스탠드업** — 빠른 대화 코미디, 인터뷰 재구성, 캐릭터 간 티키타카
 - **인터넷 미스터리와 도시 전설** — 으스스한 연필 스케치, 아날로그 글리치, Reddit 미스터리 이야기
 
+<a id="community"></a>
+
 ## 💬 커뮤니티와 작품 제출
 
-새로운 스타일을 제안하거나 채널을 소개하고 싶으신가요? Telegram의 **[@CrazyKaomei](https://telegram.me/CrazyKaomei)** 로 연락해 주세요:
+스타일 아이디어가 있거나 작품을 소개하고 싶으신가요? [Telegram 커뮤니티](https://telegram.me/stickmanskill)에 참여하세요:
 
 - **스타일 요청**: 시각적 참고 링크 + 다루고 싶은 분야를 보내 주세요.
 - **작품 소개**: 이 도구로 영상을 만드셨나요? 링크를 보내 주시면 이 README와 공식 YouTube 채널에서 소개할 수 있습니다!

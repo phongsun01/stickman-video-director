@@ -87,7 +87,7 @@ Des styles visuels régulièrement enrichis pour les chaînes de **vulgarisation
 
 ⭐ **Ajoutez une étoile au projet pour suivre les prochains styles et les nouvelles fonctionnalités à débloquer.**
 
-[Bien démarrer](#quick-start) · [Styles Director](#a-styles) · [Styles Autopilot](#b-styles) · [FAQ](#faq) · [Feuille de route](#road-to-10000-stars--creator-ecosystem)
+[Bien démarrer](#quick-start) · [Styles et démos](#style-gallery) · [FAQ](#faq) · [Feuille de route](#road-to-10000-stars--creator-ecosystem) · [Communauté](#community)
 
 </div>
 
@@ -102,9 +102,8 @@ Des styles visuels régulièrement enrichis pour les chaînes de **vulgarisation
 | **Principe** | **Vous gardez la main, l’IA prépare la mise en scène** : elle crée le découpage et les prompts ; vous contrôlez la génération des séquences et le montage. | **Donnez un sujet ou un objectif, récupérez une vidéo** : illustrations, voix off, sous-titres, micro-animations et assemblage sont automatisés. |
 | **Durée** | **Idéal pour les formats courts**, par exemple de 30 secondes à 3 minutes. Les formats plus longs se construisent séquence par séquence. | **Pensé pour les formats longs**, notamment les vidéos avec voix off de **10 minutes et plus**. Convient aussi aux formats courts et aux séries narratives. |
 | **Outils** | Préparez les plans avec un assistant IA compatible avec les Skills, générez les séquences dans votre outil vidéo préféré (Google Flow, Runway, Luma, Kling, etc.), puis assemblez-les dans CapCut ou Premiere. | Un agent de développement IA comme **Codex ou Claude Code**, capable de lire et d’écrire des fichiers, d’appeler des outils et d’exécuter des commandes, pour relier génération des médias et assemblage local. |
-| **Rendu** | **Séquences animées générées une par une** : gestes, mise en scène et interactions entre personnages. | **Illustrations de storyboard + micro-animations** : changements de plan, zooms et panoramiques accompagnent la narration, sans générer une animation complète pour chaque séquence. |
+| **Rendu** | **Séquences animées générées une par une** : gestes, mise en scène et interactions entre personnages. | **Illustrations de storyboard + animations locales** : expressions, réactions et mouvements d’objets accompagnent la narration, avec des coupes, zooms et panoramiques. Les seuls mouvements de caméra ou apparitions de texte ne comptent pas comme animation de la scène. |
 | **Livrable** | Proposition de réalisation, storyboard, prompts vidéo par séquence et indications sonores. | **Un fichier vidéo complet avec voix off, sous-titres et micro-animations.** |
-| **Démarrer** | <div align="center"><a href="#director-start">Utiliser Director</a></div> | <div align="center"><a href="#autopilot-start">Utiliser Autopilot</a></div> |
 
 Les deux méthodes peuvent partir d’un sujet brut, d’un lien web ou d’un script complet. Choisissez librement le format (9:16, 16:9, 1:1), la langue de narration et la voix off. Les durées ci-dessus sont des recommandations, pas des limites strictes.
 
@@ -116,7 +115,7 @@ Les deux méthodes peuvent partir d’un sujet brut, d’un lien web ou d’un s
 <!-- project-sponsor:start -->
 <a id="project-sponsor"></a>
 
-#### Partenaires API
+#### Partenaires API · [Soutenir ce projet ↗](https://telegram.me/CrazyKaomei)
 
 <table>
 <tr>
@@ -126,6 +125,10 @@ Les deux méthodes peuvent partir d’un sujet brut, d’un lien web ou d’un s
 <tr>
 <td width="140" align="center" valign="middle"><a id="sponsor-apimart"></a><a href="https://go.apimart.ai/tw-stickman-video-director"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@2335d82fc55fa60bb3e20296b5da835498f4abaa/assets/sponsors/apimart.png" alt="APIMart" width="110"></a></td>
 <td><p>APIMart est une plateforme API à bas prix dédiée à la génération d’images et de vidéos par IA : GPT-Image-2 à partir de 0,006 $ par image, soit plus de 160 images par dollar. Une API asynchrone commune couvre les images et les vidéos : soumettez une tâche, recevez un identifiant, puis récupérez les résultats par interrogation périodique ou callback. Générez des dizaines de milliers d’images par lots sans expiration et changez de modèle sans modifier le code. Paiement à l’usage, sans abonnement mensuel : <a href="https://go.apimart.ai/tw-stickman-video-director">inscrivez-vous ici</a> pour commencer.</p></td>
+</tr>
+<tr>
+<td width="140" align="center" valign="middle"><a id="sponsor-renoise"></a><a href="https://renoise.ai/mcp?utm_source=crazykaomei-aini-202610&amp;utm_medium=xcom"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@5f5985c73757a643925e06cd010767684c1e926a/assets/sponsors/renoise.png" alt="Renoise" width="64"><br><strong>Renoise</strong></a></td>
+<td><p>Renoise AI est une plateforme tout-en-un de création de vidéos et d’images par IA, pensée pour le marketing, la publicité et les créateurs de contenu. Décrivez simplement votre besoin à l’agent : il rédige les prompts, découpe votre idée en plans et génère des vidéos par lots, tout en préservant la cohérence d’un même personnage ou produit d’un plan à l’autre.</p><p>Créez directement sur le web ou dans les applications iOS et Android, ou connectez Renoise à Claude ou ChatGPT (Codex) via MCP. Générez vos contenus, montez et finalisez vos vidéos dans la conversation, sans logiciel de montage, pour obtenir un résultat prêt à publier. <a href="https://renoise.ai/mcp?utm_source=crazykaomei-aini-202610&amp;utm_medium=xcom">Découvrez Renoise</a> pour explorer ses modèles et ses outils créatifs.</p></td>
 </tr>
 </table>
 
@@ -342,7 +345,7 @@ Comme un ami qui dessine en expliquant. Visages expressifs, lignes noires et que
   </tr>
   <tr>
     <td align="center">Personnages dessinés à la main · Mots-clés · Micro-animations</td>
-    <td align="center">Voix off Bodi · Expressions vivantes · Micro-animations</td>
+    <td align="center">Google Gemini · Voix off Bodi · Expressions vivantes · Micro-animations</td>
   </tr>
 </table>
 
@@ -368,7 +371,7 @@ Pourquoi votre esprit s’agite-t-il davantage quand vous cherchez le sommeil ? 
   </tr>
   <tr>
     <td align="center">Pensées du soir · Plans de décor · Mouvements doux</td>
-    <td align="center">Distractions quotidiennes · Décors colorés · Narration Fola</td>
+    <td align="center">Google Gemini · Distractions quotidiennes · Décors colorés · Narration Fola</td>
   </tr>
 </table>
 
@@ -395,7 +398,7 @@ Comme tomber sur une étrange émission nocturne. Inspirés de [@BradikininVideo
   </tr>
   <tr>
     <td align="center">Suspense fictif · Changements de scène · Texture TV</td>
-    <td align="center">Comportement animal · Réactions locales · Voix Bodi</td>
+    <td align="center">Google Gemini · Comportement animal · Réactions locales · Voix Bodi</td>
   </tr>
 </table>
 <!-- b3:section:end -->
@@ -543,11 +546,11 @@ Oui. Stickman Video Director est 100 % gratuit et open source sous licence MIT. 
 
 **Pour vous rapprocher des exemples, je recommande Codex.** J’y ai réalisé et testé les démonstrations du mode B ; vous n’avez pas besoin de coder. Le Skill s’installe aussi dans d’autres agents, mais les modèles, la configuration des outils et le mode d’exécution peuvent modifier le résultat.
 
-Pour les images, j’utilise le modèle intégré à GPT, sans API supplémentaire. Commencez par un court extrait pour valider le style et le résultat avant de réaliser la vidéo complète.
+Mes exemples utilisent le modèle d’image intégré à GPT, sans API supplémentaire. Avec un autre agent, utilisez les outils d’image disponibles dans son environnement. Pour un présentateur B5 représentant une personne réelle ou un personnage complexe, il faut une image générée ou validée, pas un visage de remplacement dessiné par code. Les crédits vocaux décrivent les exemples et n’imposent aucun fournisseur. Au besoin, demandez à votre agent de configurer le service choisi, puis validez un court extrait avant la vidéo complète. Les styles prédéfinis sont des points de départ, pas des restrictions : demandez à votre agent de modifier les polices, les effets de texte ou la langue de la vidéo et d’adapter la mise en page.
 
 ### Q4. Puis-je créer une vidéo sans script déjà rédigé ?
 
-Oui. Collez une idée brute, une réflexion spontanée, un lien d’actualité ou un article de blog entier. Le réalisateur IA extrait le conflit central, écrit une accroche de 3 secondes et structure votre sujet en un arc narratif resserré de 6 scènes, avec rythme comique et indications de voix off.
+Oui. Collez une idée brute, une réflexion spontanée, un lien d’actualité ou un article de blog entier. Le réalisateur IA extrait le conflit central, écrit une accroche de 3 secondes et adapte le récit et les plans au sujet, à la durée visée et au style choisi, avec rythme comique et indications de voix off.
 
 ### Q5. Comment l’IA rend-elle la vidéo captivante et évite-t-elle l’ennui ?
 
@@ -609,9 +612,11 @@ Nous entraînons de nouveaux moteurs spécialisés pour les niches YouTube sans 
 - **Podcast à deux micros et stand-up** — Comédie dialoguée rythmée, réutilisation d’interviews et échanges entre personnages
 - **Mystères d’Internet et légendes urbaines** — Croquis au crayon inquiétants, parasites analogiques et récits mystérieux de Reddit
 
+<a id="community"></a>
+
 ## 💬 Communauté et contributions
 
-Vous voulez proposer un style ou faire découvrir votre chaîne ? Contactez **[@CrazyKaomei](https://telegram.me/CrazyKaomei)** sur Telegram :
+Une idée de style ou envie d’être mis à l’honneur ? Rejoignez notre [communauté Telegram](https://telegram.me/stickmanskill) :
 
 - **Proposer un style** : envoyez un lien de référence visuelle + la niche que vous souhaitez traiter.
 - **Présenter votre travail** : vous avez créé une vidéo avec cet outil ? Envoyez votre lien pour la présenter dans ce README et sur notre chaîne YouTube officielle !

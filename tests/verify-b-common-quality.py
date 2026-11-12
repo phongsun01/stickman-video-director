@@ -47,12 +47,13 @@ for boundary in (
     "Preserve all spoken words and order",
     "noun phrases, verbs with necessary objects",
     "numbers/units and phrasal verbs",
-    "rather than a second line or mechanically smaller/squeezed type",
+    "within the selected style's line limit or successive cues",
+    "not mechanically smaller/squeezed type",
     "neighboring cues for broken meaning",
     "each cue starts at its own first aligned spoken word",
     "same detail standard throughout the entire film",
     "excluding the subtitle band",
-    "validator does not automatically enforce these creative gates",
+    "they do not automatically enforce these creative gates",
     "no new paid calls",
 ):
     assert boundary in common, f"Missing boundary: {boundary}"
@@ -68,7 +69,8 @@ assert "not the independently shared B" in manifest["scope"]["not_inherited_scop
 runtime = (refs / "autopilot-runtime.md").read_text()
 b2 = (refs / "b2-colorful-handdrawn.md").read_text()
 assert "accepts `style: B1`, `B2`, `B3` and `B4`" in runtime
-assert "## B4 production tracks" in runtime
+assert "## Shared B1–B4 production tracks" in runtime
+assert "The local track arrays below also work in B1/B2/B3" in runtime
 assert "(b2-colorful-handdrawn.md)" in autopilot
 assert "independent local illustration-and-micro-animation style" in b2
 assert "Fola" in b2 and "ivory paper label" in b2
@@ -79,8 +81,18 @@ assert "(b3-television.md)" in autopilot and "(references/b3-television.md)" in 
 assert "unit tests" in b3.lower() and "not animation quality or acceptance" in b3
 assert "currently accepts B1/B2 only" not in b3
 
+# Presets remain defaults, with explicit user choices and script-aware fallback.
+b5_gate = (refs / "b5-production-gate.md").read_text()
+assert "Font, text-effect and language customization" in b5_gate
+for token in ("user_choice", "language_fallback", "user_approval", "semantic_review", "captions.override"):
+    assert token in b5_gate, f"Missing B5 customization contract: {token}"
+assert "caption_override" in autopilot and "opening.user_override" in autopilot
+assert "b5-production-gate.md#font-text-effect-and-language-customization" in autopilot
+for name in ("b5-avatar-motion.md", "b5-character-explainer.md"):
+    assert "b5-production-gate.md#font-text-effect-and-language-customization" in (refs / name).read_text(), name
+
 # New links stay portable and inside the single installed Skill.
-for source in (common_path, refs / "autopilot.md", refs / "b1-production-qa.md", refs / "b2-colorful-handdrawn.md", refs / "b3-television.md"):
+for source in (common_path, refs / "autopilot.md", refs / "b1-production-qa.md", refs / "b2-colorful-handdrawn.md", refs / "b3-television.md", refs / "b5-production-gate.md", refs / "b5-avatar-motion.md", refs / "b5-character-explainer.md"):
     assert "/Users/" not in source.read_text()
     for link in re.findall(r"\]\(([^)]+)\)", source.read_text()):
         if "://" in link:

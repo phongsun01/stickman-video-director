@@ -87,7 +87,7 @@ Bir konu, makale veya senaryoyla başlayın. Görselleri, seslendirmeleri, altya
 
 ⭐ **Bir sonraki stil paketini ve yeni özellikleri kaçırmamak için projeye yıldız verin.**
 
-[Başlayın](#quick-start) · [Director Stilleri](#a-styles) · [Autopilot Stilleri](#b-styles) · [Sık sorulan sorular](#faq) · [Yol haritası](#road-to-10000-stars--creator-ecosystem)
+[Başlayın](#quick-start) · [Stiller ve Demolar](#style-gallery) · [Sık sorulan sorular](#faq) · [Yol haritası](#road-to-10000-stars--creator-ecosystem) · [Topluluk](#community)
 
 </div>
 
@@ -102,9 +102,8 @@ Bir konu, makale veya senaryoyla başlayın. Görselleri, seslendirmeleri, altya
 | **Temel yaklaşım** | **Kontrol sizde, yönetmenlik planı yapay zekâda**: sahne planı ve istemler hazırlanır; klip üretimini ve kurguyu siz yönetirsiniz. | **Bir konu veya ihtiyaç verin, bitmiş videoyu alın**: çizimler, seslendirme, altyazı, mikro animasyonlar ve video birleştirme otomatik tamamlanır. |
 | **Süre** | **Kısa videolar için ideal**; örneğin 30 saniye–3 dakika. Daha uzun içerikler de bölüm bölüm hazırlanabilir. | **Uzun videolar öncelikli**; özellikle **10 dakika ve üzeri** seslendirmeli içeriklere uygun. Kısa videolar ve bölümlü hikâyeler de yapılabilir. |
 | **Araçlar** | Skill uyumlu bir yapay zekâ asistanıyla planlayın, klipleri tercih ettiğiniz video üreticisinde (Google Flow, Runway, Luma, Kling vb.) oluşturun, ardından CapCut veya Premiere’de birleştirin. | **Codex veya Claude Code** gibi dosya okuyup yazabilen, araç kullanabilen ve komut çalıştırabilen bir yapay zekâ kodlama ajanı; medya üretimini yerel video birleştirmeyle buluşturur. |
-| **Görsel anlatım** | **Bölüm bölüm üretilen animasyonlar**: karakter hareketleri, kamera düzeni ve karakterler arası etkileşim ön plandadır. | **Çizimli sahne planı + mikro animasyon**: kesmeler, yakınlaşmalar ve kaydırmalar anlatıcıyı takip eder; her bölüm için baştan sona hareketli video üretmek gerekmez. |
+| **Görsel anlatım** | **Bölüm bölüm üretilen animasyonlar**: karakter hareketleri, kamera düzeni ve karakterler arası etkileşim ön plandadır. | **Çizimli sahne planı + yerel animasyon**: yüz ifadeleri, karakter tepkileri ve nesne hareketleri anlatıma eşlik eder; kesmeler, yakınlaşmalar ve kaydırmalarla desteklenir. Yalnızca kamera hareketi veya yazı girişi, sahne animasyonu sayılmaz. |
 | **Çıktı** | Yönetmen önerisi, sahne planı, bölüm bazında video istemleri ve ses tasarımı. | **Seslendirme, altyazı ve mikro animasyon içeren eksiksiz video dosyası.** |
-| **Başlangıç** | <div align="center"><a href="#director-start">Director ile başlayın</a></div> | <div align="center"><a href="#autopilot-start">Autopilot ile başlayın</a></div> |
 
 Her iki iş akışı da ham bir konu, web bağlantısı veya tam bir senaryoyla başlayabilir. En-boy oranını (9:16, 16:9, 1:1), anlatım dilini ve seslendirmeyi özgürce seçin. Yukarıdaki süreler öneridir, kesin sınırlar değildir.
 
@@ -116,7 +115,7 @@ Her iki iş akışı da ham bir konu, web bağlantısı veya tam bir senaryoyla 
 <!-- project-sponsor:start -->
 <a id="project-sponsor"></a>
 
-#### API İş Ortakları
+#### API İş Ortakları · [Bu projeyi destekleyin ↗](https://telegram.me/CrazyKaomei)
 
 <table>
 <tr>
@@ -126,6 +125,10 @@ Her iki iş akışı da ham bir konu, web bağlantısı veya tam bir senaryoyla 
 <tr>
 <td width="140" align="center" valign="middle"><a id="sponsor-apimart"></a><a href="https://go.apimart.ai/tw-stickman-video-director"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@2335d82fc55fa60bb3e20296b5da835498f4abaa/assets/sponsors/apimart.png" alt="APIMart" width="110"></a></td>
 <td><p>APIMart, yapay zekâyla görsel ve video üretimine odaklanan düşük maliyetli bir API platformudur. GPT-Image-2 görsel başına 0,006 dolardan başlar; 1 dolarla 160’tan fazla görsel üretilebilir. Tek bir asenkron API hem görseli hem videoyu kapsar: görevi gönderin, bir kimlik alın, sonuçları sorgulama veya callback ile getirin. On binlerce görseli zaman aşımı olmadan toplu üretin, kodu değiştirmeden model değiştirin. Aylık ücret yok, kullandıkça ödeyin — <a href="https://go.apimart.ai/tw-stickman-video-director">buradan kaydolun</a> ve kullanmaya başlayın.</p></td>
+</tr>
+<tr>
+<td width="140" align="center" valign="middle"><a id="sponsor-renoise"></a><a href="https://renoise.ai/mcp?utm_source=crazykaomei-aini-202610&amp;utm_medium=xcom"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@5f5985c73757a643925e06cd010767684c1e926a/assets/sponsors/renoise.png" alt="Renoise" width="64"><br><strong>Renoise</strong></a></td>
+<td><p>Renoise AI, pazarlama ve reklam profesyonelleri ile içerik üreticileri için hepsi bir arada bir yapay zekâ video ve görsel üretim platformudur. İhtiyacınızı ajana günlük dille anlatın: istemleri yazar, fikrinizi çekimlere böler ve videoları toplu olarak üretirken aynı karakterin veya ürünün farklı çekimlerde tutarlı görünmesini sağlar.</p><p>Web’de veya iOS ve Android uygulamalarında doğrudan üretim yapabilir ya da Renoise’ı MCP üzerinden Claude veya ChatGPT’ye (Codex) bağlayabilirsiniz. Sohbet içinde görsel ve video materyalleri oluşturun, kurgulayın ve son dokunuşları yapın; düzenleme yazılımına ihtiyaç duymadan yayına hazır bir video elde edin. <a href="https://renoise.ai/mcp?utm_source=crazykaomei-aini-202610&amp;utm_medium=xcom">Renoise’ı keşfedin</a> ve modellerini, yaratıcı araçlarını inceleyin.</p></td>
 </tr>
 </table>
 
@@ -341,7 +344,7 @@ Bir arkadaşınız anlatırken çiziyormuş gibi. İfadeli yüzler, siyah çizgi
   </tr>
   <tr>
     <td align="center">El çizimi karakterler · Vurgulu metin · Mikro animasyon</td>
-    <td align="center">Bodi seslendirmesi · Canlı ifadeler · Mikro animasyon</td>
+    <td align="center">Google Gemini · Bodi seslendirmesi · Canlı ifadeler · Mikro animasyon</td>
   </tr>
 </table>
 
@@ -367,7 +370,7 @@ Uyumaya çalıştıkça zihniniz neden daha çok konuşur? YouTube’daki [@Psyc
   </tr>
   <tr>
     <td align="center">Uyku öncesi düşünceler · Ortam kesmeleri · Yumuşak hareketler</td>
-    <td align="center">Gündelik dikkat dağıtıcılar · Renkli sahneler · Fola anlatımı</td>
+    <td align="center">Google Gemini · Gündelik dikkat dağıtıcılar · Renkli sahneler · Fola anlatımı</td>
   </tr>
 </table>
 
@@ -394,7 +397,7 @@ Gece yarısı ilginç bir yayına rastlamak gibi. YouTube’daki [@BradikininVid
   </tr>
   <tr>
     <td align="center">Kurgu gerilim · Sahne geçişleri · TV dokusu</td>
-    <td align="center">Hayvan davranışları · Yerel tepkiler · Bodi anlatımı</td>
+    <td align="center">Google Gemini · Hayvan davranışları · Yerel tepkiler · Bodi anlatımı</td>
   </tr>
 </table>
 <!-- b3:section:end -->
@@ -542,11 +545,11 @@ Evet. Stickman Video Director, MIT lisansıyla %100 ücretsiz ve açık kaynakl�
 
 **Örneklere mümkün olduğunca yakın sonuçlar için Codex’i öneririm.** B Modu örnek videolarını Codex’te hazırlayıp test ettim; kendiniz kod yazmanız gerekmez. Skill başka agent ortamlarına da kurulabilir, ancak model, araç yapılandırması ve yürütme biçimindeki farklar sonucu etkileyebilir.
 
-Görseller için GPT’nin yerleşik modelini kullanıyorum; ek bir görsel üretim API’si yapılandırmadım. Videonun tamamına geçmeden önce kısa bir örnekle stili ve sonucu kontrol edin.
+Örneklerimde GPT’nin yerleşik görsel modelini kullanıyorum; ek bir görsel üretim API’si yapılandırmadım. Diğer ajanlarda, o ortamda bulunan görsel araçlarını kullanın. Gerçek kişilere veya karmaşık karakterlere dayanan B5 sunucuları için üretilmiş ya da onaylanmış görseller gerekir; kodla çizilmiş genel bir yüzle değiştirilemez. Ses bilgileri örneklerin kaynağını belirtir, belirli bir sağlayıcıyı zorunlu kılmaz. Gerekirse ajanınızdan seçtiğiniz hizmeti yapılandırmasını isteyin ve tam videodan önce kısa bir örneği kontrol edin. Stil ön ayarları birer başlangıç noktasıdır, kısıtlama değildir: ajanınızdan yazı tiplerini, metin efektlerini veya video dilini değiştirip yerleşimi isteğinize göre uyarlamasını isteyebilirsiniz.
 
 ### Q4. Hazır bir senaryo olmadan video yapabilir miyim?
 
-Evet. Ham bir fikri, aklınıza gelen bir düşünceyi, haber bağlantısını veya tam bir blog yazısını yapıştırabilirsiniz. Yapay zekâ yönetmen ana çatışmayı çıkarır, etkileyici bir 3 saniyelik açılış yazar ve konuyu komedi zamanlaması ile seslendirme ipuçları içeren sıkı bir 6 sahnelik anlatı örgüsüne dönüştürür.
+Evet. Ham bir fikri, aklınıza gelen bir düşünceyi, haber bağlantısını veya tam bir blog yazısını yapıştırabilirsiniz. Yapay zekâ yönetmen ana çatışmayı çıkarır, etkileyici bir 3 saniyelik açılış yazar ve hikâyeyi ve çekimleri konuya, hedef süreye ve seçilen stile göre düzenler; komedi zamanlaması ve seslendirme ipuçları da ekler.
 
 ### Q5. Yapay zekâ videonun sıkıcı olmamasını ve izleyiciyi tutmasını nasıl sağlıyor?
 
@@ -608,9 +611,11 @@ Yüz göstermeyen YouTube kanallarında en çok talep edilen nişler için yeni 
 - **İki mikrofonlu podcast ve stand-up** — Hızlı diyalog komedisi, röportajları yeniden işleme ve karakter atışmaları
 - **İnternet gizemleri ve şehir efsaneleri** — Ürkütücü kurşun kalem çizimleri, analog bozulmalar ve Reddit gizem hikâyeleri
 
+<a id="community"></a>
+
 ## 💬 Topluluk ve eser gönderimi
 
-Bir stil önermek veya kanalınızın tanıtılmasını mı istiyorsunuz? Telegram’da **[@CrazyKaomei](https://telegram.me/CrazyKaomei)** hesabına mesaj gönderin:
+Bir stil fikriniz mi var veya öne çıkmak mı istiyorsunuz? [Telegram topluluğumuza](https://telegram.me/stickmanskill) katılın:
 
 - **Stil isteyin**: görsel referans bağlantısını + ele almak istediğiniz nişi gönderin.
 - **Eserinizi tanıtalım**: bu araçla video mu yaptınız? Bu README’de ve resmî YouTube kanalımızda sergilenmesi için bağlantısını gönderin!

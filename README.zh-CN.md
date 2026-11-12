@@ -87,7 +87,7 @@
 
 ⭐ **为项目点个 Star，及时关注下一批画风和新功能解锁。**
 
-[开始使用](#quick-start) · [导演模式画风](#a-styles) · [全自动模式画风](#b-styles) · [常见问题](#faq) · [路线图](#road-to-10000-stars--creator-ecosystem)
+[开始使用](#quick-start) · [画风与样片](#style-gallery) · [常见问题](#faq) · [路线图](#road-to-10000-stars--creator-ecosystem) · [加入社区](#community)
 
 </div>
 
@@ -102,9 +102,8 @@
 | **特点** | **你来掌镜，AI 做导演**：生成分镜与提示词，由你控制片段生成和剪辑。 | **给出话题或需求，直接拿成片**：自动完成插画、配音、字幕、微动画与视频合成。 |
 | **时长** | **短片优先**，如 30 秒–3 分钟；也可逐段制作更长内容。 | **长片优先**，尤其适合 **10 分钟及以上**的旁白视频，也能做短片和连续故事短剧。 |
 | **工具** | 用支持 Skill 的 AI 助手规划分镜，在你偏好的视频生成工具中生成片段（Google Flow、Runway、Luma、Kling 等），再用 CapCut 或 Premiere 完成剪辑。 | 在 **Codex、Claude Code** 等能读写文件、调用工具和执行命令的 AI 编程代理中运行，串起素材生成与本地合成。 |
-| **画面** | **逐段生成动画**：侧重角色动作、镜头调度与人物互动。 | **插画分镜＋微动画**：用切镜、推拉和平移配合旁白讲故事，不必逐段生成完整动作视频。 |
+| **画面** | **逐段生成动画**：侧重角色动作、镜头调度与人物互动。 | **插画分镜＋局部动画**：表情、角色反应与道具动作配合旁白，辅以切镜、推拉和平移；仅有镜头移动或文字入场，不算画面微动画。 |
 | **产出** | 导演提案、分镜、逐段视频提示词与声音设计。 | **带配音、字幕与微动画的完整视频文件**。 |
-| **开始** | <div align="center"><a href="#director-start">使用导演模式</a></div> | <div align="center"><a href="#autopilot-start">使用全自动模式</a></div> |
 
 两种工作流都可以从一个初步话题、一个网页链接或一份完整脚本开始。画幅（9:16、16:9、1:1）、旁白语言与配音均可自由选择。上面的时长仅供参考，不是硬性限制。
 
@@ -116,7 +115,7 @@
 <!-- project-sponsor:start -->
 <a id="project-sponsor"></a>
 
-#### API 合作伙伴
+#### API 合作伙伴 · [支持本项目 ↗](https://telegram.me/CrazyKaomei)
 
 <table>
 <tr>
@@ -126,6 +125,10 @@
 <tr>
 <td width="140" align="center" valign="middle"><a id="sponsor-apimart"></a><a href="https://go.apimart.ai/tw-stickman-video-director"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@2335d82fc55fa60bb3e20296b5da835498f4abaa/assets/sponsors/apimart.png" alt="APIMart 项目赞助" width="110"></a></td>
 <td><p>APIMart 是专注 AI 图片/视频生成的低价 API 平台，GPT-Image-2 低至 $0.006/张，1 美元可出图 160+ 张。图片、视频一套异步 API 通吃，提交任务拿 ID、回调取结果，跑批万张不超时、换模型不改代码。按量付费、无月费，通过此<a href="https://go.apimart.ai/tw-stickman-video-director">注册链接</a>注册即可开用。</p></td>
+</tr>
+<tr>
+<td width="140" align="center" valign="middle"><a id="sponsor-renoise"></a><a href="https://renoise.ai/mcp?utm_source=crazykaomei-aini-202610&amp;utm_medium=xcom"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@5f5985c73757a643925e06cd010767684c1e926a/assets/sponsors/renoise.png" alt="Renoise" width="64"><br><strong>Renoise</strong></a></td>
+<td><p>Renoise AI 是面向营销广告和自媒体创作者的一站式 AI 视频与图片创作平台。用大白话跟 Agent 说需求，它替你写提示词、拆分镜、批量出片，同一个角色或产品换了镜头也不走样。</p><p>网页和 iOS、安卓 App 都能直接创作，也能通过 MCP 接进 Claude、ChatGPT（Codex），在对话里生成素材和剪辑包装，无需剪辑软件，获得可发布的成片。<a href="https://renoise.ai/mcp?utm_source=crazykaomei-aini-202610&amp;utm_medium=xcom">前往 Renoise 官网</a>探索模型与创作工具。</p></td>
 </tr>
 </table>
 
@@ -338,7 +341,7 @@ AI 助手会根据内容设计分镜，生成画面与旁白，配好字幕和�
   </tr>
   <tr>
     <td align="center">手绘角色 · 重点文字 · 微动画</td>
-    <td align="center">Bodi 旁白 · 生动表情 · 微动画</td>
+    <td align="center">Google Gemini · Bodi 旁白 · 生动表情 · 微动画</td>
   </tr>
 </table>
 
@@ -364,7 +367,7 @@ AI 助手会根据内容设计分镜，生成画面与旁白，配好字幕和�
   </tr>
   <tr>
     <td align="center">睡前思绪 · 场景切换 · 轻柔动效</td>
-    <td align="center">日常分心 · 彩色场景 · Fola 配音</td>
+    <td align="center">Google Gemini · 日常分心 · 彩色场景 · Fola 配音</td>
   </tr>
 </table>
 
@@ -391,7 +394,7 @@ AI 助手会根据内容设计分镜，生成画面与旁白，配好字幕和�
   </tr>
   <tr>
     <td align="center">虚构悬疑 · 场景切换 · 电视质感</td>
-    <td align="center">动物行为 · 局部反应 · Bodi 旁白</td>
+    <td align="center">Google Gemini · 动物行为 · 局部反应 · Bodi 旁白</td>
   </tr>
 </table>
 <!-- b3:section:end -->
@@ -540,11 +543,11 @@ AI 助手会根据内容设计分镜，生成画面与旁白，配好字幕和�
 
 **推荐使用 Codex，以尽可能接近案例效果。** 展示的 B 模式样片都由我在 Codex 中制作和测试，无需自己写代码。其他 Agent 也可安装 Skill，但模型、工具配置和执行方式不同，效果可能有差异。
 
-生图直接使用 GPT 内置模型，我没有额外配置生图 API。建议先做短样片，确认画风和效果后再继续全片。
+我的案例使用 GPT 内置生图模型，没有额外配置生图 API。其他 Agent 可调用自己可用的生图工具；B5 真人或复杂角色须使用生成或已确认的素材图，不能用代码头像替代。旁白标注只是案例来源，不绑定服务商；需要时可让 Agent 配置所选服务，先做短样片再继续全片。画风预设不是限制；字体、文字动效或视频语言都可按需调整，让 Agent 按你的要求适配排版即可。
 
 ### Q4. 如果我手里没有写好的现成剧本，能直接做视频吗？
 
-可以。你可以直接扔给 AI 导演一段粗糙的想法、一个新闻链接、甚至一整篇公众号长文。AI 导演会自动提炼核心戏剧冲突，写出前 3 秒爆款黄金钩子，并将你的主题拆解为带有幽默节奏与台词断句的 6 幕式标准分镜。
+可以。你可以直接扔给 AI 导演一段粗糙的想法、一个新闻链接、甚至一整篇公众号长文。AI 导演会自动提炼核心戏剧冲突，写出前 3 秒爆款黄金钩子，并根据主题、目标时长和所选画风安排故事与分镜，加入幽默节奏与台词断句。
 
 ### Q5. 它是如何确保视频具有高完播率、有梗且不枯燥的？
 
@@ -606,9 +609,11 @@ AI 助手会根据内容设计分镜，生成画面与旁白，配好字幕和�
 - **双麦播客与单口喜剧** — 节奏明快的对话喜剧、访谈再创作与角色斗嘴
 - **互联网谜团与都市传说** — 诡异铅笔素描、模拟信号故障与 Reddit 悬疑故事
 
+<a id="community"></a>
+
 ## 💬 社区与投稿
 
-想推荐画风，或让你的频道获得展示？欢迎通过 Telegram 联系 **[@CrazyKaomei](https://telegram.me/CrazyKaomei)**：
+想推荐画风，或让你的频道获得展示？欢迎加入[官方 Telegram 交流群](https://telegram.me/stickmanskill)。
 
 - **推荐画风**：发送视觉参考链接 + 你想做的内容领域。
 - **作品展示**：用这个工具制作了视频？发送作品链接，就有机会在本 README 和官方 YouTube 频道中展示！
