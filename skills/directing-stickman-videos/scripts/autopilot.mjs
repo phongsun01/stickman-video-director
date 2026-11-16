@@ -14,7 +14,7 @@ const [command, ...rawArgs] = process.argv.slice(2);
 // in `--flag value` or `--flag=value` form. Previously `preview --replace PROJECT`
 // treated `--replace` as the project path and failed. Boolean flag: --replace.
 // Value flags: --seconds, --style, --note, --lead, --output, --lang, --max-words.
-const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output', '--lang', '--max-words', '--target-lufs']);
+const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output', '--lang', '--max-words', '--target-lufs', '--flow', '--topic', '--duration', '--format']);
 const flagValues = {};
 const args = [];
 for (let i = 0; i < rawArgs.length; i++) {
@@ -38,6 +38,20 @@ async function main() {
     if (flagValues['--replace']) pyArgs.push('--replace');
     const outVal = option('--output');
     if (outVal) pyArgs.push('--output', path.resolve(outVal));
+    const res = spawnSync(py, pyArgs, {stdio: 'inherit'});
+    if (res.status !== 0) process.exit(res.status || 1);
+    return;
+  } else if (command === 'storyboard') {
+    const py = process.env.PYTHON || 'python3';
+    const scriptPath = path.join(ROOT, 'scripts/story-flow-scaffold.py');
+    const pyArgs = [scriptPath];
+    if (option('--flow')) pyArgs.push('--flow', option('--flow'));
+    if (option('--topic')) pyArgs.push('--topic', option('--topic'));
+    if (option('--duration')) pyArgs.push('--duration', option('--duration'));
+    if (option('--lang')) pyArgs.push('--lang', option('--lang'));
+    if (option('--format')) pyArgs.push('--format', option('--format'));
+    if (option('--output')) pyArgs.push('--output', path.resolve(option('--output')));
+    if (args.includes('--list-flows') || rawArgs.includes('--list-flows')) pyArgs.push('--list-flows');
     const res = spawnSync(py, pyArgs, {stdio: 'inherit'});
     if (res.status !== 0) process.exit(res.status || 1);
     return;

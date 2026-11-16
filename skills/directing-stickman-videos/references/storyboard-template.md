@@ -37,7 +37,7 @@ Default the narrator only after required setup is complete: propose a source-app
 
 ## Narrative structure
 
-Apply [Director narrative and pacing](director-story-pacing.md). Name the purpose-appropriate structure and ending in the proposal; do not impose the five-stage commentary pattern on every source.
+Apply [Director narrative and pacing](director-story-pacing.md) and [6 Narrative Story Flows](narrative-story-flows.md). Name the purpose-appropriate structure and ending in the proposal (e.g. `Problem-Agitate-Solution (PAS)`, `Three Reasons Why`, `Myth Buster`, `Before-After-Bridge`, `Hero's Journey`, `Curiosity Gap`); do not impose the five-stage commentary pattern on every source. Auto-scaffold templates with `node scripts/autopilot.mjs storyboard --flow <key>`.
 
 ## Storyboard contract
 

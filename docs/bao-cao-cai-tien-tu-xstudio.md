@@ -503,7 +503,7 @@ echo Installation complete!
 - [ ] **Sprint 2: Đảm bảo Chất lượng & Kịch bản Chuyên sâu**
   - [x] **Xuất báo cáo QC sau render (`verification.json`):** Tự động quét đứng hình (`freeze`), đoạn câm (`silence`), độ to (`loudness`), va chạm phụ đề (`caption-collision`), tính điểm chất lượng QA Score 0-100 (`references/post-render-qc.md`)
   - [ ] Hỗ trợ Multi-speaker / Dialogue TTS routing theo từng nhân vật
-  - [ ] Tích hợp 6 Narrative Story Flows vào template kịch bản (PAS, Myth Buster, 3 Reasons Why...)
+  - [x] **Tích hợp 6 Narrative Story Flows vào template kịch bản:** PAS, Three Reasons Why, Myth Buster, Before-After-Bridge, Hero's Journey, Curiosity Gap (`references/narrative-story-flows.md`), hỗ trợ sinh khung tự động `autopilot.mjs storyboard --flow <key>` (`scripts/story-flow-scaffold.py`)
 
 - [ ] **Sprint 3: Nâng cấp Trực quan & Đóng gói Phân phối**
   - [ ] Tích hợp 20 Motion Graphics Templates (làm layer overlay / background động)

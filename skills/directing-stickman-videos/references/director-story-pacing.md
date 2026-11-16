@@ -6,6 +6,16 @@ Read before Phase A and preserve the approved decisions in Phase B. This file ow
 
 State the chosen structure briefly in Phase A; infer it from the source and goal without adding an intake gate.
 
+### 6 Proven Narrative Story Flows for Short-form & Explainer Content:
+Refer to [narrative-story-flows.md](narrative-story-flows.md) for full breakdown, timeline proportions, and storyboard templates:
+1. **Problem - Agitate - Solution (PAS)**: Hook (0-5s) → Nỗi đau/Agitate (5-15s) → Giải pháp/Solution (15-32s) → CTA/Takeaway (32-45s). Thích hợp nhất cho B1, B2.
+2. **Three Reasons Why (Quy tắc Tam phân)**: Hook (0-5s) → Lý do 1 (5-18s) → Lý do 2 (18-32s) → Lý do 3 + Tổng kết (32-45s). Thích hợp cho B2, B3.
+3. **Myth Buster (Đập tan ngộ nhận)**: Ngộ nhận phổ biến (0-5s) → Bác bỏ thực tế (5-15s) → Bằng chứng/Chứng minh (15-30s) → Insight đúng đắn (30-40s). Thích hợp cho B1, B6.
+4. **Before - After - Bridge (BAB)**: Trước/Before (0-8s) → Sau/After (8-16s) → Cây cầu bí quyết/The Bridge (16-35s) → Hành động (35-45s). Thích hợp cho B4, B5.
+5. **Hero's Journey Mini (Hành trình người que)**: Khởi đầu (0-6s) → Khủng hoảng/Thất bại hài hước (6-18s) → Bí kíp/Sư phụ (18-35s) → Chiến thắng (35-48s). Thích hợp cho B1, B5, B6.
+6. **Curiosity Gap / Mystery (Bí ẩn hé lộ)**: Bí ẩn/Câu hỏi lạ (0-6s) → Manh mối (6-20s) → Bẻ lái/Twist (20-35s) → Tiết lộ sự thật (35-45s). Thích hợp cho B3, B4.
+
+### Generic Purpose Archetypes:
 - Explanation: concrete question or example → mechanism → evidence/example → useful takeaway.
 - Tutorial: desired result → prerequisites → ordered steps → demonstrated result and common pitfall.
 - Story/comedy: setup → conflict/escalation → consequence or payoff. Preserve reaction pauses and intentional reveals.
