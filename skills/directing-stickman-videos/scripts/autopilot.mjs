@@ -13,8 +13,8 @@ const [command, ...rawArgs] = process.argv.slice(2);
 // PATCH (fork 2026-11-09): accept flags before or after the positional argument,
 // in `--flag value` or `--flag=value` form. Previously `preview --replace PROJECT`
 // treated `--replace` as the project path and failed. Boolean flag: --replace.
-// Value flags: --seconds, --style, --note, --lead.
-const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead']);
+// Value flags: --seconds, --style, --note, --lead, --output.
+const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output']);
 const flagValues = {};
 const args = [];
 for (let i = 0; i < rawArgs.length; i++) {
@@ -30,6 +30,17 @@ const hasFlag = flag => flagValues[flag] !== undefined;
 async function main() {
   if (command === 'workflow') {
     console.log(JSON.stringify(installedWorkflow({style: option('--style'), ratio: option('--ratio', '16:9'), project: option('--project')}), null, 2));
+  } else if (command === 'auto-sfx') {
+    if (!args[0]) throw new Error('Usage: autopilot.mjs auto-sfx PROJECT [--replace] [--output PATH]');
+    const py = process.env.PYTHON || 'python3';
+    const scriptPath = path.join(ROOT, 'scripts/auto-score-sfx.py');
+    const pyArgs = [scriptPath, path.resolve(args[0])];
+    if (flagValues['--replace']) pyArgs.push('--replace');
+    const outVal = option('--output');
+    if (outVal) pyArgs.push('--output', path.resolve(outVal));
+    const res = spawnSync(py, pyArgs, {stdio: 'inherit'});
+    if (res.status !== 0) process.exit(res.status || 1);
+    return;
   } else if (command === 'doctor') {
     const checks = {node: Number(process.versions.node.split('.')[0]) >= 20};
     for (const [name, exe] of [['ffmpeg', FFMPEG], ['ffprobe', FFPROBE]]) try { run(exe, ['-version']); checks[name] = true; } catch { checks[name] = false; }

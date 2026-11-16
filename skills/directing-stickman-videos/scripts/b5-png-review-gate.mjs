@@ -9,7 +9,12 @@ import {validateVisualPlan} from './b5-visual-review.mjs';
 import {assertB5RevisionInvariants, buildB5RevisionRequirements, validateB5RevisionObservationCoverage} from './b5-png-revision.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const sharp = createRequire(import.meta.url)('sharp');
+let sharp;
+try {
+  sharp = createRequire(import.meta.url)('sharp');
+} catch {
+  // sharp is optional when not using B5 PNG review gate
+}
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const read = file => JSON.parse(fs.readFileSync(file, 'utf8'));
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);

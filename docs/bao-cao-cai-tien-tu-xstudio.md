@@ -492,18 +492,31 @@ echo Installation complete!
 
 ## Lộ trình Triển khai Đề xuất
 
-| Sprint | Nhóm | Thời gian ước tính |
-|--------|------|--------------------|
-| Sprint 1 | #1 VieNeu catalog + atempo sync | 1 tuần |
-| Sprint 1 | #2 Vietnamese caption splitter | 1.5 tuần |
-| Sprint 1 | #3 EBU R128 post-render check | 1 tuần |
-| Sprint 2 | #4 Post-render QC report JSON | 1 tuần |
-| Sprint 2 | #5 Multi-speaker TTS routing | 1.5 tuần |
-| Sprint 2 | #6 Story Flow templates (docs) | 3 ngày |
-| Sprint 3 | #8 Kinetic Typography captions | 1.5 tuần |
-| Sprint 3 | #9 Platform packaging command | 1 tuần |
-| Sprint 3 | #12 Progress streaming | 3 ngày |
-| Backlog | #14–18 | Dài hạn |
+- [ ] **Sprint 1: Cải tiến Âm thanh & Đồng bộ Tiếng Việt**
+  - [x] Cấu hình đường dẫn mặc định `sfx-thu-vien` cho macOS (`/Users/xitrum/Documents/Dev/library/sfx-thu-vien`)
+  - [x] **Tính năng Auto SFX (`autopilot.mjs auto-sfx`):** Tự động phát hiện hành động kịch bản và chèn SFX căn onset
+  - [ ] Bổ sung kho âm thanh Cinematic / UI từ `Motion-graphics-skill-stack-store/sound-effects` vào catalog
+  - [ ] VieNeu Voice Catalog & cơ chế auto-fit atempo timing
+  - [ ] Bộ ngắt phụ đề tiếng Việt chuẩn ngữ pháp (`Vietnamese Caption Splitter`)
+  - [ ] Đo kiểm và chuẩn hóa âm lượng EBU R128 (-14 LUFS) sau render & Smart Ducking BGM
+
+- [ ] **Sprint 2: Đảm bảo Chất lượng & Kịch bản Chuyên sâu**
+  - [ ] Xuất báo cáo QC sau render (`verification.json`: freeze, silence, loudness, face-collision)
+  - [ ] Hỗ trợ Multi-speaker / Dialogue TTS routing theo từng nhân vật
+  - [ ] Tích hợp 6 Narrative Story Flows vào template kịch bản (PAS, Myth Buster, 3 Reasons Why...)
+
+- [ ] **Sprint 3: Nâng cấp Trực quan & Đóng gói Phân phối**
+  - [ ] Tích hợp 20 Motion Graphics Templates (làm layer overlay / background động)
+  - [ ] Kinetic Typography (chữ nảy TikTok / Karaoke style)
+  - [ ] Công cụ đóng gói đa nền tảng (`autopilot.mjs package` cho TikTok, Reels, Shorts, YouTube)
+  - [ ] Trình tạo Thumbnail tự động theo preset từ Contact Sheet
+  - [ ] Hiển thị tiến trình render chi tiết (Progress streaming / JSON)
+
+- [ ] **Backlog dài hạn:**
+  - [ ] Tách giọng / nhạc nền (Vocal Separation UVR-MDX)
+  - [ ] Tách nền nhân vật B5 tự động (u2netp)
+  - [ ] Sổ bộ lưu trữ dự án cục bộ (SQLite Project Registry)
+  - [ ] Trình cài đặt tự động 1-click cho Windows / macOS
 
 ---
 
