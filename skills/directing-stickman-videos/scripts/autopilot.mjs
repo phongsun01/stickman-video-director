@@ -14,7 +14,7 @@ const [command, ...rawArgs] = process.argv.slice(2);
 // in `--flag value` or `--flag=value` form. Previously `preview --replace PROJECT`
 // treated `--replace` as the project path and failed. Boolean flag: --replace.
 // Value flags: --seconds, --style, --note, --lead, --output, --lang, --max-words.
-const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output', '--lang', '--max-words', '--target-lufs', '--flow', '--topic', '--duration', '--format']);
+const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output', '--lang', '--max-words', '--target-lufs', '--flow', '--topic', '--duration', '--format', '--highlight-color']);
 const flagValues = {};
 const args = [];
 for (let i = 0; i < rawArgs.length; i++) {
@@ -38,6 +38,16 @@ async function main() {
     if (flagValues['--replace']) pyArgs.push('--replace');
     const outVal = option('--output');
     if (outVal) pyArgs.push('--output', path.resolve(outVal));
+    const res = spawnSync(py, pyArgs, {stdio: 'inherit'});
+    if (res.status !== 0) process.exit(res.status || 1);
+    return;
+  } else if (command === 'subtitles') {
+    if (!args[0] || !args[1]) throw new Error('Usage: autopilot.mjs subtitles <words.json|captions.json|project.json> <output.ass> [--style kinetic|tiktok|karaoke|pop|box]');
+    const py = process.env.PYTHON || 'python3';
+    const scriptPath = path.join(ROOT, 'scripts/generate-kinetic-subs.py');
+    const pyArgs = [scriptPath, '--input', path.resolve(args[0]), '--output', path.resolve(args[1])];
+    if (option('--style')) pyArgs.push('--style', option('--style'));
+    if (option('--highlight-color')) pyArgs.push('--highlight-color', option('--highlight-color'));
     const res = spawnSync(py, pyArgs, {stdio: 'inherit'});
     if (res.status !== 0) process.exit(res.status || 1);
     return;

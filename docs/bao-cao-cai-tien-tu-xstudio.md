@@ -507,7 +507,7 @@ echo Installation complete!
 
 - [ ] **Sprint 3: Nâng cấp Trực quan & Đóng gói Phân phối**
   - [ ] Tích hợp 20 Motion Graphics Templates (làm layer overlay / background động)
-  - [ ] Kinetic Typography (chữ nảy TikTok / Karaoke style)
+  - [x] **Kinetic Typography (chữ nảy TikTok / Karaoke style):** Hỗ trợ 6 kiểu phụ đề động (`kinetic`, `tiktok`, `karaoke`, `pop`, `box`, `classic`) nảy chữ lò xo theo nhịp và tô sáng từ đang đọc trong Canvas & xuất file `.ass` chuẩn (`references/kinetic-typography.md`)
   - [ ] Công cụ đóng gói đa nền tảng (`autopilot.mjs package` cho TikTok, Reels, Shorts, YouTube)
   - [ ] Trình tạo Thumbnail tự động theo preset từ Contact Sheet
   - [ ] Hiển thị tiến trình render chi tiết (Progress streaming / JSON)
@@ -596,7 +596,7 @@ Trong thư mục `20-reference-motion-styles` chứa các source code HTML5 Canv
 
 ## Ghi chú
 
-Tất cả cải tiến đề xuất dựa trên code và documentation thực tế của xStudio (iContent Studio v0.8.1). Các feature không khả thi do kiến trúc khác nhau (web UI, Windows Job Objects, Ed25519 license) đã được loại bỏ. Chỉ giữ lại các cải tiến thuần **CLI/script/documentation** phù hợp với kiến trúc agent-first của stickman-video-director.
+Tất cả cải tiến đề xuất dựa trên code và documentation thực tế của xStudio. Các feature không khả thi do kiến trúc khác nhau (web UI, Windows Job Objects, Ed25519 license) đã được loại bỏ. Chỉ giữ lại các cải tiến thuần **CLI/script/documentation** phù hợp với kiến trúc agent-first của stickman-video-director.
 
 ---
 

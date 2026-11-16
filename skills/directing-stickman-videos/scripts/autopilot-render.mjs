@@ -201,9 +201,18 @@ export async function painter(p, {pictureOnly = false} = {}) {
     const cueId = `caption-${cueIndex}`;
     if (cue && !pictureOnly && !omitIds.includes(cueId) && (!focusIds.length || focusIds.includes(cueId))) {
       ctx.save();
+      const isKinetic = ['kinetic', 'tiktok', 'pop', 'karaoke'].includes(p.caption_style);
       if (p.style === 'B4') {
         const entrance = clamp((t - cue.start) / .16), ease = 1 - (1 - entrance) ** 3;
         ctx.globalAlpha *= entrance; ctx.translate(0, 12 * (1 - ease));
+      } else if (isKinetic) {
+        const entrance = clamp((t - cue.start) / .16);
+        if (entrance < 1.0) {
+          const bounce = 1.0 + 0.15 * Math.sin(entrance * Math.PI);
+          ctx.translate(captionLayout.x, captionLayout.y);
+          ctx.scale(bounce, bounce);
+          ctx.translate(-captionLayout.x, -captionLayout.y);
+        }
       }
       ctx.font = `${p.style === 'B2' ? 500 : 600} ${captionLayout.font_size}px B1Caption`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       if (/[\r\n]/.test(cue.text)) throw new Error('B captions allow at most one line; split the timed cue at a semantic boundary');
@@ -225,7 +234,27 @@ export async function painter(p, {pictureOnly = false} = {}) {
         ctx.strokeStyle = p.style === 'B4' ? '#303234' : p.style === 'B3' ? '#111316' : '#FDFDFC';
         ctx.lineWidth = ['B3', 'B4'].includes(p.style) ? 3 : 7;
         if (p.style === 'B4') { ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowBlur = 2; ctx.shadowOffsetY = 2; }
-        ctx.strokeText(s, cx, y); ctx.fillStyle = p.style === 'B4' ? '#f8f5ed' : p.style === 'B3' ? '#f4f5f5' : '#20231F'; ctx.fillText(s, cx, y);
+        ctx.strokeText(s, cx, y);
+        if (isKinetic && p.caption_style !== 'box') {
+          const words = s.split(' ');
+          const dur = Math.max(0.01, cue.end - cue.start);
+          const progress = clamp((t - cue.start) / dur);
+          const activeIdx = Math.min(words.length - 1, Math.floor(progress * words.length));
+          const hlColor = p.caption_highlight_color || '#FFD700';
+          const totalW = ctx.measureText(s).width;
+          let startX = cx - totalW / 2;
+          ctx.textAlign = 'left';
+          words.forEach((w, wIdx) => {
+            const wWidth = ctx.measureText(w + ' ').width;
+            ctx.fillStyle = wIdx === activeIdx ? hlColor : (p.style === 'B4' ? '#f8f5ed' : p.style === 'B3' ? '#f4f5f5' : '#20231F');
+            ctx.fillText(w, startX, y);
+            startX += wWidth;
+          });
+          ctx.textAlign = 'center';
+        } else {
+          ctx.fillStyle = p.style === 'B4' ? '#f8f5ed' : p.style === 'B3' ? '#f4f5f5' : '#20231F';
+          ctx.fillText(s, cx, y);
+        }
         ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
       });
       ctx.textAlign = 'left'; ctx.restore();
@@ -362,6 +391,16 @@ export async function render(p, {full = false, seconds = 20, replace = false} = 
     const cues = p.captions.filter(c => c.start < duration).map(c => ({...c, end: Math.min(c.end, duration)}));
     fs.writeFileSync(path.join(out, `${kind}.srt`), cues.map((c, i) => `${i + 1}\n${stamp(c.start)} --> ${stamp(c.end)}\n${c.text}\n`).join('\n'));
     fs.writeFileSync(path.join(out, `${kind}.vtt`), 'WEBVTT\n\n' + cues.map(c => `${stamp(c.start, true)} --> ${stamp(c.end, true)}\n${c.text}\n`).join('\n'));
+    try {
+      const py = process.env.PYTHON || 'python3';
+      const assScript = path.join(ROOT, 'scripts/generate-kinetic-subs.py');
+      const assOut = path.join(out, `${kind}.ass`);
+      const projPath = p.projectPath || path.join(p.base, 'project.json');
+      const capStyle = p.caption_style || (p.style === 'B4' ? 'classic' : 'kinetic');
+      const assArgs = [assScript, '--input', projPath, '--output', assOut, '--style', capStyle, '--width', String(p.width), '--height', String(p.height)];
+      if (p.caption_highlight_color) assArgs.push('--highlight-color', p.caption_highlight_color);
+      spawnSync(py, assArgs, {encoding: 'utf8'});
+    } catch {}
     const cellHeight = p.height > p.width ? Math.round(320 * p.height / p.width) : 180;
     const sheet = createCanvas(960, cellHeight * 3), sc = sheet.getContext('2d');
     for (let i = 0; i < 9; i++) sc.drawImage(frame(Math.min(duration - 1 / p.fps, (i + 0.5) * duration / 9)), (i % 3) * 320, Math.floor(i / 3) * cellHeight, 320, cellHeight);
