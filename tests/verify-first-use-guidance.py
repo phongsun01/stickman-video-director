@@ -27,11 +27,13 @@ assert legacy.count(revised_a5) == 1, "Missing exact owner-directed A5 baseline 
 legacy = legacy.replace(revised_a5, original_a5, 1)
 assert hashlib.sha256(legacy.encode()).hexdigest() == "f710612be73c952fb130d891b0650388ec5ae89469cae95eda8e147eec18b73e"
 # A6 adds only a selection-time reference router; legacy Director stays frozen.
-assert len(entry.encode()) <= 15000, "Keep the new workflow detail in references"
+# The published base entry is 16,732 bytes; allow the additive B6 router while
+# retaining a compact entry budget. Detailed workflow stays in references.
+assert len(entry.encode()) <= 20000, "Keep the new workflow detail in references"
 boundaries = skill / "references/mode-execution-boundaries.md"
 assert "(references/mode-execution-boundaries.md)" in entry and boundaries.is_file()
 assert "Before planning" in entry
-assert "Published B choices are B1, B2, B3, B4 and B5" in guide_text
+assert "Published B choices are B1, B2, B3, B4, B5 and B6" in guide_text
 assert "scripts/character-explainer.mjs" in guide_text
 assert "B1–B4 use the bundled manifest runtime" in guide_text
 assert "not an accepted `style: B4` CLI value" not in guide_text
@@ -83,7 +85,7 @@ for catalog in ("a-styles", "b-styles"):
 assert "catalogs currently live in the Chinese README" not in guide_text
 install = cn.split("```text\n", 1)[1].split("```", 1)[0]
 assert "https://github.com/kaomei/stickman-video-director" in install
-assert "已安装的 SKILL.md" in install
+assert "安装成功后读取 SKILL.md" in install
 assert (root / "tests/scenarios/first-use-guidance.md").is_file()
 
 # Chinese-facing welcome uses Chinese mode names, not internal routing labels.

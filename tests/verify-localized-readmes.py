@@ -27,14 +27,13 @@ assert all(phrase in b3_boundaries for phrase in (
 )), "B3 television finish and configurable voice boundary must remain explicit"
 assert "# 🎬 Stickman Video Director" in source
 english_hero = source.split("</div>", 1)[0]
-assert "**Turn any script into viral, multi-style animated stickman videos for Faceless YouTube Channels.**" in english_hero
+assert "**Scale your faceless channel with automated stickman animations.**" in english_hero
 english_intro = (
-    "Start with a topic, an article, or a script. Automatically orchestrate visuals, voiceovers, captions, and sound effects into a production-ready stickman video.",
-    "**⚡ 100% Free & Open-Source. No camera, no $50/mo subscriptions, and ready in minutes, not days.**",
-    "Continually updated visual styles for **science explainers, dark psychology, tech parables, viral lore, and storytelling channels.**",
+    "Turn raw scripts into high-retention animated explainers in minutes — across 13 battle-tested styles, complete with voiceovers, dynamic camera moves, and sound design.",
+    "**No After Effects, no $50/mo SaaS tax. Ship daily without burnout.**",
 )
 assert "\n\n".join(english_intro) in english_hero, "Approved English introduction and bold formatting"
-assert "For your first video, follow the [visual production walkthrough on X](https://x.com/CrazyKaomei/status/2102311241046008268) (Thread with step-by-step video demos)." in source, "Approved first-video walkthrough copy and unchanged X thread link"
+assert "For your first video, see the [detailed tutorial on X](https://x.com/CrazyKaomei/status/2102311241046008268)." in source, "Approved first-video walkthrough copy and unchanged X thread link"
 
 def images(text):
     return re.findall(r'<img\b[^>]*\bsrc="([^"]+)"', text)
@@ -45,10 +44,33 @@ def anchors(text):
 def section(text, start, end):
     return text.split(f'<a id="{start}"></a>', 1)[1].split(end, 1)[0]
 
+def verify_next_style_teasers(text, name, gallery_styles, label):
+    """Each series ends with one localized teaser after its published cards."""
+    card_ids = ["a5" if style == "style-5" else style for style in gallery_styles]
+    for series in ("A", "B"):
+        published = sorted(int(style[1:]) for style in card_ids if style[0] == series.lower())
+        assert published == list(range(1, len(published) + 1)), (name, series, "published cards are sequential")
+        next_number = len(published) + 1
+        entries = list(re.finditer(rf"^### {series}(\d+)\s*[:：]\s*(.+)$", text, re.M))
+        assert [int(entry[1]) for entry in entries] == list(range(1, next_number + 1)), (name, series, "retain and advance the next-style teaser")
+        assert [entry[2] for entry in entries].count(label) == 1 and entries[-1][2] == label, (name, series, "one localized Coming Soon teaser at the end")
+        assert f'<a id="{series.lower()}{next_number}"></a>' in text, (name, series, "next-style teaser anchor")
+        teaser = re.split(r"^#{1,3} ", text[entries[-1].end():], maxsplit=1, flags=re.M)[0]
+        assert teaser.strip() and not images(teaser) and ".mp4" not in teaser, (name, series, "teaser is not a published sample")
+        assert teaser.count("](#road-to-10000-stars--creator-ecosystem)") == 1, (name, series, "retain the teaser roadmap link")
+        visible_teaser = re.sub(r"\]\([^)]*\)", "]", teaser)
+        assert not re.search(r"\b\d[\d,.\s]*\s*Stars?\b", visible_teaser, re.I), (name, series, "next-style teaser has no numeric Star unlock promise")
+
 expected_images = images(cn)
-assert len(expected_images) == 43 and len(set(expected_images)) == 33
+assert len(expected_images) == 49 and len(set(expected_images)) == 37
 pinned = "https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@"
+b6_previews = [
+    pinned + "7d611fb27f103aebc38a656d29edc1b1181cbd62/assets/readme/previews/" + filename
+    for filename in ("b6-dynamic-meme-eiffel-16x9.gif", "b6-dynamic-meme-hong-kong-v90-20s.gif")
+]
 local_a6_previews = {
+    "assets/readme/previews/style-7-rubber-hose.gif",
+    "assets/readme/previews/style-7-rubber-hose-2.gif",
     "assets/readme/previews/style-6-amber-noir-mcp.gif",
     "assets/readme/previews/style-6-amber-noir-flow.gif",
     "assets/readme/previews/b2-colorful-sleep.gif",
@@ -95,16 +117,19 @@ for name in selected:
     top = text.split("</div>", 1)[0]
     hero_blocks = [block.strip() for block in top.split("\n\n") if block.strip()]
     is_english = name in ("README.md", "README.en.md")
-    assert len(hero_blocks) == 8, (name, "three localized introduction paragraphs")
+    assert len(hero_blocks) == 9, (name, "localized hero, navigation and Star CTA")
     assert hero_blocks[2] == "# 🎬 Stickman Video Director", (name, "shared product title")
     subtitle = hero_blocks[3]
     assert subtitle.startswith("**") and subtitle.endswith("**"), (name, "bold subtitle")
-    assert "🎬" not in subtitle and "YouTube" in subtitle, (name, "localized script-to-video subtitle for faceless YouTube channels")
+    assert "🎬" not in subtitle, (name, "concise localized subtitle")
     if is_english:
-        assert tuple(hero_blocks[5:]) == english_intro, (name, "approved English introduction")
+        assert tuple(hero_blocks[5:7]) == english_intro, (name, "approved English introduction")
     else:
-        assert hero_blocks[6].startswith("**⚡ ") and hero_blocks[6].endswith("**"), (name, "bold free/open-source introduction")
-        assert "50" in hero_blocks[6] and "**" in hero_blocks[7], (name, "pricing comparison and emphasized topic niches")
+        assert hero_blocks[6].startswith("**") and hero_blocks[6].endswith("**"), (name, "bold production promise")
+        assert all(token in hero_blocks[6] for token in ("50", "After Effects", "SaaS")), (name, "localized software and pricing comparison")
+    assert "13" in hero_blocks[5], (name, "actual published style count in introduction")
+    assert hero_blocks[8].startswith("⭐ *") and hero_blocks[8].endswith("*"), (name, "italic Star CTA")
+    assert "Styles-" not in top and "img.shields.io/badge/Styles" not in top, (name, "removed Styles badge")
     active = "en" if name == "README.md" else name[7:-3]
     expected_nav = " · ".join(
         f"[{'**' + label + '**' if locale == active else label}](README.{locale}.md)"
@@ -131,12 +156,25 @@ for name in selected:
     roadmap, planned, community = ecosystem_sections[1:4]
     assert not re.search(r"^(?:### |---\s*$)", ecosystem, re.M), (name, "consistent section headings, no extra thick rules")
     assert planned.startswith("🔮 ") and community.startswith("💬 "), (name, "semantic icons match peer section headings")
+    assert "20,000 Stars" in roadmap.splitlines()[0], (name, "current 20,000-Star roadmap heading")
     milestones = re.findall(r"^- \[([x ])\] \*\*(?:🔥 )?([0-9,]+) Stars\*\*", roadmap, re.M)
-    assert milestones == [("x", "1,000"), ("x", "3,000"), (" ", "5,000"), (" ", "7,500"), (" ", "10,000")], (name, "approved milestone states")
-    assert len(re.findall(r"^  - ", roadmap, re.M)) == 4, (name, "four nested milestone deliverables")
-    mode_names = ("导演模式", "全自动模式") if name == "README.zh-CN.md" else ("Director", "AutoPilot")
-    for token in (*mode_names, "5–10", "1,000", "200", "YouTube Shorts", "TikTok", "Content", "Web Studio"):
+    assert milestones == [("x", "1,000"), ("x", "3,000"), ("x", "6,000"), (" ", "10,000"), (" ", "20,000")], (name, "approved milestone states")
+    assert "- [ ] **🔥 10,000 Stars**" in roadmap, (name, "current highlighted 10,000-Star milestone")
+    milestone_blocks = re.split(r"(?=^- \[[x ]\] \*\*)", roadmap, flags=re.M)[1:]
+    assert [len(re.findall(r"^  - ", block, re.M)) for block in milestone_blocks] == [0, 0, 0, 2, 2], (name, "two 10,000-Star and two 20,000-Star deliverables")
+    mode_names = ("模型引擎", "代码引擎") if active == "zh-CN" else ("Model Engine", "Code Engine")
+    for token in mode_names:
         assert token in roadmap, (name, "roadmap deliverable", token)
+    for token in ("1,000", "774", "31", "85"):
+        assert token in milestone_blocks[3], (name, "10,000-Star deliverable", token)
+    shared_deliverables = re.findall(r"^  - (.+)$", milestone_blocks[3], re.M)
+    assert all(mode in shared_deliverables[0] for mode in ("A", "B")), (name, "script prompts shared by A and B")
+    assert "B" in shared_deliverables[1], (name, "SFX and sound transitions scoped to B")
+    assert "](skills/directing-stickman-videos/references/b-audio-library.md)" in shared_deliverables[1], (name, "bundled sound library guide")
+    assert not re.match(r"\[[xX ]\]\s", shared_deliverables[1]), (name, "no redundant nested sound-library checkbox")
+    assert "Content" not in shared_deliverables[1], (name, "no unconditional Content ID guarantee")
+    studio_name = "Stickman AI 视频工作台" if name == "README.zh-CN.md" else "Stickman AI Studio"
+    assert studio_name in milestone_blocks[4], (name, "20,000-Star studio deliverable")
     assert "api.star-history.com/svg" in roadmap, (name, "chart after roadmap and before styles")
     assert '<a id="whats-next"></a>' in roadmap, (name, "retained navigation anchor before planned styles")
     assert len(re.findall(r"^- \*\*.*?\*\* — ", planned, re.M)) == 6, (name, "six planned visual styles")
@@ -158,7 +196,7 @@ for name in selected:
     assert invitations[active] in community, (name, "preserved style/showcase lead and localized group invitation")
     assert "README" in community and "YouTube" in community, (name, "creator showcase destinations")
     assert "https://github.com/kaomei/stickman-video-director/issues" not in community, (name, "Do not require a GitHub Issue for feedback")
-    assert re.search(r"^🔔 \*.*\*\*\[@CrazyKaomei\]\(https://x\.com/CrazyKaomei\)\*\*.*\*$", community, re.M), (name, "italic X follow line with bold profile link")
+    assert re.search(r"^🔔 \*\*.*\[@CrazyKaomei\]\(https://x\.com/CrazyKaomei\).*\*\*$", community, re.M), (name, "bold X follow line")
     assert "recent-updates" not in text, (name, "removed updates section")
     assert not re.search(r"monixin888|2109651037850325112", text, re.I), name
     assert not re.search(r"guaranteed (viral|views|income)|/Users/|eva2050|240669650", text, re.I), name
@@ -169,9 +207,8 @@ for name in selected:
     hero = text.split('<table width="100%">', 1)[1].split("</table>", 1)[0]
     rows = re.findall(r"<tr>(.*?)</tr>", hero, re.S)
     gallery_styles = re.findall(r'href="#([^"]+)"><img', hero)
-    assert gallery_styles == ["a1", "a2", "a3", "a4", "style-5", "b1", "a6", "b2", "b3", "b4", "b5"], name
-    # Owner rule: two columns, odd last card left + Coming Soon right;
-    # even card counts fill the grid without a placeholder. No spanning rows.
+    assert gallery_styles == ['a1', 'b1', 'a2', 'b2', 'a3', 'b3', 'a4', 'b4', 'style-5', 'b5', 'a6', 'b6', 'a7'], name
+    # Owner rule: A1–A7 left, B1–B6 right; final B cell stays empty. No spanning rows.
     assert len(rows) == (len(gallery_styles) + 1) // 2, name
     assert all(row.count('<td width="50%"') == 2 for row in rows), name
     assert "colspan" not in hero and "rowspan" not in hero, name
@@ -180,11 +217,24 @@ for name in selected:
     assert len(placeholders) == len(gallery_styles) % 2, (name, "placeholder only for odd gallery count")
     if placeholders:
         assert placeholders == [cells[-1]] and "<img" in cells[-2], name
-        assert re.search(r'<a href="#a7"><strong>[^<]+</strong></a>', cells[-1]), name
-    assert text.count('width="90%"') == 11 and text.count('width="360"') == 22, name
+        assert not cells[-1].strip(), (name, "last B cell is empty")
+    assert text.count('width="90%"') == 13 and text.count('width="360"') == 26, name
     # French typography separates a heading label from its colon with a space.
     style_ids = re.findall(r"^### ([AB]\d+)\s*[:：]", text, re.M)
-    assert style_ids == ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "B1", "B2", "B3", "B4", "B5"], (name, "published style catalog plus A7 teaser")
+    card_ids = ["a5" if style == "style-5" else style for style in gallery_styles]
+    expected_style_ids = [
+        f"{series}{number}"
+        for series in ("A", "B")
+        for number in range(1, sum(style.startswith(series.lower()) for style in card_ids) + 2)
+    ]
+    assert style_ids == expected_style_ids, (name, "published style catalog plus one next-style teaser per series")
+    teaser_labels = {"en": "Coming soon…", "zh-CN": "待更新…", "ja": "近日公開…", "ko": "곧 공개…", "fr": "Bientôt disponible…", "pt-BR": "Em breve…", "tr": "Yakında…", "id": "Segera hadir…"}
+    verify_next_style_teasers(text, name, gallery_styles, teaser_labels[active])
+    a7 = section(text, "a7", '<a id="a8"></a>')
+    assert len(re.findall(r"^- \*\*", a7, re.M)) == 2, (name, "A7 highlights and use cases")
+    a7_videos = ["assets/readme/style-7-rubber-hose.mp4", "assets/readme/style-7-rubber-hose-2.mp4"]
+    assert re.findall(r'<a href="([^"]+\.mp4)">', a7) == a7_videos, (name, "A7 approved showcase pair")
+    assert all((root / video).is_file() for video in a7_videos), (name, "A7 videos exist")
     a6 = section(text, "a6", '<a id="a7"></a>')
     assert len(re.findall(r"^- \*\*", a6, re.M)) == 2, (name, "A6 advantages and use cases")
     assert re.findall(r'<a href="([^"]+\.mp4)">', a6) == list(a6_videos), name
@@ -192,10 +242,10 @@ for name in selected:
     assert "Tested Flow workflow:" not in text and "Click either GIF" not in text, name
     assert "Veo 3.1 Fast" not in a6, (name, "operational model guidance stays in Skill")
     assert "Omni" not in a6, (name, "A6 does not inherit the legacy model")
-    assert re.search(r"\*\*10[^\n]+\*\*", text) and "11 visual options" not in text, (name, "eleven A+B visual styles")
-    placeholder = section(text, "a7", '<a id="b-styles"></a>')
-    assert placeholder.count("](#road-to-10000-stars--creator-ecosystem)") == 1 and "5,000" in placeholder, (name, "A7 roadmap CTA retained")
-    assert text.count("](#road-to-10000-stars--creator-ecosystem)") == 2, (name, "A7 unlock link plus roadmap navigation")
+    assert "13" in hero_blocks[5], (name, "thirteen published A+B visual styles")
+    placeholder = section(text, "a8", '<a id="b-styles"></a>')
+    assert placeholder.count("](#road-to-10000-stars--creator-ecosystem)") == 1, (name, "A8 roadmap CTA retained")
+    assert text.count("](#road-to-10000-stars--creator-ecosystem)") == 3, (name, "A8 and B7 update links plus roadmap navigation")
     b2 = section(text, "b2", '<!-- b3:section:start -->')
     assert len(re.findall(r"^- \*\*", b2, re.M)) == 2, (name, "B2 advantages and use cases")
     assert re.findall(r'<a href="([^"]+\.mp4)">', b2) == ["assets/readme/b2-colorful-sleep.mp4", "assets/readme/b2-colorful-phone-weather.mp4"], (name, "approved B2 pair in requested order")
@@ -216,7 +266,6 @@ for name in selected:
     assert re.findall(r'<a href="([^"]+\.mp4)">', b4) == ["assets/readme/b4-dispatch.mp4", "assets/readme/b4-death-clock.mp4"], name
     assert all(token in b4 for token in ("Brian", "@BeanieSurvives")), (name, "B4 identity, voice and reference")
     assert len(re.findall(r"^- \*\*", b4, re.M)) == 3, (name, "B4 visuals, sound and use cases")
-    assert not re.search(r"^### B[6-9]", text, re.M), (name, "B6+ excluded")
     b5 = section(text, "b5", '<!-- b5:section:end -->')
     assert re.findall(r'<a href="([^"]+\.mp4)">', b5) == ["assets/readme/b5-character-explainer.mp4", "assets/readme/b5-character-explainer-crazymei.mp4"], name
     assert len(re.findall(r"^- \*\*", b5, re.M)) == 3, name
@@ -232,9 +281,44 @@ for name in selected:
     for video in re.findall(r'<a href="([^"]+\.mp4)">', b5):
         assert (root / video).is_file(), (name, video)
     assert "Character Explainer Style" not in text, name
+    b6 = section(text, "b6", '<!-- b6:section:end -->')
+    b6_videos = ["assets/readme/b6-dynamic-meme-eiffel-16x9.mp4", "assets/readme/b6-dynamic-meme-hong-kong-v90-20s.mp4"]
+    assert re.findall(r'<a href="([^"]+\.mp4)">', b6) == b6_videos, (name, "approved B6 landscape pair")
+    assert b6.count('<th width="50%"') == 2 and b6.count('width="360"') == 2, (name, "paired B6 gallery")
+    assert len(re.findall(r"^- \*\*", b6, re.M)) == 3, (name, "B6 visuals, motion and use cases")
+    # The approved gallery uses story titles instead of duration/ratio labels.
+    sample_titles = {
+        "en": ["Example 1: The Man Who Sold the Eiffel Tower", "Example 2: 1990s Hong Kong · Buns and Arcades"],
+        "zh-CN": ["样片 1：卖掉埃菲尔铁塔的人", "样片 2：90 年代香港 · 菠萝包与街机"],
+        "ja": ["作例1：エッフェル塔を売った男", "作例2：90年代の香港 · パイナップルパンとゲームセンター"],
+        "ko": ["샘플 1: 에펠탑을 판 남자", "샘플 2: 1990년대 홍콩 · 파인애플번과 오락실"],
+        "fr": ["Exemple 1 : L’homme qui a vendu la tour Eiffel", "Exemple 2 : Hong Kong des années 1990 · Brioches et arcade"],
+        "pt-BR": ["Exemplo 1: O homem que vendeu a Torre Eiffel", "Exemplo 2: Hong Kong dos anos 1990 · Pães e fliperamas"],
+        "tr": ["Örnek 1: Eyfel Kulesi’ni satan adam", "Örnek 2: 1990’lar Hong Kong’u · Çörek ve atari"],
+        "id": ["Contoh 1: Pria yang menjual Menara Eiffel", "Contoh 2: Hong Kong 1990-an · Roti dan arkade"],
+    }
+    assert re.findall(r'<th\b[^>]*>(.*?)</th>', b6) == sample_titles[active], (name, "localized B6 sample titles")
+    assert re.findall(r'<img\b[^>]*\balt="([^"]+)"', b6) == sample_titles[active], (name, "localized B6 sample alt text")
+    # The portrait preference now lives in the visuals bullet, with approved localized wording.
+    portrait_terms = {
+        "en": "with better results in portrait",
+        "zh-CN": "竖屏效果更好",
+        "ja": "縦型でよりよい仕上がりに",
+        "ko": "세로형에서 효과가 더 좋습니다",
+        "fr": "pour un meilleur rendu en format vertical",
+        "pt-BR": "com melhor resultado no formato vertical",
+        "tr": "dikey formatta daha iyi sonuç verir",
+        "id": "hasilnya lebih baik dalam format vertikal",
+    }
+    assert portrait_terms[active] in b6, (name, "localized portrait preference")
+    assert images(hero)[-2] == b6_previews[0], (name, "B6 homepage preview uses immutable CDN")
+    assert images(b6) == b6_previews, (name, "B6 sample previews use immutable CDN")
+    for video in b6_videos:
+        assert (root / video).is_file(), (name, video)
     if is_english:
         teasers = {
-            "A": "New specialized director styles are currently in training. [Star the project](#road-to-10000-stars--creator-ecosystem) to unlock them at 5,000 Stars!",
+            "A": "New Model Engine styles are in preparation. [Star the project](#road-to-10000-stars--creator-ecosystem) to follow future updates.",
+            "B": "New Code Engine styles and procedural animations are in preparation. [Star the project](#road-to-10000-stars--creator-ecosystem) to follow future updates.",
         }
         for series, teaser in teasers.items():
             assert text.count(teaser) == 1, (name, series, "one approved workflow-specific roadmap CTA")
@@ -244,7 +328,7 @@ for name in selected:
             next_id, _, title = entries[-1]
             assert title == "Coming soon…", (name, series, "placeholder follows the latest released style")
             assert f"### {next_id}: Coming soon…\n\n{teaser}" in text, (name, series, "approved placeholder copy")
-        assert re.findall(r"^### (B\d+): (.+)$", text, re.M) == [("B1", "Minimal Line Art"), ("B2", "Colorful Hand-Drawn"), ("B3", "Retro TV"), ("B4", "Survival Thriller"), ("B5", "Character Explainer")], (name, "approved B style names")
+        assert re.findall(r"^### (B\d+): (.+)$", text, re.M) == [("B1", "Minimal Line Art"), ("B2", "Colorful Hand-Drawn"), ("B3", "Retro TV"), ("B4", "Survival Thriller"), ("B5", "Character Explainer"), ("B6", "Dynamic Meme Animation"), ("B7", "Coming soon…")], (name, "approved B style names plus the next-style teaser")
         assert "<strong>Retro TV</strong><br>" in hero and "Retro TV Style" not in text, (name, "concise English B3 name in gallery and section")
     for variant in ("A1.1", "A1.2", "A2.1", "A2.2"):
         assert variant in text, (name, variant)
@@ -272,15 +356,17 @@ for name in selected:
             ("shower thought", "3-second hook", "story and shots", "topic, target length, and chosen style"),
             ("**visual storytelling psychology**", "**The 3-Second Hook**", "**Visual Metaphors**", "**Pacing & Comic Pauses**"),
             ("completely original", "YouTube Partner Program (YPP)"),
-            ("RTX", "**Director Mode**", "**Autopilot Mode**", "cloud APIs or procedural rendering"),
+            ("GPU", "online video platforms", "renders locally", "performance", "isn’t the deciding factor"),
         )
         for number, (answer, phrases) in enumerate(zip(faq_answers, required_copy), 1):
             for phrase in phrases:
                 assert phrase in answer, (name, number, phrase)
-        assert [len(re.findall(r"^- ", answer, re.M)) for answer in faq_answers] == [0, 0, 0, 0, 3, 0, 2], (name, "approved FAQ list formatting")
+        assert [len(re.findall(r"^- ", answer, re.M)) for answer in faq_answers] == [0, 0, 0, 0, 3, 0, 0], (name, "approved FAQ list formatting")
     faq_answers = re.split(r"^### Q\d+\. .+\n", faq, flags=re.M)[1:]
-    assert [len(re.findall(r"^- ", answer, re.M)) for answer in faq_answers] == [0, 0, 0, 0, 3, 0, 2], (name, "localized FAQ bullet parity")
-    # Model neutrality and real local motion must not disappear in translation.
+    assert [len(re.findall(r"^- ", answer, re.M)) for answer in faq_answers] == [0, 0, 0, 0, 3, 0, 0], (name, "localized FAQ bullet parity")
+    # Model neutrality must not disappear in translation. Real-motion style gates
+    # remain in the individual style contracts; the owner removed the old
+    # camera/text-only warning from the comparison table.
     production_copy = {
         "en": ("Other agents", "available image tools", "B5", "not code-drawn substitutes", "not a required provider", "local animation", "prop movement", "alone do not count"),
         "zh-CN": ("其他 Agent", "可用的生图工具", "B5", "不能用代码头像替代", "不绑定服务商", "局部动画", "道具动作", "不算画面微动画"),
@@ -291,7 +377,7 @@ for name in selected:
         "tr": ("Diğer ajanlarda", "görsel araçlarını", "B5", "kodla çizilmiş genel bir yüzle değiştirilemez", "sağlayıcıyı zorunlu kılmaz", "yerel animasyon", "nesne hareketleri", "sayılmaz"),
         "id": ("Agen lain", "alat gambar yang tersedia", "B5", "bukan wajah pengganti yang digambar dengan kode", "bukan layanan yang wajib", "animasi lokal", "gerakan objek", "tidak dihitung"),
     }
-    neutrality, motion_copy = production_copy[active][:5], production_copy[active][5:]
+    neutrality = production_copy[active][:5]
     assert all(token in faq_answers[2] for token in neutrality), (name, "localized model/voice neutrality")
     typography_copy = {
         "en": ("defaults, not restrictions", "fonts, text effects, or the video language", "adapt the layout"),
@@ -304,8 +390,6 @@ for name in selected:
         "id": ("titik awal, bukan batasan", "font, efek teks, atau bahasa video", "menyesuaikan tata letaknya"),
     }
     assert all(token in faq_answers[2] for token in typography_copy[active]), (name, "localized typography/language customization")
-    visual_row = text.splitlines()[104]
-    assert all(token in visual_row for token in motion_copy), (name, "local animation is not camera/text-only")
     for style_id, next_marker, voice in (("b1", '<a id="b2"></a>', "Bodi"), ("b2", '<a id="b3"></a>', "Fola"), ("b3", '<!-- b3:section:end -->', "Bodi")):
         style_section = section(text, style_id, next_marker)
         assert re.search(r'<td align="center">Google Gemini · [^<]*' + voice, style_section), (name, style_id, "verified sample platform and voice")
@@ -321,14 +405,14 @@ for name in selected:
     }
     assert all(token in faq_answers[3] for token in story_plan_copy[active]), (name, "story and shot structure scales with topic, length and style")
     assert not re.search(r"6(?:[- ]scene| 幕|シーン|개 장면| scènes| cenas| sahne| adegan)", faq_answers[3]), (name, "no fixed six-scene FAQ promise")
-    for answer, tokens in zip(faq_answers, (("MIT", "API"), ("B", "A"), ("Codex", "GPT"), ("3",), ("SFX", "Casually Explained"), ("YouTube", "YPP"), ("Codex", "Claude Code", "Cursor"))):
+    for answer, tokens in zip(faq_answers, (("MIT", "API"), ("B", "A"), ("Codex", "GPT"), ("3",), ("SFX", "Casually Explained"), ("YouTube", "YPP"), ("A", "B", "Agent"))):
         assert all(token in answer for token in tokens), (name, "localized FAQ topic parity", tokens)
-    assert "MIT" in faq and "API" in faq and "YouTube" in faq and "Codex" in faq and "Claude Code" in faq, name
+    assert "MIT" in faq and "API" in faq and "YouTube" in faq and "Codex" in faq, name
     code = re.findall(r"```text\n(.*?)```", text, re.S)
-    assert len(code) == 4, (name, "installation, A example, B example, publishing kit")
+    assert len(code) == 5, (name, "installation, A example, B example and two publishing-kit prompts")
     assert shared_links[0] in code[0] and "SKILL.md" in code[0], name
     assert all(token in code[1] for token in ("A3", "30", "16:9")), name
-    assert all(token in code[2] for token in ("B1", "5", "10", "20", "16:9", "YouTube")), name
+    assert all(token in code[2] for token in ("B1", "8", "20", "16:9")), (name, "approved B script and sample request")
     assert "B1" not in code[0] and "A3" not in code[0], name
     modes = section(text, "creation-modes", '<a id="quick-start"></a>')
     assert text.count('<!-- project-sponsor:start -->') == text.count('<!-- project-sponsor:end -->') == 1, name
@@ -359,38 +443,65 @@ for name in selected:
     assert text.index('<!-- project-sponsor:start -->') > text.index('<a id="creation-modes"></a>'), name
     assert text.index('<!-- project-sponsor:end -->') < text.index('<a id="quick-start"></a>'), name
     modes_before_partners = modes.split('<!-- project-sponsor:start -->', 1)[0]
-    comparison = modes_before_partners.split('\n|', 1)[1].split('\n\n', 1)[0]
-    assert len(comparison.splitlines()) == 7 and '](#' not in comparison, (name, "five comparison rows; removed only redundant Start row")
+    comparisons = re.findall(r"<table>(.*?)</table>", modes_before_partners, re.S)
+    assert len(comparisons) == 1, (name, "one HTML engine comparison table")
+    comparison = comparisons[0]
+    comparison_rows = re.findall(r"<tr>(.*?)</tr>", comparison, re.S)
+    assert len(comparison_rows) == 7, (name, "header and six comparison rows")
+    cells = [re.findall(r"<(th|td)\b([^>]*)>(.*?)</\1>", row, re.S) for row in comparison_rows]
+    assert all(len(row) == 3 for row in cells), (name, "three comparison columns")
+    assert all('valign="middle"' in attrs for row in cells for _, attrs, _ in row), (name, "all twenty-one cells vertically centered")
+    assert [tag for tag, _, _ in cells[0]] == ["th"] * 3, (name, "comparison headers")
+    assert not re.sub(r"<[^>]+>", "", cells[0][0][2]).strip(), (name, "blank top-left header")
+    assert "A · Model Engine" in cells[0][1][2] and "B · Code Engine" in cells[0][2][2], (name, "new engine names")
+    assert all('align="center"' in row[0][1] for row in cells), (name, "centered row labels")
+    assert all(tag == "td" and 'align="left"' in attrs for row in cells[1:] for tag, attrs, _ in row[1:]), (name, "left-aligned comparison text")
+    row_labels = [re.sub(r"<[^>]+>", "", row[0][2]).strip() for row in cells[1:]]
+    assert len(set(row_labels)) == 6 and all(row_labels), (name, "six distinct comparison dimensions")
+    if is_english:
+        assert row_labels == ["Concept", "Features", "Best for", "Workflow", "Output", "Cost"], (name, "approved English dimensions")
+    if active == "zh-CN":
+        assert row_labels == ["原理", "特点", "适合", "使用", "产出", "成本"], (name, "approved two-character Chinese dimensions")
+    assert all(token in cells[3][2][2] for token in ("Codex", "Claude Code")), (name, "B suitable coding-agent resources")
+    assert "20" in cells[4][2][2], (name, "B workflow retains sample approval")
+    assert all("•" not in row[1][2] for row in cells[1:]), (name, "concise comparison cells")
+    assert '](#' not in comparison, (name, "no redundant navigation row inside comparison")
     shortcut_line = next(line for line in text.splitlines() if '](#style-gallery)' in line)
     assert re.findall(r'\]\((#[^)]+)\)', shortcut_line) == ['#quick-start', '#style-gallery', '#faq', '#road-to-10000-stars--creator-ecosystem', '#community'], (name, "single styles shortcut and community after roadmap")
     assert text.index('<a id="style-gallery"></a>') < text.index('<a id="a-styles"></a>') < text.index('<a id="b-styles"></a>'), (name, "gallery lands at A before B")
     assert text.index('<a id="community"></a>') < text.index('## 💬 '), (name, "community shortcut lands at footer heading")
-    setup = modes_before_partners.rsplit("\n|", 1)[1].split("\n\n", 1)[1]
-    assert all(ratio in setup for ratio in ("9:16", "16:9", "1:1")), (name, "customizable aspect ratios")
-    assert len(re.findall(r"^- \*\*", setup, re.M)) == 2 and not re.search(r"^>", setup, re.M), (name, "unquoted two-item setup note")
-    assert all(agent in setup for agent in ("Claude Code", "OpenAI Codex", "Cursor")), (name, "Autopilot environment boundary")
+    setup = modes_before_partners.split("</table>", 1)[1]
+    assert all(ratio in setup for ratio in ("9:16", "16:9")), (name, "landscape and portrait support")
+    assert re.findall(r'\]\((#[^)]+)\)', setup) == [], (name, "plain style guidance below the table")
+    assert not re.search(r"^>", setup, re.M), (name, "unquoted setup copy")
     quick_intro = section(text, "quick-start", "```text")
-    assert all(agent in quick_intro for agent in ("Claude Code", "Codex", "Cursor", "Antigravity")), (name, "compatible environments")
+    assert all(agent in quick_intro for agent in ("Claude Code", "Codex")), (name, "recommended capable agents")
+    assert "<strong>" in quick_intro and "</strong>" in quick_intro, (name, "bold tool recommendation")
     if is_english:
         approved_mode_intro = (
-            '<div align="center">\n\n'
-            '**11 visual styles · Tested examples · Free and open source**\n\n'
-            '⭐ **Star the project to catch the next style drop and feature unlocks.**\n\n'
-            '[Get started](#quick-start) · [Styles & Demos](#style-gallery) · [FAQ](#faq) · [Roadmap](#road-to-10000-stars--creator-ecosystem) · [Community](#community)\n\n'
-            '</div>\n\n'
             '<a id="creation-modes"></a>\n\n'
-            '## 🎬 Two ways to make your video\n\n'
-            '**Want control over every shot? Choose A · Director Mode. Want a finished video without assembling scenes yourself? Choose B · Autopilot Mode.** One project, two workflows.\n'
+            '## 🎬 Two video creation modes: Model Engine vs Code Engine\n\n'
+            "**One stickman director, two ways to create your visuals**: A uses video models to generate continuous shots; B uses code to animate layered assets. With the right tools, an Agent can take either approach through to a finished video, following the selected style’s specifications.\n"
         )
         assert approved_mode_intro in text, (name, "approved centered CTA, navigation and bold workflow introduction")
         approved_setup_copy = (
-            'Both workflows can start with a raw topic, a web link, or a full script. Customize your aspect ratio (9:16, 16:9, 1:1), narration language, and voiceover freely. The lengths above are recommendations, not hard limits.\n\n'
-            '💡 **Quick Setup Note**:\n\n'
-            '- **Director Mode** works anywhere in standard conversational AI windows.\n'
-            '- **Autopilot Mode** runs inside AI coding agents with file/terminal access (like **Claude Code, OpenAI Codex, or Cursor**) to automatically handle end-to-end rendering and file delivery.'
+            "Start with an idea, an article, a web link, or a complete script. Both modes support short videos and longer content. Choose `16:9` landscape or `9:16` portrait for your publishing platform, and configure subtitles, voiceover, background music, and sound effects to suit your needs and the selected style.\n\n"
+            "Still deciding on a style? Below, you’ll find detailed descriptions, suggested topics, and more sample videos for each style."
         )
-        assert modes_before_partners.rstrip().endswith(approved_setup_copy), (name, "approved workflow customization and unquoted setup list")
-    assert all(token in modes for token in ("Codex", "Claude Code", "Google Flow", "10")), name
+        assert modes_before_partners.rstrip().endswith(approved_setup_copy), (name, "approved input, length, ratio, audio and linked style guidance")
+    assert all(token in modes for token in ("Codex", "Claude Code", "Model Engine", "Code Engine")), name
+    a_agent = section(text, "director-start", '<a id="autopilot-start"></a>')
+    assert "Google Flow" in a_agent and code[1] in a_agent, (name, "A unified prompt and platform recommendation")
+    assert len(re.findall(r"```text\n(.*?)```", a_agent, re.S)) == 1, (name, "one A prompt template")
+    quick = section(text, "quick-start", '<a id="style-gallery"></a>')
+    assert len(re.findall(r"^### Step [123]", quick, re.M)) == 3, (name, "three quick-start steps")
+    assert not re.search(r"^### Step 4|^---\s*$", quick, re.M), (name, "no removed Step 4 or step separators")
+    a_intro = section(text, "a-styles", '<a id="a1"></a>')
+    b_intro = section(text, "b-styles", '<a id="b1"></a>')
+    assert "Model Engine" in a_intro or active == "zh-CN", (name, "A engine overview")
+    assert "Google Flow" in a_intro and "<strong>" in a_intro, (name, "A showcase source and emphasized account setup")
+    assert "Code Engine" in b_intro or active == "zh-CN", (name, "B engine overview")
+    assert all(token in b_intro for token in ("Codex", "<strong><code>gpt-image-2</code></strong>")), (name, "B showcase production source and configured image model")
     b1 = section(text, "b1", '<a id="b2"></a>')
     assert "Bodi" in b1
     assert re.findall(r'<a href="([^"]+\.mp4)">', b1) == list(expected_videos), name
@@ -412,3 +523,4 @@ for name in selected:
     print(f"{name}: navigation, A/B structure, 7 FAQs, media, links and examples passed.")
 
 print("Eight languages share the approved A/B layout; French follows Korean.")
+
