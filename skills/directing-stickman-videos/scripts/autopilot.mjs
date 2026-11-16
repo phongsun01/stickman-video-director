@@ -41,6 +41,37 @@ async function main() {
     const res = spawnSync(py, pyArgs, {stdio: 'inherit'});
     if (res.status !== 0) process.exit(res.status || 1);
     return;
+  } else if (command === 'qc') {
+    if (!args[0]) throw new Error('Usage: autopilot.mjs qc <video_or_project> [--output PATH]');
+    const py = process.env.PYTHON || 'python3';
+    const scriptPath = path.join(ROOT, 'scripts/qc-verification.py');
+    const inputPath = path.resolve(args[0]);
+    let videoFile = inputPath, projectFile = null;
+    if (fs.existsSync(inputPath) && fs.statSync(inputPath).isDirectory()) {
+      const proj = path.join(inputPath, 'project.json');
+      if (fs.existsSync(proj)) {
+        projectFile = proj;
+        const outD = outputDir(loadProject(proj));
+        for (const candidate of ['film.mp4', 'preview.mp4']) {
+          const candPath = path.join(outD, candidate);
+          if (fs.existsSync(candPath)) { videoFile = candPath; break; }
+        }
+      }
+    } else if (inputPath.endsWith('.json')) {
+      projectFile = inputPath;
+      const outD = outputDir(loadProject(inputPath));
+      for (const candidate of ['film.mp4', 'preview.mp4']) {
+        const candPath = path.join(outD, candidate);
+        if (fs.existsSync(candPath)) { videoFile = candPath; break; }
+      }
+    }
+    const pyArgs = [scriptPath, '--video', videoFile];
+    if (projectFile) pyArgs.push('--project', projectFile);
+    const outVal = option('--output');
+    if (outVal) pyArgs.push('--output', path.resolve(outVal));
+    const res = spawnSync(py, pyArgs, {stdio: 'inherit'});
+    if (res.status !== 0) process.exit(res.status || 1);
+    return;
   } else if (command === 'measure-audio') {
     if (!args[0]) throw new Error('Usage: autopilot.mjs measure-audio <audio_or_video_file>');
     const {measureLoudness} = await import('./autopilot-core.mjs');

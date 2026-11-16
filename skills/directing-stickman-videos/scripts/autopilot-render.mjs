@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import {spawn} from 'node:child_process';
+import {spawn, spawnSync} from 'node:child_process';
 import {once} from 'node:events';
 import {createCanvas, loadImage, GlobalFonts} from '@napi-rs/canvas';
 import {ROOT, FFMPEG, FFPROBE, sha, hashFile, save, probe, run, mediaPath, fontPaths, outputDir, designPlane, loadProject, measureLoudness} from './autopilot-core.mjs';
@@ -398,6 +398,18 @@ export async function render(p, {full = false, seconds = 20, replace = false} = 
       save(path.join(out, `${kind}-opening-audio.json`), report.opening_audio);
       save(path.join(out, `${kind}-opening-visual.json`), report.opening_visual);
     }
+    try {
+      const py = process.env.PYTHON || 'python3';
+      const qcScript = path.join(ROOT, 'scripts/qc-verification.py');
+      const verifyJson = path.join(out, `${kind}-verification.json`);
+      const qcArgs = [qcScript, '--video', target, '--output', verifyJson];
+      const projFile = p.projectPath || path.join(p.base, 'project.json');
+      if (fs.existsSync(projFile)) qcArgs.push('--project', projFile);
+      const qcRes = spawnSync(py, qcArgs, {encoding: 'utf8'});
+      if (qcRes.status === 0 && fs.existsSync(verifyJson)) {
+        report.verification = JSON.parse(fs.readFileSync(verifyJson, 'utf8'));
+      }
+    } catch {}
     save(reportPath, report); done('complete'); return report;
   } catch (e) { done(`failed: ${e.message}`); throw e; }
   finally { fs.unlinkSync(lock); }

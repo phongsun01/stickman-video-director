@@ -501,7 +501,7 @@ echo Installation complete!
   - [x] **Đo kiểm và chuẩn hóa âm lượng EBU R128 (-14 LUFS) sau render & Smart Ducking BGM:** Tích hợp bộ đo EBU R128 ITU-R BS.1770-4 (`scripts/audio-master-lufs.py`), chuẩn hóa 2-pass -14 LUFS, Smart Ducking BGM (-14dB sidechaincompress) và tự động đo kiểm ghi báo cáo `report.audio_loudness` sau render (`references/audio-loudness-and-ducking.md`)
 
 - [ ] **Sprint 2: Đảm bảo Chất lượng & Kịch bản Chuyên sâu**
-  - [ ] Xuất báo cáo QC sau render (`verification.json`: freeze, silence, loudness, face-collision)
+  - [x] **Xuất báo cáo QC sau render (`verification.json`):** Tự động quét đứng hình (`freeze`), đoạn câm (`silence`), độ to (`loudness`), va chạm phụ đề (`caption-collision`), tính điểm chất lượng QA Score 0-100 (`references/post-render-qc.md`)
   - [ ] Hỗ trợ Multi-speaker / Dialogue TTS routing theo từng nhân vật
   - [ ] Tích hợp 6 Narrative Story Flows vào template kịch bản (PAS, Myth Buster, 3 Reasons Why...)
 
