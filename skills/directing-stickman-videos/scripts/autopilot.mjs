@@ -14,7 +14,7 @@ const [command, ...rawArgs] = process.argv.slice(2);
 // in `--flag value` or `--flag=value` form. Previously `preview --replace PROJECT`
 // treated `--replace` as the project path and failed. Boolean flag: --replace.
 // Value flags: --seconds, --style, --note, --lead, --output, --lang, --max-words.
-const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output', '--lang', '--max-words', '--target-lufs', '--flow', '--topic', '--duration', '--format', '--highlight-color']);
+const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output', '--lang', '--max-words', '--target-lufs', '--flow', '--topic', '--duration', '--format', '--highlight-color', '--mode', '--dur']);
 const flagValues = {};
 const args = [];
 for (let i = 0; i < rawArgs.length; i++) {
@@ -38,6 +38,18 @@ async function main() {
     if (flagValues['--replace']) pyArgs.push('--replace');
     const outVal = option('--output');
     if (outVal) pyArgs.push('--output', path.resolve(outVal));
+    const res = spawnSync(py, pyArgs, {stdio: 'inherit'});
+    if (res.status !== 0) process.exit(res.status || 1);
+    return;
+  } else if (command === 'motion-template') {
+    const py = process.env.PYTHON || 'python3';
+    const scriptPath = path.join(ROOT, 'scripts/motion-overlay-renderer.py');
+    const pyArgs = [scriptPath];
+    if (args.includes('--list') || rawArgs.includes('--list')) pyArgs.push('--list');
+    if (option('--style')) pyArgs.push('--style', option('--style'));
+    if (option('--mode')) pyArgs.push('--mode', option('--mode'));
+    if (option('--duration') || option('--dur')) pyArgs.push('--duration', option('--duration') || option('--dur'));
+    if (option('--output')) pyArgs.push('--output', path.resolve(option('--output')));
     const res = spawnSync(py, pyArgs, {stdio: 'inherit'});
     if (res.status !== 0) process.exit(res.status || 1);
     return;

@@ -506,7 +506,7 @@ echo Installation complete!
   - [x] **Tích hợp 6 Narrative Story Flows vào template kịch bản:** PAS, Three Reasons Why, Myth Buster, Before-After-Bridge, Hero's Journey, Curiosity Gap (`references/narrative-story-flows.md`), hỗ trợ sinh khung tự động `autopilot.mjs storyboard --flow <key>` (`scripts/story-flow-scaffold.py`)
 
 - [ ] **Sprint 3: Nâng cấp Trực quan & Đóng gói Phân phối**
-  - [ ] Tích hợp 20 Motion Graphics Templates (làm layer overlay / background động)
+  - [x] **Tích hợp 20 Motion Graphics Templates (làm layer overlay / background động):** Tích hợp 20 phong cách đồ họa chuyển động từ Motion-graphics store, hỗ trợ render Dynamic Background MP4 và Transparent Overlay WebM alpha channel với procedural fallback FFmpeg, quản lý qua CLI `autopilot motion-template` (`references/motion-graphics-cinematic-toolkit.md`)
   - [x] **Kinetic Typography (chữ nảy TikTok / Karaoke style):** Hỗ trợ 6 kiểu phụ đề động (`kinetic`, `tiktok`, `karaoke`, `pop`, `box`, `classic`) nảy chữ lò xo theo nhịp và tô sáng từ đang đọc trong Canvas & xuất file `.ass` chuẩn (`references/kinetic-typography.md`)
   - [ ] Công cụ đóng gói đa nền tảng (`autopilot.mjs package` cho TikTok, Reels, Shorts, YouTube)
   - [ ] Trình tạo Thumbnail tự động theo preset từ Contact Sheet
