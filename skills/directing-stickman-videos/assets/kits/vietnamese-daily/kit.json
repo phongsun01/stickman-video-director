@@ -1,0 +1,824 @@
+{
+  "pack": "vietnamese-daily",
+  "title": "Stickman Kit — Sống Đáng Tiền + Chú mèo học…",
+  "version": "3.1.1",
+  "style": "A4 Cozy Storytelling: flat 2D stick figures on detailed full-color cartoon backgrounds, gentle light, warm watercolor",
+  "global_rules": {
+    "figure_construction": "white filled circular head, two small dark oval eyes, simple eyebrow strokes, short curved mouth, closed white torso with solid white fill inside dark outline (slim for youth, slightly overweight for middle-aged), dark single-line limbs with constant medium weight, small dark rounded paws/hands",
+    "drawing_rule": "flat 2D stick figures on warm watercolor cartoon backgrounds, clear cartoon contours, shot-specific lighting, consistent line weights, no sketchbook borders, no 3D elements",
+    "forbid": [
+      "readable text, letters, or numbers in frames",
+      "license plate numbers (must always be blank white plates)",
+      "commercial logos or brand marks",
+      "hollow or transparent circular heads",
+      "cluttered modern digital gadgets unless explicitly specified",
+      "crude hand drawings or rough paper overlays"
+    ]
+  },
+  "entities": [
+    {
+      "type": "CHAR",
+      "id": "CHAR_01_AN",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "approved_by": "Người dùng trong chat",
+      "approved_date": "2026-11-17",
+      "name": "An",
+      "role": "nam chính, 28 tuổi, nhân viên văn phòng",
+      "identity": {
+        "head": "white filled circular head, no hair, two small dark oval eyes, simple eyebrow strokes, short curved mouth",
+        "torso": "slim closed tapered torso with solid white fill inside dark outline",
+        "limbs": "dark single-line limbs with constant medium weight, small dark rounded hands and short dark rounded feet",
+        "proportions": "standard adult stickman height, head-to-body balanced",
+        "marks": [
+          "đầu tròn trắng đặc không tóc",
+          "gương mặt tối giản chuẩn",
+          "thân khép kín tô trắng"
+        ]
+      },
+      "approved_variants": [
+        {
+          "variant_id": "DEFAULT_DAILY",
+          "name": "Trang phục thường ngày",
+          "outfit": "plain white closed torso, dark single-line legs; no trouser silhouettes",
+          "status": "approved",
+          "ref": "refs/an-tham-chieu-a4.png",
+          "ref_hash": "081c4bbf3f7e5a766de595320c2efe99bc5af64fdf01992bcc3585d4b22d7f12",
+          "approved_by": "Người dùng trong chat",
+          "approved_date": "2026-11-17"
+        }
+      ],
+      "habits": [
+        "đứng thẳng nhìn người đối thoại",
+        "cử chỉ nhanh nhẹn dứt khoát"
+      ],
+      "expressions": [
+        "bình thường",
+        "mỉm cười nhẹ",
+        "trầm ngâm",
+        "lo lắng"
+      ],
+      "forbid": [
+        "vẽ tóc",
+        "áo có họa tiết",
+        "đầu rỗng xuyên thấu",
+        "vòng đeo tay hoặc phụ kiện lạ"
+      ],
+      "ref": "refs/an-tham-chieu-a4.png",
+      "ref_hash": "081c4bbf3f7e5a766de595320c2efe99bc5af64fdf01992bcc3585d4b22d7f12"
+    },
+    {
+      "type": "CHAR",
+      "id": "CHAR_02_BO",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "approved_by": "Người dùng trong chat",
+      "approved_date": "2026-11-17",
+      "name": "Bố",
+      "role": "bố của An, 55 tuổi, thói quen uống trà",
+      "identity": {
+        "head": "white filled circular head, short grey hair along the sides and back of the head, two short horizontal forehead wrinkles above the eyebrows, two small dark oval eyes, simple eyebrow strokes, short curved mouth",
+        "torso": "slightly overweight closed torso with solid white fill inside dark outline",
+        "limbs": "dark single-line limbs with constant medium weight",
+        "proportions": "mature adult stickman height, slightly broader torso than An",
+        "marks": [
+          "short grey hair along the sides and back of the head",
+          "two short horizontal forehead wrinkles above the eyebrows",
+          "slightly overweight closed white torso"
+        ]
+      },
+      "approved_variants": [
+        {
+          "variant_id": "BO_WHITE_TORSO",
+          "name": "Thân trắng truyền thống (theo ảnh tham chiếu A4 hiện có)",
+          "outfit": "plain white closed torso, dark single-line legs; no trouser silhouettes",
+          "status": "approved",
+          "ref": "refs/bo-tham-chieu-a4.png",
+          "ref_hash": "655784d81ebcf9b6611f35baafaf75618fd52d9ec396044a11f8dc122f5bc1aa",
+          "approved_by": "Người dùng trong chat",
+          "approved_date": "2026-11-17"
+        },
+        {
+          "variant_id": "BO_DARK_SHIRT",
+          "name": "Áo dài tay sẫm màu (theo kịch bản tập 55-60)",
+          "outfit": "plain dark long-sleeved top, long dark pants",
+          "status": "draft",
+          "ref": null,
+          "ref_hash": null
+        }
+      ],
+      "habits": [
+        "chắp hai tay sau lưng khi đi dạo thong thả",
+        "chậm rãi nâng tách trà bằng hai tay"
+      ],
+      "expressions": [
+        "ôn tồn mỉm cười",
+        "trầm ngâm suy tư",
+        "nghiêm nghị",
+        "xót xa lo lắng"
+      ],
+      "forbid": [
+        "thân hình gầy mảnh",
+        "thiếu nếp nhăn trán",
+        "thiếu tóc hoa râm"
+      ],
+      "ref": "refs/bo-tham-chieu-a4.png",
+      "ref_hash": "655784d81ebcf9b6611f35baafaf75618fd52d9ec396044a11f8dc122f5bc1aa"
+    },
+    {
+      "type": "CHAR",
+      "id": "CHAR_03_LAN",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "approved_by": "Bepj",
+      "approved_date": "2026-11-16",
+      "name": "Lan",
+      "role": "đồng nghiệp của An, 28 tuổi, nhân viên văn phòng",
+      "identity": {
+        "head": "white filled circular head, long black hair in a low ponytail, two small dark oval eyes, simple eyebrow strokes, short curved mouth",
+        "torso": "slim closed tapered torso with solid white fill inside dark outline",
+        "limbs": "dark single-line limbs with constant medium weight",
+        "proportions": "standard adult stickman height",
+        "marks": [
+          "long black hair in a low ponytail"
+        ]
+      },
+      "approved_variants": [
+        {
+          "variant_id": "LAN_OFFICE",
+          "name": "Trang phục công sở",
+          "outfit": "plain white top, straight dark knee-length skirt",
+          "status": "approved",
+          "ref": "refs/lan-tham-chieu-a4.png",
+          "ref_hash": "1398a9fe4eae0287426f53b79dadc5a378efb108a5d8d5776db08952af76719c"
+        }
+      ],
+      "habits": [
+        "cầm tập tài liệu trước ngực",
+        "ngồi thẳng lưng chỉnh chu"
+      ],
+      "expressions": [
+        "thân thiện mỉm cười",
+        "chăm chú lắng nghe",
+        "bất ngờ"
+      ],
+      "forbid": [
+        "tóc buông xõa",
+        "váy ngắn trên gối"
+      ],
+      "ref": "refs/lan-tham-chieu-a4.png",
+      "ref_hash": "1398a9fe4eae0287426f53b79dadc5a378efb108a5d8d5776db08952af76719c"
+    },
+    {
+      "type": "CHAR",
+      "id": "CHAR_04_ME_LAN",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "approved_by": "Bepj",
+      "approved_date": "2026-11-16",
+      "name": "Mẹ Lan",
+      "role": "mẹ của Lan, 55 tuổi",
+      "identity": {
+        "head": "white filled circular head, low bun with grey strands, two small dark oval eyes, simple eyebrow strokes, short curved mouth",
+        "torso": "mature closed torso with solid white fill inside dark outline",
+        "limbs": "dark single-line limbs with constant medium weight",
+        "proportions": "mature adult stickman height",
+        "marks": [
+          "búi tóc thấp có các sợi bạc"
+        ]
+      },
+      "approved_variants": [
+        {
+          "variant_id": "ME_LAN_TRADITIONAL",
+          "name": "Trang phục truyền thống",
+          "outfit": "plain dark long-sleeved top, long dark skirt",
+          "status": "approved",
+          "ref": "refs/me-lan-tham-chieu-a4.png",
+          "ref_hash": "89f6fff4acf240abc2037e504d15ca1da17644df307ee67cfecaaab7473da6e2"
+        }
+      ],
+      "habits": [
+        "nắm tay dặn dò",
+        "nhìn con ân cần"
+      ],
+      "expressions": [
+        "ôn hòa",
+        "lo lắng",
+        "mỉm cười hiền từ"
+      ],
+      "forbid": [
+        "tóc đen hoàn toàn không sợi bạc",
+        "quần áo sặc sỡ"
+      ],
+      "ref": "refs/me-lan-tham-chieu-a4.png",
+      "ref_hash": "89f6fff4acf240abc2037e504d15ca1da17644df307ee67cfecaaab7473da6e2"
+    },
+    {
+      "type": "CHAR",
+      "id": "CHAR_05_BIN",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "approved_by": "Bepj",
+      "approved_date": "2026-11-16",
+      "name": "Bin",
+      "role": "cháu nội của Bố, 4 tuổi, luôn chơi an toàn bên cạnh Bố",
+      "identity": {
+        "head": "about half Bố's height, white filled circular head, no hair, two small dark oval eyes, simple eyebrow strokes, short curved mouth",
+        "torso": "small slim closed torso with solid white fill inside dark outline",
+        "limbs": "dark single-line limbs with constant medium weight",
+        "proportions": "child stickman height, about 1/2 adult height",
+        "marks": [
+          "chiều cao bằng 1/2 Bố",
+          "đầu tròn trắng nhỏ không tóc"
+        ]
+      },
+      "approved_variants": [
+        {
+          "variant_id": "BIN_DAILY",
+          "name": "Trang phục thường ngày của Bin",
+          "outfit": "plain white top, dark trousers",
+          "status": "approved",
+          "ref": "refs/bin-tham-chieu-a4.png",
+          "ref_hash": "b2a3bd254b9d936c405c180f826298c191b551389e971f5ff90cec8c57e97fd0"
+        }
+      ],
+      "habits": [
+        "chạy lon ton quanh Bố",
+        "ngồi bệt chơi đồ chơi trên sàn"
+      ],
+      "expressions": [
+        "hồn nhiên vui vẻ",
+        "tò mò ngước nhìn",
+        "mếu máo"
+      ],
+      "forbid": [
+        "vẽ cao bằng người lớn",
+        "quần áo sặc sỡ hoa văn"
+      ],
+      "ref": "refs/bin-tham-chieu-a4.png",
+      "ref_hash": "b2a3bd254b9d936c405c180f826298c191b551389e971f5ff90cec8c57e97fd0"
+    },
+    {
+      "type": "CHAR",
+      "id": "CHAR_06_MIMI",
+      "status": "draft",
+      "revision": "rev-2026-11-17.2",
+      "name": "Mimi",
+      "role": "mèo trắng, nhân vật chính series Chú mèo học…",
+      "identity": {
+        "head": "white filled circular head, two small triangular ears with dark outlines, two small dark oval eyes, a tiny dark triangular nose and a short curved mouth",
+        "torso": "slim white torso, dark single-line limbs, small dark rounded paws",
+        "limbs": "dark single-line limbs with constant medium weight",
+        "proportions": "cat stickman proportion",
+        "marks": [
+          "hai tai tam giác viền đen",
+          "mũi tam giác đen nhỏ",
+          "chân tròn tối màu"
+        ]
+      },
+      "approved_variants": [
+        {
+          "variant_id": "MIMI_DEFAULT",
+          "name": "Mimi tự nhiên",
+          "outfit": "không quần áo, không phụ kiện",
+          "status": "draft",
+          "ref": null,
+          "ref_hash": null
+        }
+      ],
+      "habits": [
+        "nghiêng đầu tò mò",
+        "dùng hai chân trước ôm đồ vật"
+      ],
+      "expressions": [
+        "ngây thơ",
+        "thích thú",
+        "ngạc nhiên"
+      ],
+      "forbid": [
+        "mặc quần áo",
+        "đeo vòng cổ"
+      ],
+      "ref": null,
+      "ref_hash": null
+    },
+    {
+      "type": "CHAR",
+      "id": "CHAR_07_BIBO",
+      "status": "draft",
+      "revision": "rev-2026-11-17.2",
+      "name": "Bibo",
+      "role": "mèo con xám, nhỏ hơn Mimi rõ rệt",
+      "identity": {
+        "head": "clearly smaller than Mimi, soft grey filled circular head, one tiny dark tuft on top, two small triangular ears with dark outlines, two small dark oval eyes, tiny dark triangular nose, short curved mouth",
+        "torso": "slim soft grey torso",
+        "limbs": "dark single-line limbs with constant medium weight, small dark rounded paws",
+        "proportions": "clearly smaller than Mimi",
+        "marks": [
+          "thân xám nhạt",
+          "chỏm lông nhỏ trên đỉnh đầu",
+          "kích thước nhỏ hơn Mimi"
+        ]
+      },
+      "approved_variants": [
+        {
+          "variant_id": "BIBO_DEFAULT",
+          "name": "Bibo tự nhiên",
+          "outfit": "không quần áo, không phụ kiện",
+          "status": "draft",
+          "ref": null,
+          "ref_hash": null
+        }
+      ],
+      "habits": [
+        "bắt chước hành động của Mimi"
+      ],
+      "expressions": [
+        "tò mò",
+        "ngơ ngác"
+      ],
+      "forbid": [
+        "to bằng Mimi",
+        "mặc quần áo"
+      ],
+      "ref": null,
+      "ref_hash": null
+    },
+    {
+      "type": "LOC",
+      "id": "LOC_01_PHO_VN",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "approved_by": "Bepj",
+      "approved_date": "2026-11-16",
+      "name": "Đường phố Việt Nam gần nhà",
+      "role": "bối cảnh đường phố mặc định buổi sáng",
+      "spatial_layout": {
+        "fixed_relations": [
+          "Vỉa hè hẹp lát gạch chạy dọc phía trước các ngôi nhà ống",
+          "Xe máy đậu dọc sát mép vỉa hè, đầu xe quay vào trong, biển số trắng trơn",
+          "Mặt tiền các nhà ống hẹp mái ngói đỏ rêu phong, không có biển hiệu chữ",
+          "Cây bàng và cây phượng vươn cao che bóng mát bên đường"
+        ],
+        "anchors": {}
+      },
+      "approved_angles": {
+        "street_wide": {
+          "foreground": "vỉa hè hẹp, xe máy đậu dọc với biển số trắng trơn, ghế nhựa quán cóc",
+          "middle_ground": "nhà ống hẹp mái ngói, mặt tiền nhỏ không biển hiệu, xe đẩy hàng rong trơn",
+          "background": "cây bàng và cây phượng vươn cao, ánh nắng dịu buổi sáng",
+          "status": "approved",
+          "approval_source": "Inherited approved location design; living-room close angle explicitly approved in chat on 2026-11-17."
+        }
+      },
+      "lighting_variants": {
+        "morning": {
+          "description": "nắng dịu buổi sáng, bóng đổ mềm mại trên vỉa hè",
+          "status": "approved",
+          "approval_source": "Inherited location design; living-room evening explicitly approved in chat on 2026-11-17."
+        }
+      },
+      "forbid": [
+        "chữ đọc được trên biển hiệu",
+        "biển số xe có số",
+        "tòa nhà kính chọc trời"
+      ],
+      "ref": "refs/pho-vn-sang-tham-chieu.png",
+      "ref_hash": "f877939ea74bb820b68de1971f9e0223c628b529ee88436cb3d06e38add89437"
+    },
+    {
+      "type": "LOC",
+      "id": "LOC_02_BEP",
+      "status": "draft",
+      "revision": "rev-2026-11-17.2",
+      "name": "Bếp nhà An",
+      "role": "bối cảnh nấu ăn",
+      "spatial_layout": {
+        "fixed_relations": [
+          "Bếp gas, nồi niêu, chạn bát bên tường, cửa sổ đón nắng"
+        ],
+        "anchors": {}
+      },
+      "approved_angles": {},
+      "forbid": [
+        "thiết bị bếp điện tử hiện đại có màn hình số"
+      ],
+      "ref": null,
+      "ref_hash": null,
+      "lighting_variants": {}
+    },
+    {
+      "type": "LOC",
+      "id": "LOC_03_PHONG_KHACH",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "approved_by": "Bepj",
+      "approved_date": "2026-11-16",
+      "name": "Phòng khách nhà An",
+      "role": "bối cảnh sinh hoạt gia đình, Bố ngồi uống trà",
+      "spatial_layout": {
+        "fixed_relations": [
+          "Từ góc nhìn máy quay chính diện (Front Wide View Anchor):",
+          "- Tủ gỗ thấp đặt dọc theo bức tường phía bên trái (tường Tây)",
+          "- Cửa sổ lớn  ở tường hậu cảnh (tường Bắc), rèm voan mỏng buông nhẹ",
+          "- Ghế sofa gỗ đệm hoa dâm bụt đặt ở trung tâm phía trước cửa sổ lớn",
+          "- Bàn trà gỗ thấp màu trầm đặt ở trung tâm ngay trước ghế sofa",
+          "- Ghế bành gỗ đơn đặt bên trái bàn trà, vuông góc với ghế sofa"
+        ],
+        "anchors": {
+          "on_tea_table_center": {
+            "capacity": 1,
+            "support": "tea_table"
+          },
+          "tea_table_surface": {
+            "capacity": 4,
+            "support": "tea_table"
+          }
+        }
+      },
+      "approved_angles": {
+        "front_wide": {
+          "foreground": "bàn trà gỗ thấp màu trầm",
+          "middle_ground": "sofa gỗ đệm hoa dâm bụt, ghế bành gỗ, tủ gỗ thấp bên trái",
+          "background": "cửa sổ lớn, rèm voan mỏng, cây xanh ngoài vườn; ánh sáng theo lighting variant",
+          "status": "approved",
+          "approval_source": "Inherited approved location design; living-room close angle explicitly approved in chat on 2026-11-17."
+        },
+        "table_close": {
+          "foreground": "mặt bàn trà gỗ vân mộc",
+          "middle_ground": "mép ghế bành gỗ bên trái",
+          "background": "cửa sổ và rèm voan hậu cảnh mờ nhẹ; ánh sáng theo lighting variant",
+          "status": "approved",
+          "approval_source": "Inherited approved location design; living-room close angle explicitly approved in chat on 2026-11-17."
+        }
+      },
+      "lighting_variants": {
+        "morning": {
+          "description": "ánh nắng dịu buổi sáng chiếu qua rèm voan tạo bóng đổ mềm mại",
+          "status": "approved",
+          "approval_source": "Inherited location design; living-room evening explicitly approved in chat on 2026-11-17."
+        },
+        "evening": {
+          "description": "ánh đèn vàng ấm áp từ đèn trần mộc mạc, ngoài cửa sổ là trời tối",
+          "status": "approved",
+          "approval_source": "Inherited location design; living-room evening explicitly approved in chat on 2026-11-17."
+        }
+      },
+      "forbid": [
+        "đồng hồ treo tường có số",
+        "lịch treo tường có chữ",
+        "tivi màn hình phẳng hiện đại"
+      ],
+      "ref": "refs/phong-khach-tham-chieu.png",
+      "ref_hash": "644bb61e4ffb191925deedf7a72fe10fa6012928d340b0380b5743c6025a6c32"
+    },
+    {
+      "type": "LOC",
+      "id": "LOC_04_VUON",
+      "status": "draft",
+      "revision": "rev-2026-11-17.2",
+      "name": "Vườn nhà / sân nhà",
+      "role": "bối cảnh ngoài trời ở nhà",
+      "spatial_layout": {
+        "fixed_relations": [
+          "Sân gạch đỏ, cây cảnh trong chậu, bờ tường rào hoa"
+        ],
+        "anchors": {}
+      },
+      "approved_angles": {},
+      "forbid": [],
+      "ref": null,
+      "ref_hash": null,
+      "lighting_variants": {}
+    },
+    {
+      "type": "LOC",
+      "id": "LOC_05_VAN_PHONG",
+      "status": "draft",
+      "revision": "rev-2026-11-17.2",
+      "name": "Văn phòng của Lan",
+      "role": "bối cảnh công sở",
+      "spatial_layout": {
+        "fixed_relations": [
+          "Dãy bàn làm việc văn phòng, vách ngăn lửng, cửa sổ kính lớn"
+        ],
+        "anchors": {}
+      },
+      "approved_angles": {},
+      "forbid": [
+        "văn bản đọc được trên giấy tờ hoặc màn hình máy tính"
+      ],
+      "ref": null,
+      "ref_hash": null,
+      "lighting_variants": {}
+    },
+    {
+      "type": "LOC",
+      "id": "LOC_06_CHO",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "approved_by": "Bepj",
+      "approved_date": "2026-11-16",
+      "name": "Chợ Việt Nam",
+      "role": "bối cảnh đi chợ buổi sáng",
+      "spatial_layout": {
+        "fixed_relations": [
+          "Các sạp hàng rau quả bày trong rổ sọt tre đặt dọc lối đi",
+          "Xe đẩy gỗ chở rau quả trơn không chữ",
+          "Mái che vải bạt trơn nhiều màu che mưa nắng, nhà ống mái ngói phía sau",
+          "Cây bàng to lớn tỏa bóng mát ở góc chợ"
+        ],
+        "anchors": {}
+      },
+      "approved_angles": {
+        "market_wide": {
+          "foreground": "sạp rau quả trong rổ tre, xe đẩy gỗ chở rau",
+          "middle_ground": "nhà ống mái ngói, mái che vải trơn",
+          "background": "cây phượng, cây bàng, nắng dịu buổi sáng",
+          "status": "approved",
+          "approval_source": "Inherited approved location design; living-room close angle explicitly approved in chat on 2026-11-17."
+        }
+      },
+      "lighting_variants": {
+        "morning": {
+          "description": "ánh nắng sớm len qua tán cây và mép bạt che",
+          "status": "approved",
+          "approval_source": "Inherited location design; living-room evening explicitly approved in chat on 2026-11-17."
+        }
+      },
+      "forbid": [
+        "chữ đọc được trên biển báo chợ",
+        "bảng giá có số đọc được"
+      ],
+      "ref": "refs/cho-vn-tham-chieu.png",
+      "ref_hash": "5fb11a2a5cecaea7d8a598b20a1284f3eea7c0dc9b4e88797b055f11a5619f6f"
+    },
+    {
+      "type": "LOC",
+      "id": "LOC_07_HEM",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "approved_by": "Bepj",
+      "approved_date": "2026-11-16",
+      "name": "Hẻm nhỏ Việt Nam",
+      "role": "bối cảnh hẻm buổi chiều",
+      "spatial_layout": {
+        "fixed_relations": [
+          "Hẻm lát đá hẹp giữa hai dãy nhà ống mái ngói",
+          "Dây phơi quần áo trơn căng ngang giữa hai ban công",
+          "Chậu cây cảnh xếp dọc chân tường",
+          "Xe máy đậu trước thềm nhà, tán cây bàng lớn ở góc ngoặt"
+        ],
+        "anchors": {}
+      },
+      "approved_angles": {
+        "alley_view": {
+          "foreground": "hẻm lát đá, chậu cây, xe máy",
+          "middle_ground": "nhà ống mái ngói, dây phơi",
+          "background": "tán cây bàng, nắng vàng chiều",
+          "status": "approved",
+          "approval_source": "Inherited approved location design; living-room close angle explicitly approved in chat on 2026-11-17."
+        }
+      },
+      "lighting_variants": {
+        "afternoon": {
+          "description": "ánh nắng vàng chiều xiên qua khe nhà ống",
+          "status": "approved",
+          "approval_source": "Inherited location design; living-room evening explicitly approved in chat on 2026-11-17."
+        }
+      },
+      "forbid": [
+        "biển số nhà có số",
+        "chữ trên dây phơi"
+      ],
+      "ref": "refs/hem-vn-tham-chieu.png",
+      "ref_hash": "31c2609a4e6e12d962d1b65fb20d2446af2ce34dae01260e4918bc68c0f83a81"
+    },
+    {
+      "type": "LOC",
+      "id": "LOC_08_QUAN_CAFE",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "approved_by": "Bepj",
+      "approved_date": "2026-11-16",
+      "name": "Quán cà phê vỉa hè",
+      "role": "bối cảnh quán cà phê buổi sáng",
+      "spatial_layout": {
+        "fixed_relations": [
+          "Bàn gỗ tròn nhỏ với ghế nhựa nhiều màu xếp trên vỉa hè",
+          "Quầy pha chế gỗ mộc mạc phía trong cửa tiệm, lọ thủy tinh trơn",
+          "Bảng menu phấn đen trống trơn hoàn toàn không có chữ và số",
+          "Chậu cây treo và quạt trần mộc mạc"
+        ],
+        "anchors": {}
+      },
+      "approved_angles": {
+        "cafe_front": {
+          "foreground": "bàn gỗ tròn nhỏ, tách cà phê trơn không logo, ghế nhựa nhiều màu",
+          "middle_ground": "quầy gỗ mộc mạc, lọ thủy tinh trơn, bảng menu trống hoàn toàn không chữ, chậu cây treo",
+          "background": "phố nhà ống mái ngói, bóng cây xanh mát, nắng sớm",
+          "status": "approved",
+          "approval_source": "Inherited approved location design; living-room close angle explicitly approved in chat on 2026-11-17."
+        }
+      },
+      "lighting_variants": {
+        "morning": {
+          "description": "nắng sớm chiếu xiên qua tán cây vỉa hè",
+          "status": "approved",
+          "approval_source": "Inherited location design; living-room evening explicitly approved in chat on 2026-11-17."
+        }
+      },
+      "forbid": [
+        "chữ hoặc giá tiền trên bảng menu",
+        "logo thương hiệu cà phê"
+      ],
+      "ref": "refs/quan-cafe-tham-chieu.png",
+      "ref_hash": "79b61f15dbc0d953f8f8c7ac879d13a5f5ce3bebee1584efae9311a492f7d26a"
+    },
+    {
+      "type": "LOC",
+      "id": "LOC_09_NGA_TU_NGAY",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "approved_by": "Bepj",
+      "approved_date": "2026-11-16",
+      "name": "Ngã tư hiện đại ban ngày",
+      "role": "bối cảnh ngã tư hiện đại ban ngày",
+      "notes": "Lưu ý cột đèn trong ảnh ref sáng cả vàng lẫn xanh; prompt clip chỉ định rõ chỉ sáng một bóng xanh.",
+      "spatial_layout": {
+        "fixed_relations": [
+          "Ngã tư giao cắt rộng có vạch sang đường cho người đi bộ",
+          "Cột đèn giao thông đặt ở góc vỉa hè bên phải",
+          "Dãy nhà ống mái ngói đan xen với các tòa nhà văn phòng cao tầng",
+          "Hàng cây xanh ven đường che bóng cho người tham gia giao thông"
+        ],
+        "anchors": {}
+      },
+      "approved_angles": {
+        "intersection_wide": {
+          "foreground": "vạch kẻ đường, đèn giao thông, xe máy biển trắng trơn, xe đẩy hàng rong trơn",
+          "middle_ground": "đường nhựa rộng, xe máy và ô tô biển trơn, cây xanh vỉa hè",
+          "background": "nhà kính cao tầng, nhà ống mái ngói, trời xanh",
+          "status": "approved",
+          "approval_source": "Inherited approved location design; living-room close angle explicitly approved in chat on 2026-11-17."
+        }
+      },
+      "lighting_variants": {
+        "daylight": {
+          "description": "ánh sáng ban ngày trời xanh quang đãng",
+          "status": "approved",
+          "approval_source": "Inherited location design; living-room evening explicitly approved in chat on 2026-11-17."
+        }
+      },
+      "forbid": [
+        "biển số xe có chữ số",
+        "biển quảng cáo có chữ đọc được"
+      ],
+      "ref": "refs/nga-tu-den-xanh-tham-chieu.png",
+      "ref_hash": "e04de09a2624cb245854f57c3a36d244a3b8c868f324a7c927abf36e9d561af0"
+    },
+    {
+      "type": "LOC",
+      "id": "LOC_10_NGA_TU_TOI",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "approved_by": "Bepj",
+      "approved_date": "2026-11-16",
+      "name": "Ngã tư hiện đại buổi tối",
+      "role": "bối cảnh ngã tư hiện đại buổi tối",
+      "notes": "Là góc nhìn tham chiếu riêng biệt đang trong diện đối soát cấu trúc không gian so với LOC_09.",
+      "spatial_layout": {
+        "fixed_relations": [
+          "Ngã tư đường phố buổi hoàng hôn tối với đèn đường vàng thắp sáng",
+          "Cột đèn giao thông màu đỏ",
+          "Dòng phương tiện xe máy và xe buýt biển trắng trơn",
+          "Tòa nhà cao tầng sáng đèn trên nền trời cam hồng"
+        ],
+        "anchors": {}
+      },
+      "approved_angles": {
+        "intersection_night": {
+          "foreground": "vạch kẻ đường, đèn đỏ, xe máy biển trơn, đèn đường vàng",
+          "middle_ground": "đường rộng, xe buýt trơn, cây xanh, cửa hàng mái hiên trơn",
+          "background": "nhà cao tầng sáng đèn, cây đa, trời hoàng hôn",
+          "status": "approved",
+          "approval_source": "Inherited approved location design; living-room close angle explicitly approved in chat on 2026-11-17."
+        }
+      },
+      "lighting_variants": {
+        "dusk": {
+          "description": "trời hoàng hôn cam hồng chuyển tối, ánh đèn vàng từ đèn đường và cửa sổ",
+          "status": "approved",
+          "approval_source": "Inherited location design; living-room evening explicitly approved in chat on 2026-11-17."
+        }
+      },
+      "forbid": [
+        "chữ trên xe buýt",
+        "biển hiệu có chữ"
+      ],
+      "ref": "refs/nga-tu-buoi-toi-tham-chieu.png",
+      "ref_hash": "0cae4ee26fdb769445c666dddbb768abe2d2b7360ca0ddcaed26666138392851"
+    },
+    {
+      "type": "PROP",
+      "id": "PROP_01_CHAU_HOA_VANG",
+      "status": "draft",
+      "revision": "rev-2026-11-17.2",
+      "name": "Chậu hoa vàng của Mimi",
+      "shape": "small clay pot with one yellow flower, no writing, no label",
+      "scale_relative": "vừa vặn ôm bằng 2 chân trước của Mimi",
+      "visible_faces": {
+        "front": "chậu đất nung mộc, cành hoa vươn thẳng với 1 bông hoa vàng 5 cánh"
+      },
+      "forbid": [
+        "nhãn mác trên chậu",
+        "họa tiết vẽ trên đất nung"
+      ],
+      "ref": null,
+      "ref_hash": null
+    },
+    {
+      "type": "PROP",
+      "id": "PROP_02_XE_MAY",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "name": "Xe máy đường phố",
+      "shape": "plain motorbike, blank license plate with no numbers and no letters",
+      "scale_relative": "kích thước thực tế so với nhân vật que, chiều cao yên ngang hông nhân vật trưởng thành",
+      "visible_faces": {
+        "all_views": "plain motorbike; visible license plates have no numbers or letters"
+      },
+      "forbid": [
+        "numbers or letters on license plate",
+        "readable brand logos"
+      ],
+      "ref": null,
+      "ref_hash": null
+    },
+    {
+      "type": "PROP",
+      "id": "PROP_03_TACH_TRA",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "name": "Tách trà men gốm",
+      "shape": "plain tea cup, no writing or decorative pattern",
+      "scale_relative": "vừa vặn trong 2 lòng bàn tay que tối giản của Bố",
+      "visible_faces": {
+        "all_views": "plain tea cup; do not introduce a new glaze color, handle or saucer design"
+      },
+      "forbid": [
+        "readable writing",
+        "decorative pattern"
+      ],
+      "ref": null,
+      "ref_hash": null
+    },
+    {
+      "type": "ENS",
+      "id": "ENS_01_AN_VA_BO",
+      "status": "draft",
+      "revision": "rev-2026-11-17.2",
+      "notes": "Hai nhân vật đã chốt thiết kế ngày 2026-11-17; ảnh ENS chưa được tạo hoặc duyệt.",
+      "name": "An và Bố bên bàn trà phòng khách",
+      "members": [
+        "CHAR_01_AN",
+        "CHAR_02_BO"
+      ],
+      "member_revisions": {
+        "CHAR_01_AN": "rev-2026-11-17.2",
+        "CHAR_02_BO": "rev-2026-11-17.2"
+      },
+      "member_variants": {
+        "CHAR_01_AN": "DEFAULT_DAILY",
+        "CHAR_02_BO": "BO_WHITE_TORSO"
+      },
+      "location_id": "LOC_03_PHONG_KHACH",
+      "reference_role": "composition",
+      "layout": "Bố ngồi trên ghế bành gỗ bên trái, An ngồi đối diện bên phải, ở giữa là bàn trà gỗ thấp",
+      "allowed_usage_condition": "Chỉ dùng khi cảnh diễn ra tại phòng khách bên bàn trà",
+      "ref": null,
+      "ref_hash": null,
+      "context": null
+    }
+  ],
+  "meta": {
+    "name": "Stickman Kit — Sống Đáng Tiền + Chú mèo học…",
+    "version": "3.1.1",
+    "updated": "2026-11-17",
+    "provider_limits": {
+      "example-provider": {
+        "example-model": {
+          "reference_images": {
+            "max_refs": 3,
+            "supported_roles": [
+              "identity",
+              "composition"
+            ],
+            "verified": false,
+            "note": "Synthetic profile for local prompt previews only; not a real provider capability claim."
+          }
+        }
+      }
+    }
+  }
+}

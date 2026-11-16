@@ -1,0 +1,440 @@
+{
+  "type": "object",
+  "properties": {
+    "pack": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "style": {
+      "type": "string",
+      "minLength": 1
+    },
+    "global_rules": {
+      "type": "object",
+      "properties": {
+        "figure_construction": {
+          "type": "string",
+          "minLength": 1
+        },
+        "drawing_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "forbid": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "figure_construction",
+        "drawing_rule",
+        "forbid"
+      ]
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^(CHAR|LOC|PROP|ENS)_[0-9A-Z_]+$"
+          },
+          "type": {
+            "enum": [
+              "CHAR",
+              "LOC",
+              "PROP",
+              "ENS"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "approved",
+              "draft",
+              "conflict",
+              "deprecated"
+            ]
+          },
+          "ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "ref_hash": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "identity": {
+            "type": "object",
+            "properties": {
+              "head": {
+                "type": "string",
+                "minLength": 1
+              },
+              "torso": {
+                "type": "string",
+                "minLength": 1
+              },
+              "limbs": {
+                "type": "string",
+                "minLength": 1
+              },
+              "proportions": {
+                "type": "string",
+                "minLength": 1
+              },
+              "marks": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "required": [
+              "head",
+              "torso",
+              "limbs",
+              "proportions",
+              "marks"
+            ]
+          },
+          "approved_variants": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "variant_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "outfit": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "approved",
+                    "draft",
+                    "conflict",
+                    "deprecated"
+                  ]
+                },
+                "ref": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "ref_hash": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "surface_override": {
+                  "type": "object"
+                }
+              },
+              "required": [
+                "variant_id",
+                "name",
+                "outfit",
+                "status",
+                "ref",
+                "ref_hash"
+              ]
+            }
+          },
+          "forbid": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "shape": {
+            "type": "string",
+            "minLength": 1
+          },
+          "scale_relative": {
+            "type": "string",
+            "minLength": 1
+          },
+          "visible_faces": {
+            "type": "object"
+          },
+          "spatial_layout": {
+            "type": "object",
+            "properties": {
+              "fixed_relations": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "anchors": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "capacity": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "required": [
+                    "capacity"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "fixed_relations",
+              "anchors"
+            ]
+          },
+          "approved_angles": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "approved",
+                    "draft",
+                    "conflict",
+                    "deprecated"
+                  ]
+                },
+                "foreground": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "middle_ground": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "background": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "status",
+                "foreground",
+                "middle_ground",
+                "background"
+              ]
+            }
+          },
+          "lighting_variants": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "approved",
+                    "draft",
+                    "conflict",
+                    "deprecated"
+                  ]
+                },
+                "description": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "status",
+                "description"
+              ]
+            }
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "member_revisions": {
+            "type": "object"
+          },
+          "member_variants": {
+            "type": "object"
+          },
+          "reference_role": {
+            "enum": [
+              "identity",
+              "composition",
+              "first_frame"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "name",
+          "revision",
+          "status",
+          "ref",
+          "ref_hash"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "CHAR"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "required": [
+                "identity",
+                "approved_variants",
+                "forbid"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "LOC"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "required": [
+                "spatial_layout",
+                "approved_angles",
+                "lighting_variants",
+                "forbid"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "PROP"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "required": [
+                "shape",
+                "scale_relative",
+                "visible_faces",
+                "forbid"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "ENS"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "required": [
+                "members",
+                "member_revisions",
+                "member_variants",
+                "reference_role"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "provider_limits": {
+          "type": "object"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "updated": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "provider_limits",
+        "name",
+        "version",
+        "updated"
+      ]
+    }
+  },
+  "required": [
+    "pack",
+    "title",
+    "version",
+    "style",
+    "global_rules",
+    "entities",
+    "meta"
+  ],
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Stickman visual bible pack"
+}

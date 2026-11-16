@@ -14,7 +14,7 @@ const [command, ...rawArgs] = process.argv.slice(2);
 // in `--flag value` or `--flag=value` form. Previously `preview --replace PROJECT`
 // treated `--replace` as the project path and failed. Boolean flag: --replace.
 // Value flags: --seconds, --style, --note, --lead, --output, --lang, --max-words.
-const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output', '--lang', '--max-words', '--target-lufs', '--flow', '--topic', '--duration', '--format', '--highlight-color', '--mode', '--dur', '--platforms', '--exclude', '--title', '--description', '--hashtags', '--motion-bg', '--motion-ov']);
+const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output', '--lang', '--max-words', '--target-lufs', '--flow', '--topic', '--duration', '--format', '--highlight-color', '--mode', '--dur', '--platforms', '--exclude', '--title', '--description', '--hashtags', '--motion-bg', '--motion-ov', '--pack', '--project', '--shot', '--provider', '--kits-dir']);
 const flagValues = {};
 const args = [];
 for (let i = 0; i < rawArgs.length; i++) {
@@ -22,6 +22,8 @@ for (let i = 0; i < rawArgs.length; i++) {
   if (a === '--replace') { flagValues['--replace'] = true; continue; }
   if (a === '--auto-motion') { flagValues['--auto-motion'] = true; continue; }
   if (a === '--progress-json') { flagValues['--progress-json'] = true; continue; }
+  if (a === '--draft') { flagValues['--draft'] = true; continue; }
+  if (a === '--list') { flagValues['--list'] = true; continue; }
   const eq = a.match(/^(--\w+)=(.*)$/);
   if (eq && VALUE_FLAGS.has(eq[1])) { flagValues[eq[1]] = eq[2]; continue; }
   if (VALUE_FLAGS.has(a)) { flagValues[a] = rawArgs[i + 1]; i++; continue; }
@@ -32,6 +34,26 @@ const hasFlag = flag => flagValues[flag] !== undefined;
 async function main() {
   if (command === 'workflow') {
     console.log(JSON.stringify(installedWorkflow({style: option('--style'), ratio: option('--ratio', '16:9'), project: option('--project')}), null, 2));
+  } else if (command === 'kit') {
+    const py = process.env.PYTHON || 'python3';
+    const scriptPath = path.join(ROOT, 'scripts/visual-bible-kit.py');
+    const pyArgs = [scriptPath];
+    const action = args[0] || (flagValues['--list'] ? 'list' : 'audit');
+    pyArgs.push(action);
+    if (option('--pack')) pyArgs.push('--pack', option('--pack'));
+    if (option('--project')) pyArgs.push('--project', path.resolve(option('--project')));
+    if (option('--shot')) pyArgs.push('--shot', option('--shot'));
+    if (option('--mode')) pyArgs.push('--mode', option('--mode'));
+    if (flagValues['--draft']) pyArgs.push('--draft');
+    if (option('--provider')) pyArgs.push('--provider', option('--provider'));
+    if (option('--output')) pyArgs.push('--output', path.resolve(option('--output')));
+    if (option('--kits-dir')) pyArgs.push('--kits-dir', path.resolve(option('--kits-dir')));
+    for (let i = 1; i < args.length; i++) {
+      pyArgs.push(args[i]);
+    }
+    const res = spawnSync(py, pyArgs, {stdio: 'inherit'});
+    if (res.status !== 0) process.exit(res.status || 1);
+    return;
   } else if (command === 'auto-sfx') {
     if (!args[0]) throw new Error('Usage: autopilot.mjs auto-sfx PROJECT [--replace] [--output PATH]');
     const py = process.env.PYTHON || 'python3';
@@ -299,6 +321,6 @@ async function main() {
     if (option('--motion-ov')) p.motion_overlay = {style: option('--motion-ov')};
     if (flagValues['--auto-motion']) p.auto_motion = true;
     const {render} = await import('./autopilot-render.mjs'); console.log(JSON.stringify(await render(p, {full: command === 'render', seconds, replace: Boolean(flagValues['--replace']) || args.includes('--replace'), progressJson: Boolean(flagValues['--progress-json'])}), null, 2));
-  } else throw new Error('Commands: workflow --style B1..B6 [--ratio 16:9|9:16] [--project PATH] | doctor | probe FILE | init DIR | preflight B6_PROJECT --ratio R | draft B6_PROJECT --ratio R --trusted-code [--draft-scale 0.5|0.75] [--output PATH] | plan-iteration B6_PROJECT --ratio R --report FILE | review-pack B6_PROJECT --ratio R --report FILE --output outputs/review | check-review B6_PROJECT --ratio R --review FILE | captions WORDS OUTPUT [--lead N] | validate PROJECT [--seconds N] | preview PROJECT [--seconds N] [--replace] | approve PROJECT --note TEXT [--visual-review REVIEW_JSON] [--text-review REVIEW_JSON] [--picture-review REVIEW_JSON] | render PROJECT [--replace] | accept-text PROJECT --review REVIEW_JSON | accept-picture PROJECT --review REVIEW_JSON | accept-visual PROJECT --review REVIEW_JSON (flags may come before or after PROJECT)');
+  } else throw new Error('Commands: kit <list|audit|lock|compile|lint|check|bible> | workflow --style B1..B6 [--ratio 16:9|9:16] [--project PATH] | doctor | probe FILE | init DIR | preflight B6_PROJECT --ratio R | draft B6_PROJECT --ratio R --trusted-code [--draft-scale 0.5|0.75] [--output PATH] | plan-iteration B6_PROJECT --ratio R --report FILE | review-pack B6_PROJECT --ratio R --report FILE --output outputs/review | check-review B6_PROJECT --ratio R --review FILE | captions WORDS OUTPUT [--lead N] | validate PROJECT [--seconds N] | preview PROJECT [--seconds N] [--replace] | approve PROJECT --note TEXT [--visual-review REVIEW_JSON] [--text-review REVIEW_JSON] [--picture-review REVIEW_JSON] | render PROJECT [--replace] | accept-text PROJECT --review REVIEW_JSON | accept-picture PROJECT --review REVIEW_JSON | accept-visual PROJECT --review REVIEW_JSON (flags may come before or after PROJECT)');
 }
 main().catch(e => { console.error(e.message); process.exitCode = 1; });

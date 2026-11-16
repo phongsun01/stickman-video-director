@@ -1,0 +1,169 @@
+{
+  "project_id": "EPISODE_56_SONG_DANG_TIEN",
+  "pack_ref": "vietnamese-daily@3.1.1",
+  "timeline": [
+    {
+      "shot_id": "S01",
+      "continuity_from": null,
+      "cut_type": "scene_establish",
+      "location": {
+        "id": "LOC_03_PHONG_KHACH",
+        "angle": "front_wide",
+        "lighting": "morning"
+      },
+      "characters": [
+        {
+          "id": "CHAR_02_BO",
+          "variant": "BO_WHITE_TORSO"
+        }
+      ],
+      "prop_instances": [
+        {
+          "instance_id": "cup_01",
+          "type_id": "PROP_03_TACH_TRA"
+        }
+      ],
+      "initial_state": {
+        "CHAR_02_BO": {
+          "pose": "seated",
+          "gaze": "looking downward at cup_01 on the tea table",
+          "holding": null,
+          "seat": "left_armchair",
+          "hands": {
+            "left": null,
+            "right": null
+          }
+        },
+        "cup_01": {
+          "placed_at": "on_tea_table_center",
+          "held_by": null,
+          "fill_fraction": 1.0
+        }
+      },
+      "events": [
+        {
+          "time_s": 1.0,
+          "op": "pickup",
+          "actor": "CHAR_02_BO",
+          "target": "cup_01",
+          "from": "on_tea_table_center",
+          "hands": [
+            "left",
+            "right"
+          ],
+          "acting": "reach slowly, cup with both hands, then lift toward chest"
+        }
+      ],
+      "narrative_action": "Bố ngồi trên ghế bành gỗ bên trái, từ từ vươn hai tay ôm lấy tách trà cup_01 trên bàn, rồi chậm rãi nâng tách lên trước ngực. Vị trí trên mặt bàn trở nên trống.",
+      "expected_final_state": {
+        "CHAR_02_BO": {
+          "pose": "seated",
+          "holding": "cup_01",
+          "seat": "left_armchair",
+          "hands": {
+            "left": "cup_01",
+            "right": "cup_01"
+          }
+        },
+        "cup_01": {
+          "placed_at": null,
+          "held_by": "CHAR_02_BO",
+          "fill_fraction": 1.0
+        }
+      },
+      "required_refs": [
+        "CHAR_02_BO",
+        "LOC_03_PHONG_KHACH"
+      ],
+      "optional_refs": [],
+      "duration_s": 4,
+      "camera": {
+        "framing": "medium",
+        "movement": "static"
+      }
+    },
+    {
+      "shot_id": "S02",
+      "continuity_from": "S01",
+      "cut_type": "continuous",
+      "location": {
+        "id": "LOC_03_PHONG_KHACH",
+        "angle": "table_close",
+        "lighting": "morning"
+      },
+      "characters": [
+        {
+          "id": "CHAR_02_BO",
+          "variant": "BO_WHITE_TORSO"
+        }
+      ],
+      "prop_instances": [
+        {
+          "instance_id": "cup_01",
+          "type_id": "PROP_03_TACH_TRA"
+        }
+      ],
+      "initial_state": {
+        "CHAR_02_BO": {
+          "pose": "seated",
+          "gaze": "contemplative, looking slightly forward",
+          "holding": "cup_01",
+          "seat": "left_armchair",
+          "hands": {
+            "left": "cup_01",
+            "right": "cup_01"
+          }
+        },
+        "cup_01": {
+          "placed_at": null,
+          "held_by": "CHAR_02_BO",
+          "fill_fraction": 1.0
+        }
+      },
+      "events": [
+        {
+          "time_s": 1.0,
+          "op": "consume",
+          "actor": "CHAR_02_BO",
+          "target": "cup_01",
+          "amount_fraction": 0.1,
+          "acting": "bring cup to lips, take one small sip, return near chest"
+        }
+      ],
+      "narrative_action": "Cận cảnh Bố hai tay nâng tách trà cup_01 sát miệng nhấp một ngụm nhỏ, ánh mắt suy tư trầm ngâm. Vị trí cũ của cup_01 trên bàn trống, không có bản sao tách trà nào khác.",
+      "expected_final_state": {
+        "CHAR_02_BO": {
+          "pose": "seated",
+          "holding": "cup_01",
+          "seat": "left_armchair",
+          "hands": {
+            "left": "cup_01",
+            "right": "cup_01"
+          }
+        },
+        "cup_01": {
+          "placed_at": null,
+          "held_by": "CHAR_02_BO",
+          "fill_fraction": 0.9
+        }
+      },
+      "required_refs": [
+        "CHAR_02_BO"
+      ],
+      "optional_refs": [
+        "LOC_03_PHONG_KHACH"
+      ],
+      "duration_s": 4,
+      "camera": {
+        "framing": "close",
+        "movement": "static"
+      }
+    }
+  ],
+  "target": {
+    "provider": "example-provider",
+    "model": "example-model",
+    "mode": "reference_images"
+  },
+  "lockfile": "project-benchmark-2shot.lock.json"
+}

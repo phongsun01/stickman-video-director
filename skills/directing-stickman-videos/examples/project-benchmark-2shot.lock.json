@@ -1,0 +1,26 @@
+{
+  "project_id": "EPISODE_56_SONG_DANG_TIEN",
+  "locked_at": "2026-11-16T18:00:03.257971+00:00",
+  "kit_pack": "vietnamese-daily",
+  "kit_pack_version": "3.1.1",
+  "kit_snapshot": "snapshots/91e90abc92171f663cb6d28564e6e7b130927c0a50df468954ed632c375c3194/kit.json",
+  "kit_snapshot_sha256": "91e90abc92171f663cb6d28564e6e7b130927c0a50df468954ed632c375c3194",
+  "locked_entities": {
+    "CHAR_02_BO": {
+      "revision": "rev-2026-11-17.2",
+      "ref_hash": "655784d81ebcf9b6611f35baafaf75618fd52d9ec396044a11f8dc122f5bc1aa"
+    },
+    "ENS_01_AN_VA_BO": {
+      "revision": "rev-2026-11-17.2",
+      "ref_hash": null
+    },
+    "LOC_03_PHONG_KHACH": {
+      "revision": "rev-2026-11-17.2",
+      "ref_hash": "644bb61e4ffb191925deedf7a72fe10fa6012928d340b0380b5743c6025a6c32"
+    },
+    "PROP_03_TACH_TRA": {
+      "revision": "rev-2026-11-17.2",
+      "ref_hash": null
+    }
+  }
+}

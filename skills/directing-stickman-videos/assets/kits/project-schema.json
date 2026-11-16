@@ -1,0 +1,311 @@
+{
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pack_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lockfile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mode": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "provider",
+        "model",
+        "mode"
+      ]
+    },
+    "timeline": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "shot_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "continuity_from": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cut_type": {
+            "enum": [
+              "scene_establish",
+              "continuous",
+              "time_jump",
+              "location_cut"
+            ]
+          },
+          "duration_s": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "location": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "angle": {
+                "type": "string",
+                "minLength": 1
+              },
+              "lighting": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "id",
+              "angle",
+              "lighting"
+            ]
+          },
+          "characters": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "variant": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "id",
+                "variant"
+              ]
+            }
+          },
+          "prop_instances": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "instance_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "type_id": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "instance_id",
+                "type_id"
+              ]
+            }
+          },
+          "initial_state": {
+            "type": "object"
+          },
+          "expected_final_state": {
+            "type": "object"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "time_s": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "op": {
+                  "enum": [
+                    "pickup",
+                    "putdown",
+                    "handover",
+                    "consume"
+                  ]
+                },
+                "actor": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "target": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "from": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "to": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "hands": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "recipient": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "recipient_hands": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "amount_fraction": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 1
+                }
+              },
+              "required": [
+                "time_s",
+                "op",
+                "actor",
+                "target"
+              ],
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "op": {
+                        "const": "pickup"
+                      }
+                    },
+                    "required": [
+                      "op"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "from",
+                      "hands"
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "op": {
+                        "const": "putdown"
+                      }
+                    },
+                    "required": [
+                      "op"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "to"
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "op": {
+                        "const": "handover"
+                      }
+                    },
+                    "required": [
+                      "op"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "recipient",
+                      "recipient_hands"
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "op": {
+                        "const": "consume"
+                      }
+                    },
+                    "required": [
+                      "op"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "amount_fraction"
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "required_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "optional_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "shot_id",
+          "continuity_from",
+          "cut_type",
+          "duration_s",
+          "location",
+          "characters",
+          "prop_instances",
+          "initial_state",
+          "expected_final_state",
+          "events",
+          "required_refs",
+          "optional_refs"
+        ]
+      }
+    }
+  },
+  "required": [
+    "project_id",
+    "pack_ref",
+    "target",
+    "timeline"
+  ],
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Stickman shot project"
+}

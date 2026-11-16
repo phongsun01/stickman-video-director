@@ -1,0 +1,498 @@
+{
+  "project_id": "BENCHMARK_6SHOT_SUITE",
+  "pack_ref": "vietnamese-daily@3.1.1",
+  "timeline": [
+    {
+      "shot_id": "S01_FULL_BODY",
+      "continuity_from": null,
+      "cut_type": "scene_establish",
+      "location": {
+        "id": "LOC_01_PHO_VN",
+        "angle": "street_wide",
+        "lighting": "morning"
+      },
+      "characters": [
+        {
+          "id": "CHAR_01_AN",
+          "variant": "DEFAULT_DAILY"
+        },
+        {
+          "id": "CHAR_02_BO",
+          "variant": "BO_WHITE_TORSO"
+        }
+      ],
+      "prop_instances": [],
+      "initial_state": {
+        "CHAR_01_AN": {
+          "pose": "standing",
+          "holding": null,
+          "seat": null,
+          "hands": {
+            "left": null,
+            "right": null
+          }
+        },
+        "CHAR_02_BO": {
+          "pose": "standing",
+          "holding": null,
+          "seat": null,
+          "hands": {
+            "left": null,
+            "right": null
+          }
+        }
+      },
+      "events": [],
+      "narrative_action": "Bố và An đi dạo toàn thân trên vỉa hè đường phố buổi sáng. Bố chắp hai tay sau lưng thong thả bước đi, An đi bên cạnh.",
+      "expected_final_state": {
+        "CHAR_01_AN": {
+          "pose": "standing",
+          "holding": null,
+          "seat": null,
+          "hands": {
+            "left": null,
+            "right": null
+          }
+        },
+        "CHAR_02_BO": {
+          "pose": "standing",
+          "holding": null,
+          "seat": null,
+          "hands": {
+            "left": null,
+            "right": null
+          }
+        }
+      },
+      "required_refs": [
+        "CHAR_01_AN",
+        "CHAR_02_BO",
+        "LOC_01_PHO_VN"
+      ],
+      "optional_refs": [],
+      "duration_s": 4,
+      "camera": {
+        "framing": "wide",
+        "movement": "static"
+      }
+    },
+    {
+      "shot_id": "S02_CLOSE_UP",
+      "continuity_from": "S01_FULL_BODY",
+      "cut_type": "continuous",
+      "location": {
+        "id": "LOC_01_PHO_VN",
+        "angle": "street_wide",
+        "lighting": "morning"
+      },
+      "characters": [
+        {
+          "id": "CHAR_02_BO",
+          "variant": "BO_WHITE_TORSO"
+        }
+      ],
+      "prop_instances": [],
+      "initial_state": {
+        "CHAR_02_BO": {
+          "pose": "standing",
+          "holding": null,
+          "seat": null,
+          "hands": {
+            "left": null,
+            "right": null
+          }
+        }
+      },
+      "events": [],
+      "narrative_action": "Cận cảnh gương mặt Bố khi đang nói chuyện, nếp nhăn trán và mái tóc hoa râm rõ nét, nụ cười ôn tồn hiền hậu.",
+      "expected_final_state": {
+        "CHAR_02_BO": {
+          "pose": "standing",
+          "holding": null,
+          "seat": null,
+          "hands": {
+            "left": null,
+            "right": null
+          }
+        }
+      },
+      "required_refs": [
+        "CHAR_02_BO"
+      ],
+      "optional_refs": [],
+      "duration_s": 4,
+      "camera": {
+        "framing": "close",
+        "movement": "static"
+      }
+    },
+    {
+      "shot_id": "S03_PROFILE_SHIFT",
+      "continuity_from": "S02_CLOSE_UP",
+      "cut_type": "continuous",
+      "location": {
+        "id": "LOC_01_PHO_VN",
+        "angle": "street_wide",
+        "lighting": "morning"
+      },
+      "characters": [
+        {
+          "id": "CHAR_01_AN",
+          "variant": "DEFAULT_DAILY"
+        },
+        {
+          "id": "CHAR_02_BO",
+          "variant": "BO_WHITE_TORSO"
+        }
+      ],
+      "prop_instances": [],
+      "initial_state": {
+        "CHAR_01_AN": {
+          "pose": "standing",
+          "holding": null,
+          "seat": null,
+          "hands": {
+            "left": null,
+            "right": null
+          }
+        },
+        "CHAR_02_BO": {
+          "pose": "standing",
+          "holding": null,
+          "seat": null,
+          "hands": {
+            "left": null,
+            "right": null
+          }
+        }
+      },
+      "events": [],
+      "narrative_action": "Góc quay nghiêng 45 độ hai cha con. An gật đầu đồng tình, cấu trúc thân khép kín tô trắng và nét mặt giữ vững tỷ lệ.",
+      "expected_final_state": {
+        "CHAR_01_AN": {
+          "pose": "standing",
+          "holding": null,
+          "seat": null,
+          "hands": {
+            "left": null,
+            "right": null
+          }
+        },
+        "CHAR_02_BO": {
+          "pose": "standing",
+          "holding": null,
+          "seat": null,
+          "hands": {
+            "left": null,
+            "right": null
+          }
+        }
+      },
+      "required_refs": [
+        "CHAR_01_AN",
+        "CHAR_02_BO"
+      ],
+      "optional_refs": [
+        "LOC_01_PHO_VN"
+      ],
+      "duration_s": 4,
+      "camera": {
+        "framing": "wide",
+        "movement": "static"
+      }
+    },
+    {
+      "shot_id": "S04_PROP_INTERACTION",
+      "continuity_from": "S03_PROFILE_SHIFT",
+      "cut_type": "location_cut",
+      "location": {
+        "id": "LOC_03_PHONG_KHACH",
+        "angle": "front_wide",
+        "lighting": "morning"
+      },
+      "characters": [
+        {
+          "id": "CHAR_02_BO",
+          "variant": "BO_WHITE_TORSO"
+        }
+      ],
+      "prop_instances": [
+        {
+          "instance_id": "cup_01",
+          "type_id": "PROP_03_TACH_TRA"
+        }
+      ],
+      "initial_state": {
+        "CHAR_02_BO": {
+          "pose": "seated",
+          "holding": null,
+          "seat": "left_armchair",
+          "hands": {
+            "left": null,
+            "right": null
+          }
+        },
+        "cup_01": {
+          "placed_at": "tea_table_surface",
+          "held_by": null,
+          "fill_fraction": 1.0
+        },
+        "CHAR_01_AN": {
+          "pose": "seated",
+          "seat": "sofa",
+          "holding": null,
+          "hands": {
+            "left": null,
+            "right": null
+          }
+        }
+      },
+      "events": [
+        {
+          "time_s": 1.0,
+          "op": "pickup",
+          "actor": "CHAR_02_BO",
+          "target": "cup_01",
+          "from": "tea_table_surface",
+          "hands": [
+            "left",
+            "right"
+          ]
+        }
+      ],
+      "narrative_action": "Tại phòng khách nhà An, Bố từ từ nhấc tách trà cup_01 lên khỏi bàn. Vị trí cũ của cup_01 trên bàn trở nên trống; không nhân bản cup_01.",
+      "expected_final_state": {
+        "CHAR_02_BO": {
+          "pose": "seated",
+          "holding": "cup_01",
+          "seat": "left_armchair",
+          "hands": {
+            "left": "cup_01",
+            "right": "cup_01"
+          }
+        },
+        "cup_01": {
+          "placed_at": null,
+          "held_by": "CHAR_02_BO",
+          "fill_fraction": 1.0
+        }
+      },
+      "required_refs": [
+        "CHAR_02_BO",
+        "LOC_03_PHONG_KHACH"
+      ],
+      "optional_refs": [],
+      "duration_s": 4,
+      "camera": {
+        "framing": "wide",
+        "movement": "static"
+      },
+      "state_changes": [
+        {
+          "entity": "CHAR_01_AN",
+          "field": "pose",
+          "before": "standing",
+          "after": "seated",
+          "reason": "Time jump home; both characters sit down before the new shot."
+        },
+        {
+          "entity": "CHAR_01_AN",
+          "field": "seat",
+          "before": null,
+          "after": "sofa",
+          "reason": "Time jump home; both characters sit down before the new shot."
+        },
+        {
+          "entity": "CHAR_02_BO",
+          "field": "pose",
+          "before": "standing",
+          "after": "seated",
+          "reason": "Time jump home; both characters sit down before the new shot."
+        },
+        {
+          "entity": "CHAR_02_BO",
+          "field": "seat",
+          "before": null,
+          "after": "left_armchair",
+          "reason": "Time jump home; both characters sit down before the new shot."
+        }
+      ]
+    },
+    {
+      "shot_id": "S05_GROUP_ENSEMBLE",
+      "continuity_from": "S04_PROP_INTERACTION",
+      "cut_type": "continuous",
+      "location": {
+        "id": "LOC_03_PHONG_KHACH",
+        "angle": "front_wide",
+        "lighting": "morning"
+      },
+      "characters": [
+        {
+          "id": "CHAR_01_AN",
+          "variant": "DEFAULT_DAILY"
+        },
+        {
+          "id": "CHAR_02_BO",
+          "variant": "BO_WHITE_TORSO"
+        }
+      ],
+      "prop_instances": [
+        {
+          "instance_id": "cup_01",
+          "type_id": "PROP_03_TACH_TRA"
+        }
+      ],
+      "initial_state": {
+        "CHAR_01_AN": {
+          "pose": "seated",
+          "holding": null,
+          "seat": "sofa",
+          "hands": {
+            "left": null,
+            "right": null
+          }
+        },
+        "CHAR_02_BO": {
+          "pose": "seated",
+          "holding": "cup_01",
+          "seat": "left_armchair",
+          "hands": {
+            "left": "cup_01",
+            "right": "cup_01"
+          }
+        },
+        "cup_01": {
+          "placed_at": null,
+          "held_by": "CHAR_02_BO",
+          "fill_fraction": 1.0
+        }
+      },
+      "events": [],
+      "narrative_action": "Bố và An ngồi đối diện nhau bên bàn trà phòng khách. Bố vẫn đang cầm tách trà cup_01 trên tay dặn dò An, An ngồi chăm chú lắng nghe.",
+      "expected_final_state": {
+        "CHAR_01_AN": {
+          "pose": "seated",
+          "holding": null,
+          "seat": "sofa",
+          "hands": {
+            "left": null,
+            "right": null
+          }
+        },
+        "CHAR_02_BO": {
+          "pose": "seated",
+          "holding": "cup_01",
+          "seat": "left_armchair",
+          "hands": {
+            "left": "cup_01",
+            "right": "cup_01"
+          }
+        },
+        "cup_01": {
+          "placed_at": null,
+          "held_by": "CHAR_02_BO",
+          "fill_fraction": 1.0
+        }
+      },
+      "required_refs": [
+        "CHAR_01_AN",
+        "CHAR_02_BO",
+        "LOC_03_PHONG_KHACH"
+      ],
+      "optional_refs": [],
+      "duration_s": 4,
+      "camera": {
+        "framing": "wide",
+        "movement": "static"
+      }
+    },
+    {
+      "shot_id": "S06_LOCATION_CALLBACK",
+      "continuity_from": "S05_GROUP_ENSEMBLE",
+      "cut_type": "continuous",
+      "location": {
+        "id": "LOC_03_PHONG_KHACH",
+        "angle": "table_close",
+        "lighting": "morning"
+      },
+      "characters": [
+        {
+          "id": "CHAR_02_BO",
+          "variant": "BO_WHITE_TORSO"
+        }
+      ],
+      "prop_instances": [
+        {
+          "instance_id": "cup_01",
+          "type_id": "PROP_03_TACH_TRA"
+        }
+      ],
+      "initial_state": {
+        "CHAR_02_BO": {
+          "pose": "seated",
+          "holding": "cup_01",
+          "seat": "left_armchair",
+          "hands": {
+            "left": "cup_01",
+            "right": "cup_01"
+          }
+        },
+        "cup_01": {
+          "placed_at": null,
+          "held_by": "CHAR_02_BO",
+          "fill_fraction": 1.0
+        }
+      },
+      "events": [
+        {
+          "time_s": 1.0,
+          "op": "consume",
+          "actor": "CHAR_02_BO",
+          "target": "cup_01",
+          "amount_fraction": 0.1
+        },
+        {
+          "time_s": 2.5,
+          "op": "putdown",
+          "actor": "CHAR_02_BO",
+          "target": "cup_01",
+          "to": "tea_table_surface"
+        }
+      ],
+      "narrative_action": "Bố nhấp một ngụm trà rồi đặt cup_01 xuống bàn; vị trí cũ và kiến trúc phòng khách giữ nguyên.",
+      "expected_final_state": {
+        "CHAR_02_BO": {
+          "pose": "seated",
+          "holding": null,
+          "seat": "left_armchair",
+          "hands": {
+            "left": null,
+            "right": null
+          }
+        },
+        "cup_01": {
+          "placed_at": "tea_table_surface",
+          "held_by": null,
+          "fill_fraction": 0.9
+        }
+      },
+      "required_refs": [
+        "CHAR_02_BO",
+        "LOC_03_PHONG_KHACH"
+      ],
+      "optional_refs": [],
+      "duration_s": 4,
+      "camera": {
+        "framing": "close",
+        "movement": "static"
+      }
+    }
+  ],
+  "target": {
+    "provider": "example-provider",
+    "model": "example-model",
+    "mode": "reference_images"
+  },
+  "lockfile": "benchmark-sequence-6shot.lock.json"
+}
