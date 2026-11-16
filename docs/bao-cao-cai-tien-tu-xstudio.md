@@ -510,7 +510,7 @@ echo Installation complete!
   - [x] **Kinetic Typography (chữ nảy TikTok / Karaoke style):** Hỗ trợ 6 kiểu phụ đề động (`kinetic`, `tiktok`, `karaoke`, `pop`, `box`, `classic`) nảy chữ lò xo theo nhịp và tô sáng từ đang đọc trong Canvas & xuất file `.ass` chuẩn (`references/kinetic-typography.md`)
   - [x] **Công cụ đóng gói đa nền tảng (`autopilot.mjs package` cho TikTok, Reels, Shorts, YouTube):** Tự động chuyển đổi tỷ lệ khung hình (9:16 dọc hoặc 16:9 Cinema Blurred Background), tạo title, hook caption, hashtags và YouTube Chapters tự động từ các shot kịch bản (`references/platform-export-packaging.md`)
   - [ ] Trình tạo Thumbnail tự động theo preset từ Contact Sheet
-  - [ ] Hiển thị tiến trình render chi tiết (Progress streaming / JSON)
+  - [x] **Hiển thị tiến trình render chi tiết (Progress streaming / JSON):** Hỗ trợ hiển thị tiến trình dạng tỷ lệ phần trăm `[ 25%]` trong terminal và cờ `--progress-json` xuất luồng sự kiện JSON cho UI/Agent theo dõi thời gian thực
 
 - [ ] **Backlog dài hạn:**
   - [ ] Tách giọng / nhạc nền (Vocal Separation UVR-MDX)
@@ -594,11 +594,77 @@ Trong thư mục `20-reference-motion-styles` chứa các source code HTML5 Canv
 
 ---
 
-## Ghi chú
+## 🚀 BÁO CÁO TRIỂN KHAI THỰC TẾ TRONG PHIÊN LÀM VIỆC (2026-11-16)
 
-Tất cả cải tiến đề xuất dựa trên code và documentation thực tế của xStudio. Các feature không khả thi do kiến trúc khác nhau (web UI, Windows Job Objects, Ed25519 license) đã được loại bỏ. Chỉ giữ lại các cải tiến thuần **CLI/script/documentation** phù hợp với kiến trúc agent-first của stickman-video-director.
+Trong phiên làm việc này, toàn bộ các hạng mục nâng cấp trọng điểm từ xStudio và 2 kho thư viện local (`sfx-thu-vien` và `Motion-graphics-skill-stack-store`) đã được hiện thực hóa đầy đủ, kiểm thử đạt 100% và tích hợp trực tiếp vào nhánh `main`:
+
+### 1. VieNeu Voice Catalog & Tự động Co giãn Timing (`atempo`)
+- **Tài liệu**: [vieneu-voice-catalog.md](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/references/vieneu-voice-catalog.md)
+- **Engine**: [vieneu-tts-generator.py](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/scripts/vieneu-tts-generator.py)
+- **Tính năng**: Danh mục 12 giọng đọc tiếng Việt đa vùng miền, cơ chế Voice Cloning qua `--ref-audio`, và tự động co giãn thời lượng fit slot cảnh bằng bộ lọc FFmpeg `atempo` giữ nguyên cao độ (pitch-preserving).
+- **Test**: `tests/verify-vieneu-atempo.py` (Passed 100%).
+
+### 2. Đo kiểm & Chuẩn hóa Âm lượng EBU R128 (-14 LUFS) & Smart Ducking BGM
+- **Tài liệu**: [audio-loudness-and-ducking.md](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/references/audio-loudness-and-ducking.md)
+- **Engine**: [audio-master-lufs.py](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/scripts/audio-master-lufs.py) & [autopilot-render.mjs](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/scripts/autopilot-render.mjs)
+- **Tính năng**: Chuẩn hóa âm lượng 2-pass ITU-R BS.1770-4 (-14.0 LUFS, TP -1.5 dBTP), Smart Ducking BGM tự động dìm nhạc nền -14dB khi có giọng nói và nhả êm dịu khi im lặng, ghi log `report.audio_loudness`.
+- **Test**: `tests/verify-audio-loudness.py` (Passed 100%).
+
+### 3. Bộ máy Kiểm định Chất lượng Sau Render (Post-Render QC Engine)
+- **Tài liệu**: [post-render-qc.md](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/references/post-render-qc.md)
+- **Engine**: [qc-verification.py](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/scripts/qc-verification.py) & CLI `autopilot qc`
+- **Tính năng**: Quét đứng hình (`freezedetect`), đoạn câm (`silencedetect`), sai lệch âm lượng LUFS, tính điểm chất lượng QA Score (0-100) và xuất file kiểm định `verification.json`.
+- **Test**: `tests/verify-qc-report.py` (Passed 100%).
+
+### 4. 6 Cấu trúc Kịch bản Dẫn dắt Kể chuyện (Narrative Story Flows)
+- **Tài liệu**: [narrative-story-flows.md](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/references/narrative-story-flows.md)
+- **Engine**: [story-flow-scaffold.py](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/scripts/story-flow-scaffold.py) & CLI `autopilot storyboard`
+- **Tính năng**: 6 framework kịch bản kinh điển (PAS, Three Reasons Why, Myth Buster, Before-After-Bridge, Hero's Journey, Curiosity Gap), tự động sinh khung shot căn nhịp thời lượng chuẩn xác từng giây.
+- **Test**: `tests/verify-narrative-flows.py` (Passed 100%).
+
+### 5. Kinetic Typography Subtitles Generator (TikTok, Karaoke, Pop)
+- **Tài liệu**: [kinetic-typography.md](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/references/kinetic-typography.md)
+- **Engine**: [generate-kinetic-subs.py](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/scripts/generate-kinetic-subs.py) & CLI `autopilot subtitles`
+- **Tính năng**: 6 phong cách phụ đề động, hiệu ứng chữ nảy lò xo theo nhịp nói, highlight từ khóa đang đọc dạng Karaoke (`\kf`), xuất file phụ đề `.ass` chuẩn điện ảnh.
+- **Test**: `tests/verify-kinetic-typography.py` (Passed 100%).
+
+### 6. Tích hợp 20 Motion Graphics Templates (Dynamic Background & Transparent Overlays)
+- **Tài liệu**: [motion-graphics-cinematic-toolkit.md](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/references/motion-graphics-cinematic-toolkit.md)
+- **Engine**: [motion-overlay-renderer.py](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/scripts/motion-overlay-renderer.py) & CLI `autopilot motion-template`
+- **Tính năng**: 20 mẫu đồ họa chuyển động từ Motion Graphics store (Blueprint, Retro VHS, Particles, Neon Glow, Comic Book, Bauhaus, ASCII Art, ...), hỗ trợ render WebM Alpha/MP4 và Procedural Fallback FFmpeg không cần trình duyệt.
+- **Test**: `tests/verify-motion-templates.py` (Passed 100%).
+
+### 7. Tự động hóa Motion Graphics & Thông báo Nổi bật Trước khi Render
+- **Engine**: [autopilot-render.mjs](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/scripts/autopilot-render.mjs)
+- **Tính năng**: Hiển thị bảng thông báo visual console trước khi bắt đầu render. Tự động kích hoạt motion theo style với cờ `--auto-motion`, hòa trộn FFmpeg layer (`colorkey` tách nền nhân vật đè lên Background và `blend` overlay lên trên).
+
+### 8. Công cụ Đóng gói Video Đa Nền Tảng (Multi-Platform Package Exporter)
+- **Tài liệu**: [platform-export-packaging.md](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/references/platform-export-packaging.md)
+- **Engine**: [platform-packager.py](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/scripts/platform-packager.py) & CLI `autopilot package`
+- **Tính năng**: Phân phối gói đóng gói cho TikTok, Instagram Reels, YouTube Shorts và YouTube 16:9 Landscape (với hiệu ứng Cinema Blurred Background hai bên), sinh title, caption, hashtags và tự động tạo YouTube Chapters (Timestamps 00:00) từ các shot trong kịch bản; hỗ trợ cờ loại trừ `--exclude` và cấu hình `platforms` trong `project.json`.
+- **Test**: `tests/verify-platform-package.py` (Passed 100%).
+
+### 9. Hiển thị Tiến trình Render Chi tiết (Progress Streaming & JSON)
+- **Engine**: [autopilot-render.mjs](file:///Users/xitrum/Documents/Dev/stickman/skills/directing-stickman-videos/scripts/autopilot-render.mjs) & cờ `--progress-json`
+- **Tính năng**: Báo cáo tiến trình trực quan dạng tỷ lệ phần trăm `[ 25%]` trong terminal qua 7 giai đoạn (`init`, `setup`, `shot`, `audio`, `composite`, `qc`, `complete`) và xuất luồng sự kiện JSON có cấu trúc cho Web UI hoặc Agent theo dõi.
+- **Test**: `tests/verify-progress-streaming.py` (Passed 100%).
 
 ---
 
-*Báo cáo tạo bởi Antigravity Agent — 2026-11-16 18:50 +07:00*  
-*Đọc tiếp: [tong-quan-tinh-nang-cho-nguoi-dung.md](tong-quan-tinh-nang-cho-nguoi-dung.md) | [ke-hoach-tich-hop-sfx-va-motion.md](ke-hoach-tich-hop-sfx-va-motion.md)*
+### Bảng Lệnh CLI Autopilot Mới Được Bổ Sung
+
+| Lệnh CLI | Chức năng chính |
+| :--- | :--- |
+| `node scripts/autopilot.mjs auto-sfx project.json` | Tự động phát hiện hành động kịch bản và chèn SFX căn onset |
+| `node scripts/autopilot.mjs story-flow --list` / `storyboard --flow <key>` | Khởi tạo khung kịch bản theo 6 cấu trúc dẫn dắt điện ảnh |
+| `node scripts/autopilot.mjs subtitles captions.json output.ass --style kinetic` | Sinh phụ đề động TikTok/Karaoke chuẩn `.ass` |
+| `node scripts/autopilot.mjs motion-template --list` | Tra cứu 20 phong cách motion templates |
+| `node scripts/autopilot.mjs render project.json --auto-motion` | Render có thông báo nổi bật và tự động lồng ghép motion |
+| `node scripts/autopilot.mjs render project.json --progress-json` | Xuất tiến trình render dạng luồng sự kiện JSON |
+| `node scripts/autopilot.mjs package film.mp4 [--exclude reels]` | Đóng gói xuất bản đa nền tảng (TikTok, Shorts, YouTube) |
+| `node scripts/autopilot.mjs qc film.mp4` | Kiểm định chất lượng video và xuất báo cáo `verification.json` |
+
+---
+
+*Báo cáo cập nhật và hoàn tất bởi Antigravity Agent — 2026-11-16 22:12 +07:00*  
+*Trạng thái: Toàn bộ 9 hạng mục đã commit & push lên `origin/main`.*

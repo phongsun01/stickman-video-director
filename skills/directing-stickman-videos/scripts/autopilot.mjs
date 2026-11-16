@@ -21,6 +21,7 @@ for (let i = 0; i < rawArgs.length; i++) {
   const a = rawArgs[i];
   if (a === '--replace') { flagValues['--replace'] = true; continue; }
   if (a === '--auto-motion') { flagValues['--auto-motion'] = true; continue; }
+  if (a === '--progress-json') { flagValues['--progress-json'] = true; continue; }
   const eq = a.match(/^(--\w+)=(.*)$/);
   if (eq && VALUE_FLAGS.has(eq[1])) { flagValues[eq[1]] = eq[2]; continue; }
   if (VALUE_FLAGS.has(a)) { flagValues[a] = rawArgs[i + 1]; i++; continue; }
@@ -297,7 +298,7 @@ async function main() {
     if (option('--motion-bg')) p.motion_background = {style: option('--motion-bg')};
     if (option('--motion-ov')) p.motion_overlay = {style: option('--motion-ov')};
     if (flagValues['--auto-motion']) p.auto_motion = true;
-    const {render} = await import('./autopilot-render.mjs'); console.log(JSON.stringify(await render(p, {full: command === 'render', seconds, replace: Boolean(flagValues['--replace']) || args.includes('--replace')}), null, 2));
+    const {render} = await import('./autopilot-render.mjs'); console.log(JSON.stringify(await render(p, {full: command === 'render', seconds, replace: Boolean(flagValues['--replace']) || args.includes('--replace'), progressJson: Boolean(flagValues['--progress-json'])}), null, 2));
   } else throw new Error('Commands: workflow --style B1..B6 [--ratio 16:9|9:16] [--project PATH] | doctor | probe FILE | init DIR | preflight B6_PROJECT --ratio R | draft B6_PROJECT --ratio R --trusted-code [--draft-scale 0.5|0.75] [--output PATH] | plan-iteration B6_PROJECT --ratio R --report FILE | review-pack B6_PROJECT --ratio R --report FILE --output outputs/review | check-review B6_PROJECT --ratio R --review FILE | captions WORDS OUTPUT [--lead N] | validate PROJECT [--seconds N] | preview PROJECT [--seconds N] [--replace] | approve PROJECT --note TEXT [--visual-review REVIEW_JSON] [--text-review REVIEW_JSON] [--picture-review REVIEW_JSON] | render PROJECT [--replace] | accept-text PROJECT --review REVIEW_JSON | accept-picture PROJECT --review REVIEW_JSON | accept-visual PROJECT --review REVIEW_JSON (flags may come before or after PROJECT)');
 }
 main().catch(e => { console.error(e.message); process.exitCode = 1; });

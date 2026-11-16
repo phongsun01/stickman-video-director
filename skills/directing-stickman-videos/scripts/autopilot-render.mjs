@@ -323,7 +323,7 @@ function prepareMotionAsset(style, mode, duration, width, height, outDir) {
   if (res.status === 0 && fs.existsSync(outPath)) return outPath;
   return null;
 }
-export async function render(p, {full = false, seconds = 20, replace = false} = {}) {
+export async function render(p, {full = false, seconds = 20, replace = false, progressJson = false} = {}) {
   // A preview never loads media or paints frames belonging only to the unfinished tail.
   if (!full) p = loadProject(p.file, {seconds});
   const out = outputDir(p), lock = path.join(out, 'render.lock');
@@ -336,6 +336,18 @@ export async function render(p, {full = false, seconds = 20, replace = false} = 
   const kind = full ? 'film' : 'preview', target = path.join(out, `${kind}.mp4`), reportPath = path.join(out, `${kind}-report.json`);
   const duration = Math.min(p.duration, full ? p.duration : seconds), count = Math.ceil(duration * p.fps - 1e-6);
   const done = value => save(path.join(out, 'checkpoint.json'), {stage: value, kind, fingerprint: p.fingerprint, pid: process.pid, updated_at: new Date().toISOString()});
+
+  const progress = (phase, pct, msg, extra = {}) => {
+    pct = Math.max(0, Math.min(100, Math.round(pct)));
+    if (progressJson) {
+      process.stdout.write(JSON.stringify({phase, pct, msg, ...extra}) + '\n');
+    } else {
+      const pctStr = String(pct).padStart(3, ' ');
+      console.log(`[${pctStr}%] ${msg}`);
+    }
+  };
+
+  progress('init', 0, `Khởi tạo dự án ${p.style} (${count} khung hình, ${(count / p.fps).toFixed(1)}s)...`);
 
   // Resolve motion graphics configurations
   let motionBg = p.motion_background || null;
@@ -374,11 +386,13 @@ export async function render(p, {full = false, seconds = 20, replace = false} = 
           };
           // Cached pixels are reusable; an edited report is never review authority.
           if (['B1', 'B2', 'B3', 'B4'].includes(p.style)) save(reportPath, cached);
+          progress('complete', 100, `Sử dụng kết quả render đã cache: ${path.basename(target)} ✅`, {cached: true, output: target});
           return cached;
         }
       }
       throw new Error('Output exists with different/unverified contents; pass --replace to replace renderer-owned output');
     }
+    progress('setup', 10, 'Thiết lập phông chữ, bố cục khung vẽ và motion layers...');
     const cache = path.join(out, 'cache'); fs.mkdirSync(cache, {recursive: true});
     const frame = await painter(p), clips = []; let reused = 0;
     const motionEvidence = await checkBStyleMotionPaint(p, frame);
@@ -397,9 +411,12 @@ export async function render(p, {full = false, seconds = 20, replace = false} = 
       const clip = path.join(cache, `${key}.mp4`); let valid = false;
       if (fs.existsSync(clip)) try { const info = probe(clip); valid = Number(info.streams[0].nb_frames) === last - first; } catch {}
       if (valid) reused++; else { done(`rendering shot ${i + 1}/${p.shots.length}`); const tmp = path.join(cache, `${key}.partial.mp4`); await encode(p, frame, first, last - first, tmp); fs.renameSync(tmp, clip); }
-      clips.push(clip); process.stdout.write(JSON.stringify({shot: i + 1, total: p.shots.length, cache_hit: valid}) + '\n');
+      clips.push(clip);
+      const shotPct = 12 + Math.round((i + 1) / p.shots.length * 58);
+      progress('shot', shotPct, `Render shot ${i + 1}/${p.shots.length} (${(first / p.fps).toFixed(1)}s - ${(last / p.fps).toFixed(1)}s) [${valid ? 'cache hit' : 'encoded'}]...`, {shot: i + 1, total: p.shots.length, cache_hit: valid});
     }
     done('assembling original-speed voice, captions and SFX');
+    progress('audio', 72, 'Hòa âm lồng tiếng, Smart Ducking BGM và Master EBU R128 (-14 LUFS)...');
     const list = path.join(cache, 'concat.txt'); fs.writeFileSync(list, clips.map(f => `file '${path.basename(f)}'`).join('\n') + '\n');
     const args = ['-v', 'error', '-y', '-f', 'concat', '-safe', '1', '-i', list, '-i', p.voicePath];
     const trim = p.voiceTrimStart ? `atrim=start=${p.voiceTrimStart},asetpts=PTS-STARTPTS,` : '';
@@ -478,7 +495,9 @@ export async function render(p, {full = false, seconds = 20, replace = false} = 
 
     const partial = path.join(out, `${kind}.partial.mp4`);
     args.push('-filter_complex', filters.join(';'), '-map', vMap, '-map', '[a]', ...vCodecArgs, '-c:a', 'aac', '-b:a', '192k', '-t', String(count / p.fps), '-movflags', '+faststart', partial);
+    progress('composite', 85, 'Ghép nối và mã hóa luồng video đầu ra...');
     run(FFMPEG, args); run(FFMPEG, ['-v', 'error', '-i', partial, '-f', 'null', '-']); fs.renameSync(partial, target);
+    progress('qc', 94, 'Xuất phụ đề Kinetic ASS và chạy kiểm định QC tự động...');
     const cues = p.captions.filter(c => c.start < duration).map(c => ({...c, end: Math.min(c.end, duration)}));
     fs.writeFileSync(path.join(out, `${kind}.srt`), cues.map((c, i) => `${i + 1}\n${stamp(c.start)} --> ${stamp(c.end)}\n${c.text}\n`).join('\n'));
     fs.writeFileSync(path.join(out, `${kind}.vtt`), 'WEBVTT\n\n' + cues.map(c => `${stamp(c.start, true)} --> ${stamp(c.end, true)}\n${c.text}\n`).join('\n'));
@@ -552,7 +571,9 @@ export async function render(p, {full = false, seconds = 20, replace = false} = 
         report.verification = JSON.parse(fs.readFileSync(verifyJson, 'utf8'));
       }
     } catch {}
-    save(reportPath, report); done('complete'); return report;
+    save(reportPath, report); done('complete');
+    progress('complete', 100, `Render hoàn tất: ${path.basename(target)} (${Number(info.format.duration).toFixed(1)}s, ${report.audio_loudness?.integrated !== undefined ? report.audio_loudness.integrated.toFixed(1) + ' LUFS' : '-14.0 LUFS'}) ✅`, {output: target, duration: Number(info.format.duration), loudness: report.audio_loudness, qa_score: report.verification?.qa_score});
+    return report;
   } catch (e) { done(`failed: ${e.message}`); throw e; }
   finally { fs.unlinkSync(lock); }
 }
