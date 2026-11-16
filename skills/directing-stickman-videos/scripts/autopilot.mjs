@@ -14,12 +14,13 @@ const [command, ...rawArgs] = process.argv.slice(2);
 // in `--flag value` or `--flag=value` form. Previously `preview --replace PROJECT`
 // treated `--replace` as the project path and failed. Boolean flag: --replace.
 // Value flags: --seconds, --style, --note, --lead, --output, --lang, --max-words.
-const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output', '--lang', '--max-words', '--target-lufs', '--flow', '--topic', '--duration', '--format', '--highlight-color', '--mode', '--dur']);
+const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output', '--lang', '--max-words', '--target-lufs', '--flow', '--topic', '--duration', '--format', '--highlight-color', '--mode', '--dur', '--platforms', '--title', '--description', '--hashtags', '--motion-bg', '--motion-ov']);
 const flagValues = {};
 const args = [];
 for (let i = 0; i < rawArgs.length; i++) {
   const a = rawArgs[i];
   if (a === '--replace') { flagValues['--replace'] = true; continue; }
+  if (a === '--auto-motion') { flagValues['--auto-motion'] = true; continue; }
   const eq = a.match(/^(--\w+)=(.*)$/);
   if (eq && VALUE_FLAGS.has(eq[1])) { flagValues[eq[1]] = eq[2]; continue; }
   if (VALUE_FLAGS.has(a)) { flagValues[a] = rawArgs[i + 1]; i++; continue; }
@@ -50,6 +51,19 @@ async function main() {
     if (option('--mode')) pyArgs.push('--mode', option('--mode'));
     if (option('--duration') || option('--dur')) pyArgs.push('--duration', option('--duration') || option('--dur'));
     if (option('--output')) pyArgs.push('--output', path.resolve(option('--output')));
+    const res = spawnSync(py, pyArgs, {stdio: 'inherit'});
+    if (res.status !== 0) process.exit(res.status || 1);
+    return;
+  } else if (command === 'package') {
+    if (!args[0]) throw new Error('Usage: autopilot.mjs package <film.mp4|project.json> [--output <dir>] [--platforms tiktok,reels,shorts,youtube] [--title <text>] [--description <text>] [--hashtags <list>]');
+    const py = process.env.PYTHON || 'python3';
+    const packagerScript = path.join(ROOT, 'scripts/platform-packager.py');
+    const pyArgs = [packagerScript, '--input', path.resolve(args[0])];
+    if (option('--output')) pyArgs.push('--output', path.resolve(option('--output')));
+    if (option('--platforms')) pyArgs.push('--platforms', option('--platforms'));
+    if (option('--title')) pyArgs.push('--title', option('--title'));
+    if (option('--description')) pyArgs.push('--description', option('--description'));
+    if (option('--hashtags')) pyArgs.push('--hashtags', option('--hashtags'));
     const res = spawnSync(py, pyArgs, {stdio: 'inherit'});
     if (res.status !== 0) process.exit(res.status || 1);
     return;
@@ -279,6 +293,9 @@ async function main() {
       const a = json(approvalPath);
       if (a.preview_fingerprint !== reviewed.fingerprint || a.preview_seconds !== report.preview_seconds || a.preview_sha256 !== report.output_sha256) throw new Error('Approval invalidated; preview and user approval required again');
     }
+    if (option('--motion-bg')) p.motion_background = {style: option('--motion-bg')};
+    if (option('--motion-ov')) p.motion_overlay = {style: option('--motion-ov')};
+    if (flagValues['--auto-motion']) p.auto_motion = true;
     const {render} = await import('./autopilot-render.mjs'); console.log(JSON.stringify(await render(p, {full: command === 'render', seconds, replace: Boolean(flagValues['--replace']) || args.includes('--replace')}), null, 2));
   } else throw new Error('Commands: workflow --style B1..B6 [--ratio 16:9|9:16] [--project PATH] | doctor | probe FILE | init DIR | preflight B6_PROJECT --ratio R | draft B6_PROJECT --ratio R --trusted-code [--draft-scale 0.5|0.75] [--output PATH] | plan-iteration B6_PROJECT --ratio R --report FILE | review-pack B6_PROJECT --ratio R --report FILE --output outputs/review | check-review B6_PROJECT --ratio R --review FILE | captions WORDS OUTPUT [--lead N] | validate PROJECT [--seconds N] | preview PROJECT [--seconds N] [--replace] | approve PROJECT --note TEXT [--visual-review REVIEW_JSON] [--text-review REVIEW_JSON] [--picture-review REVIEW_JSON] | render PROJECT [--replace] | accept-text PROJECT --review REVIEW_JSON | accept-picture PROJECT --review REVIEW_JSON | accept-visual PROJECT --review REVIEW_JSON (flags may come before or after PROJECT)');
 }

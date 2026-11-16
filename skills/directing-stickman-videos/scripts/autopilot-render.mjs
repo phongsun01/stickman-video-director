@@ -300,6 +300,29 @@ function makeSfx(p, file, duration) {
 function stamp(seconds, vtt = false) {
   const ms = Math.round(seconds * 1000); return `${String(Math.floor(ms / 3600000)).padStart(2, '0')}:${String(Math.floor(ms / 60000) % 60).padStart(2, '0')}:${String(Math.floor(ms / 1000) % 60).padStart(2, '0')}${vtt ? '.' : ','}${String(ms % 1000).padStart(3, '0')}`;
 }
+function prepareMotionAsset(style, mode, duration, width, height, outDir) {
+  const ext = mode === 'overlay' ? 'webm' : 'mp4';
+  const outPath = path.join(outDir, `motion_${mode}_${style}.${ext}`);
+  if (fs.existsSync(outPath)) {
+    try {
+      const info = probe(outPath);
+      if (Number(info.format.duration) >= duration - 0.5) return outPath;
+    } catch {}
+  }
+  const py = process.env.PYTHON || 'python3';
+  const rendererScript = path.join(ROOT, 'scripts/motion-overlay-renderer.py');
+  const res = spawnSync(py, [
+    rendererScript,
+    '--style', style,
+    '--mode', mode,
+    '--duration', String(Math.ceil(duration)),
+    '--width', String(width),
+    '--height', String(height),
+    '--output', outPath
+  ], {encoding: 'utf8'});
+  if (res.status === 0 && fs.existsSync(outPath)) return outPath;
+  return null;
+}
 export async function render(p, {full = false, seconds = 20, replace = false} = {}) {
   // A preview never loads media or paints frames belonging only to the unfinished tail.
   if (!full) p = loadProject(p.file, {seconds});
@@ -313,6 +336,31 @@ export async function render(p, {full = false, seconds = 20, replace = false} = 
   const kind = full ? 'film' : 'preview', target = path.join(out, `${kind}.mp4`), reportPath = path.join(out, `${kind}-report.json`);
   const duration = Math.min(p.duration, full ? p.duration : seconds), count = Math.ceil(duration * p.fps - 1e-6);
   const done = value => save(path.join(out, 'checkpoint.json'), {stage: value, kind, fingerprint: p.fingerprint, pid: process.pid, updated_at: new Date().toISOString()});
+
+  // Resolve motion graphics configurations
+  let motionBg = p.motion_background || null;
+  let motionOv = p.motion_overlay || null;
+  if (p.auto_motion && !motionBg && !motionOv) {
+    if (p.style === 'B2') motionBg = {style: 'blueprint', opacity: 0.85};
+    else if (p.style === 'B5') motionBg = {style: 'gradient-mesh', opacity: 0.9};
+    else if (['B3', 'B4'].includes(p.style)) motionOv = {style: 'retro-vhs', blend: 'screen', opacity: 0.65};
+    else if (p.style === 'B6') motionOv = {style: 'comic-book', blend: 'multiply', opacity: 0.8};
+    else if (p.style === 'B1') motionOv = {style: 'particles', blend: 'screen', opacity: 0.6};
+  }
+
+  if (motionBg || motionOv) {
+    console.log('\n================================================================================');
+    console.log('🎬 [THÔNG BÁO ĐỒ HỌA CHUYỂN ĐỘNG / MOTION GRAPHICS PIPELINE]');
+    console.log(`   ► Phong cách chính (Style): ${p.style}`);
+    if (motionBg) {
+      console.log(`   ► Nền động (Dynamic Background): [${motionBg.style}] (Độ mờ: ${Math.round((motionBg.opacity ?? 1.0) * 100)}%)`);
+    }
+    if (motionOv) {
+      console.log(`   ► Lớp phủ động (Layer Overlay):  [${motionOv.style}] (Hòa trộn: ${motionOv.blend ?? 'screen'}, Độ mờ: ${Math.round((motionOv.opacity ?? 0.7) * 100)}%)`);
+    }
+    console.log('   ► Trạng thái: Tự động khởi tạo assets và lồng ghép (composite) vào video đầu ra.');
+    console.log('================================================================================\n');
+  }
   try {
     if (fs.existsSync(target) && !replace) {
       if (fs.existsSync(reportPath)) {
@@ -385,8 +433,51 @@ export async function render(p, {full = false, seconds = 20, replace = false} = 
     }
     // Master chain: mix -> EBU R128 (-14 LUFS) loudnorm -> True-Peak limiter (-1.5 dBFS / limit 0.97)
     filters.push(`${mixes.join('')}amix=inputs=${mixes.length}:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11,alimiter=limit=0.97:level=false:latency=true[a]`);
+
+    // Motion graphics composite layers
+    let motionBgFile = null, motionOvFile = null;
+    let bgInputIdx = -1, ovInputIdx = -1;
+    if (motionBg) {
+      done(`generating dynamic background motion [${motionBg.style}]`);
+      motionBgFile = prepareMotionAsset(motionBg.style, 'background', count / p.fps, p.width, p.height, cache);
+      if (motionBgFile) {
+        args.push('-stream_loop', '-1', '-i', motionBgFile);
+        bgInputIdx = idx++;
+      }
+    }
+    if (motionOv) {
+      done(`generating layer overlay motion [${motionOv.style}]`);
+      motionOvFile = prepareMotionAsset(motionOv.style, 'overlay', count / p.fps, p.width, p.height, cache);
+      if (motionOvFile) {
+        args.push('-stream_loop', '-1', '-i', motionOvFile);
+        ovInputIdx = idx++;
+      }
+    }
+
+    let currentV = '0:v';
+    if (bgInputIdx !== -1) {
+      const keyColor = ['B3', 'B4'].includes(p.style) ? '0x111316' : p.style === 'B2' ? '0xF4F0E5' : '0xFDFDFC';
+      filters.push(`[${currentV}]colorkey=${keyColor}:0.08:0.02[v_stick_keyed]`);
+      filters.push(`[${bgInputIdx}:v][v_stick_keyed]overlay=shortest=1[v_with_bg]`);
+      currentV = 'v_with_bg';
+    }
+    if (ovInputIdx !== -1) {
+      const blend = motionOv.blend || 'screen';
+      const op = motionOv.opacity ?? 0.7;
+      if (blend === 'normal') {
+        filters.push(`[${currentV}][${ovInputIdx}:v]overlay=shortest=1:format=auto[v_with_ov]`);
+      } else {
+        filters.push(`[${currentV}][${ovInputIdx}:v]blend=all_mode=${blend}:all_opacity=${op}[v_with_ov]`);
+      }
+      currentV = 'v_with_ov';
+    }
+
+    const hasMotionVideo = (currentV !== '0:v');
+    const vMap = hasMotionVideo ? `[${currentV}]` : '0:v:0';
+    const vCodecArgs = hasMotionVideo ? ['-c:v', 'libx264', '-preset', 'fast', '-crf', '20', '-pix_fmt', 'yuv420p'] : ['-c:v', 'copy'];
+
     const partial = path.join(out, `${kind}.partial.mp4`);
-    args.push('-filter_complex', filters.join(';'), '-map', '0:v:0', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-t', String(count / p.fps), '-movflags', '+faststart', partial);
+    args.push('-filter_complex', filters.join(';'), '-map', vMap, '-map', '[a]', ...vCodecArgs, '-c:a', 'aac', '-b:a', '192k', '-t', String(count / p.fps), '-movflags', '+faststart', partial);
     run(FFMPEG, args); run(FFMPEG, ['-v', 'error', '-i', partial, '-f', 'null', '-']); fs.renameSync(partial, target);
     const cues = p.captions.filter(c => c.start < duration).map(c => ({...c, end: Math.min(c.end, duration)}));
     fs.writeFileSync(path.join(out, `${kind}.srt`), cues.map((c, i) => `${i + 1}\n${stamp(c.start)} --> ${stamp(c.end)}\n${c.text}\n`).join('\n'));
@@ -410,6 +501,12 @@ export async function render(p, {full = false, seconds = 20, replace = false} = 
     report.local_motion = motionEvidence;
     if (portraitEvidence) report.portrait = portraitEvidence;
     report.audio_tracks = {ambience: p.ambience.length, dialogue: p.dialogue.length, file_sfx: p.sfx.filter(s => s.kind === 'file').length, cuts: p.audio_cuts.length};
+    if (motionBg || motionOv) {
+      report.motion_graphics = {
+        background: motionBg ? {style: motionBg.style, opacity: motionBg.opacity ?? 1.0, file: motionBgFile} : null,
+        overlay: motionOv ? {style: motionOv.style, blend: motionOv.blend ?? 'screen', opacity: motionOv.opacity ?? 0.7, file: motionOvFile} : null
+      };
+    }
     if (['B1', 'B2', 'B3'].includes(p.style)) {
       const evidenceOut = path.join(out, `${kind}-reference`);
       fs.rmSync(evidenceOut, {recursive: true, force: true}); fs.mkdirSync(evidenceOut);
@@ -434,6 +531,12 @@ export async function render(p, {full = false, seconds = 20, replace = false} = 
       report.delivery_ready = false;
       report.voice_identity = {name: p.voice.name, id: p.voice.id, evidence: 'project metadata; source identity must be verified before generation'};
       report.audio_tracks = {ambience: p.ambience.length, dialogue: p.dialogue.length, file_sfx: p.sfx.filter(s => s.kind === 'file').length, cuts: p.audio_cuts.length};
+    if (motionBg || motionOv) {
+      report.motion_graphics = {
+        background: motionBg ? {style: motionBg.style, opacity: motionBg.opacity ?? 1.0, file: motionBgFile} : null,
+        overlay: motionOv ? {style: motionOv.style, blend: motionOv.blend ?? 'screen', opacity: motionOv.opacity ?? 0.7, file: motionOvFile} : null
+      };
+    }
       save(path.join(out, `${kind}-opening-audio.json`), report.opening_audio);
       save(path.join(out, `${kind}-opening-visual.json`), report.opening_visual);
     }

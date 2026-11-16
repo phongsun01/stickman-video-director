@@ -508,7 +508,7 @@ echo Installation complete!
 - [ ] **Sprint 3: Nâng cấp Trực quan & Đóng gói Phân phối**
   - [x] **Tích hợp 20 Motion Graphics Templates (làm layer overlay / background động):** Tích hợp 20 phong cách đồ họa chuyển động từ Motion-graphics store, hỗ trợ render Dynamic Background MP4 và Transparent Overlay WebM alpha channel với procedural fallback FFmpeg, quản lý qua CLI `autopilot motion-template` (`references/motion-graphics-cinematic-toolkit.md`)
   - [x] **Kinetic Typography (chữ nảy TikTok / Karaoke style):** Hỗ trợ 6 kiểu phụ đề động (`kinetic`, `tiktok`, `karaoke`, `pop`, `box`, `classic`) nảy chữ lò xo theo nhịp và tô sáng từ đang đọc trong Canvas & xuất file `.ass` chuẩn (`references/kinetic-typography.md`)
-  - [ ] Công cụ đóng gói đa nền tảng (`autopilot.mjs package` cho TikTok, Reels, Shorts, YouTube)
+  - [x] **Công cụ đóng gói đa nền tảng (`autopilot.mjs package` cho TikTok, Reels, Shorts, YouTube):** Tự động chuyển đổi tỷ lệ khung hình (9:16 dọc hoặc 16:9 Cinema Blurred Background), tạo title, hook caption, hashtags và YouTube Chapters tự động từ các shot kịch bản (`references/platform-export-packaging.md`)
   - [ ] Trình tạo Thumbnail tự động theo preset từ Contact Sheet
   - [ ] Hiển thị tiến trình render chi tiết (Progress streaming / JSON)
 
