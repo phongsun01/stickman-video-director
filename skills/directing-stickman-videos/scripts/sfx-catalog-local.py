@@ -32,6 +32,15 @@ DEFAULT_SFX_DIRS = [
     str(Path.cwd().parent / "sfx-thu-vien"),
 ]
 
+# Fallback locations for Motion Graphics Sound Effects
+DEFAULT_MOTION_SFX_DIRS = [
+    os.environ.get("MOTION_SFX_DIR", ""),
+    r"/Users/xitrum/Documents/Dev/library/Motion-graphics-skill-stack-store/sound-effects",
+    str(Path.home() / "Documents" / "Dev" / "library" / "Motion-graphics-skill-stack-store" / "sound-effects"),
+    r"D:\Video creator\Hoang Lma\Motion-graphics-skill-stack-store\sound-effects",
+    str(Path.home() / "Motion-graphics-skill-stack-store" / "sound-effects"),
+]
+
 
 def strip_accents(text: str) -> str:
     """Normalize and strip accents for fuzzy Vietnamese text search."""
@@ -65,7 +74,10 @@ class SfxCatalog:
         with open(self.data_dir / "catalog.json", "r", encoding="utf-8") as f:
             self.catalog_data = json.load(f)
 
-        self.items: List[Dict[str, Any]] = self.catalog_data.get("items", [])
+        self.items: List[Dict[str, Any]] = list(self.catalog_data.get("items", []))
+
+        # Also discover and index Motion Graphics sound-effects if available
+        self._load_motion_sound_effects()
 
         # Load events mapping if available
         self.events: Dict[str, Any] = {}
@@ -81,6 +93,43 @@ class SfxCatalog:
             with open(do_to_file, "r", encoding="utf-8") as f:
                 self.loudness = json.load(f)
 
+    def _load_motion_sound_effects(self) -> None:
+        motion_dir = None
+        for cand in DEFAULT_MOTION_SFX_DIRS:
+            if cand and Path(cand).is_dir():
+                motion_dir = Path(cand).resolve()
+                break
+
+        if not motion_dir:
+            return
+
+        for root, _, files in os.walk(motion_dir):
+            for file in sorted(files):
+                if file.endswith((".wav", ".mp3", ".m4a")):
+                    full_p = Path(root) / file
+                    rel_p = os.path.relpath(full_p, motion_dir)
+                    cat = Path(rel_p).parent.name
+                    if cat.startswith("Data Collect"):
+                        cat = "Data Collect"
+                    if not cat or cat == ".":
+                        cat = "Motion Graphics"
+
+                    name = full_p.stem
+                    search_blob = f"{name.lower()} {cat.lower()} cinematic motion"
+                    self.items.append({
+                        "id": f"mg_{hash(str(rel_p)) & 0xffffffff:08x}",
+                        "name": name,
+                        "path": str(full_p),
+                        "abs_path": str(full_p),
+                        "category": f"MG: {cat}",
+                        "source": "motion_graphics_store",
+                        "tags": [cat.lower(), "motion", "cinematic"],
+                        "uses": ["transition", "camera", "motion", "ui"],
+                        "search": search_blob,
+                        "dur": 1.5,
+                        "onset": 0.04,
+                    })
+
     def get_categories(self) -> Dict[str, int]:
         counts: Dict[str, int] = {}
         for item in self.items:
@@ -90,6 +139,9 @@ class SfxCatalog:
 
     def resolve_sound_path(self, rel_path: str) -> Path:
         """Get absolute path to audio file on disk."""
+        p = Path(rel_path)
+        if p.is_absolute():
+            return p.resolve()
         return (self.sounds_dir / rel_path).resolve()
 
     def search(self, query: str, limit: int = 10, category: Optional[str] = None) -> List[Dict[str, Any]]:

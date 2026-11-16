@@ -495,7 +495,7 @@ echo Installation complete!
 - [ ] **Sprint 1: Cải tiến Âm thanh & Đồng bộ Tiếng Việt**
   - [x] Cấu hình đường dẫn mặc định `sfx-thu-vien` cho macOS (`/Users/xitrum/Documents/Dev/library/sfx-thu-vien`)
   - [x] **Tính năng Auto SFX (`autopilot.mjs auto-sfx`):** Tự động phát hiện hành động kịch bản và chèn SFX căn onset
-  - [ ] Bổ sung kho âm thanh Cinematic / UI từ `Motion-graphics-skill-stack-store/sound-effects` vào catalog
+  - [x] **Bổ sung kho âm thanh Cinematic / UI từ `Motion-graphics-skill-stack-store/sound-effects` vào catalog:** Gộp 55 âm thanh Whooshes, Risers, Clicks, Data Collect, Pop, Gear vào chỉ mục tra cứu và Auto-score
   - [ ] VieNeu Voice Catalog & cơ chế auto-fit atempo timing
   - [x] **Bộ ngắt phụ đề tiếng Việt chuẩn ngữ pháp (`Vietnamese Caption Splitter`):** Tự động nhận diện từ nối/dấu câu/âm tiết tiếng Việt trong `groupWords()`
   - [ ] Đo kiểm và chuẩn hóa âm lượng EBU R128 (-14 LUFS) sau render & Smart Ducking BGM

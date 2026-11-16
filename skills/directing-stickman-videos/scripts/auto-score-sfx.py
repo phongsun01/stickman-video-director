@@ -31,6 +31,15 @@ DEFAULT_SFX_DIRS = [
     str(Path.cwd() / "sfx-thu-vien"),
 ]
 
+# Fallback locations for Motion Graphics Sound Effects
+DEFAULT_MOTION_SFX_DIRS = [
+    os.environ.get("MOTION_SFX_DIR", ""),
+    r"/Users/xitrum/Documents/Dev/library/Motion-graphics-skill-stack-store/sound-effects",
+    str(Path.home() / "Documents" / "Dev" / "library" / "Motion-graphics-skill-stack-store" / "sound-effects"),
+    r"D:\Video creator\Hoang Lma\Motion-graphics-skill-stack-store\sound-effects",
+    str(Path.home() / "Motion-graphics-skill-stack-store" / "sound-effects"),
+]
+
 # Action & semantic keywords mapped to event keys in su_kien.json
 ACTION_PATTERNS = [
     # Cú đấm, va chạm, đánh
@@ -90,11 +99,49 @@ class AutoScoreSFX:
         self.sounds_dir = lib_path / "sounds"
         with open(lib_path / "data" / "catalog.json", "r", encoding="utf-8") as f:
             catalog_raw = json.load(f)
-            self.catalog_items = catalog_raw.get("items", [])
+            self.catalog_items = list(catalog_raw.get("items", []))
+        self._load_motion_sound_effects()
         with open(lib_path / "data" / "su_kien.json", "r", encoding="utf-8") as f:
             self.su_kien = json.load(f)
         with open(lib_path / "data" / "do_to.json", "r", encoding="utf-8") as f:
             self.do_to = json.load(f)
+
+    def _load_motion_sound_effects(self) -> None:
+        motion_dir = None
+        for cand in DEFAULT_MOTION_SFX_DIRS:
+            if cand and Path(cand).is_dir():
+                motion_dir = Path(cand).resolve()
+                break
+
+        if not motion_dir:
+            return
+
+        for root, _, files in os.walk(motion_dir):
+            for file in sorted(files):
+                if file.endswith((".wav", ".mp3", ".m4a")):
+                    full_p = Path(root) / file
+                    rel_p = os.path.relpath(full_p, motion_dir)
+                    cat = Path(rel_p).parent.name
+                    if cat.startswith("Data Collect"):
+                        cat = "Data Collect"
+                    if not cat or cat == ".":
+                        cat = "Motion Graphics"
+
+                    name = full_p.stem
+                    search_blob = f"{name.lower()} {cat.lower()} cinematic motion"
+                    self.catalog_items.append({
+                        "id": f"mg_{hash(str(rel_p)) & 0xffffffff:08x}",
+                        "name": name,
+                        "path": str(full_p),
+                        "abs_path": str(full_p),
+                        "category": f"MG: {cat}",
+                        "source": "motion_graphics_store",
+                        "tags": [cat.lower(), "motion", "cinematic"],
+                        "uses": ["transition", "camera", "motion", "ui"],
+                        "search": search_blob,
+                        "dur": 1.5,
+                        "onset": 0.04,
+                    })
 
     def find_best_sound_for_event(self, event_key: str) -> Optional[Dict[str, Any]]:
         """Find the most suitable audio file for a given event from catalog items."""
@@ -135,10 +182,10 @@ class AutoScoreSFX:
         onset_sec = chosen_item.get("onset", 0.0)
         onset_ms = int(onset_sec * 1000)
 
-        abs_path = str(self.sounds_dir / track_rel)
+        path_val = chosen_item.get("abs_path") or str(self.sounds_dir / track_rel)
         return {
             "rel_path": track_rel,
-            "abs_path": abs_path,
+            "abs_path": path_val,
             "onset_ms": onset_ms,
             "dur": chosen_item.get("dur", 1.0),
         }
