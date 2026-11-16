@@ -1,38 +1,58 @@
 # Kế Hoạch Triển Khai: Hệ Thống Visual Bible & Entity Registry Cho Stickman
 
 > **Mã kế hoạch:** `PLAN-STICKMAN-VISUAL-BIBLE`  
-> **Ngày lập:** 2026-11-16  
-> **Nguồn cảm hứng & chuyển thể:** `Garden Kit` / `kit-stickman` & `Whiteboard Character Bible` (REA)  
-> **Trạng thái:** Chờ phê duyệt triển khai (Draft for Implementation)
+> **Ngày lập:** 2026-11-16 (Cập nhật chuẩn hóa theo Visual Anchors đã duyệt)  
+> **Nguồn gốc dữ liệu chuẩn:** [docs/kit-stickman/kit-stickman.json](file:///Users/xitrum/Documents/Dev/stickman/docs/kit-stickman/kit-stickman.json) & 12 ảnh tham chiếu A4 đã được kiểm duyệt  
+> **Trạng thái:** Sẵn sàng triển khai (Ready for Implementation)
 
 ---
 
 ## 1. Bối Cảnh & Vấn Đề Cốt Lõi
 
-Khi sáng tạo video Stickman hoạt hình qua AI (đặc biệt là Phase B / Muse Prompting, A4 Cozy Storytelling, hoặc các series dài tập như *Sống Đáng Tiền*, *Chú mèo học...*):
+Khi sáng tạo video Stickman hoạt hình qua AI (đặc biệt là Phase B / Muse Prompting, phong cách A4 Cozy Storytelling, hoặc các series dài tập như *Sống Đáng Tiền*, *Chú mèo học...*):
 * **Hiện tượng trôi hình (Character & Scene Drift)**: AI không có bộ nhớ ngữ cảnh dài hạn giữa các prompt độc lập. Mỗi lần sinh một shot mới, nhân vật lại bị thay đổi tỷ lệ đầu/thân, đổi mắt, đổi kiểu tóc, nhầm màu áo, thay đổi độ tuổi; bối cảnh đường phố, quán xá bị biến dạng phong cách hoặc sai lệch đặc trưng văn hóa.
 * **Gõ lại prompt thủ công theo trí nhớ**: Người viết kịch bản hoặc AI Agent dễ bịa đặt hoặc mô tả không nhất quán (tập 1 tả Bố mặc áo trắng, tập 2 lại tả áo tối màu; bối cảnh phố lúc thì nhà mái ngói, lúc thì nhà kính hiện đại).
 
-Bộ tài nguyên tại [docs/kit-stickman](file:///Users/xitrum/Documents/Dev/stickman/docs/kit-stickman) đã chứng minh tính hiệu quả vượt trội khi áp dụng cho một series cụ thể. Kế hoạch này nhằm **tổng quát hóa toàn bộ mô hình Kit thành tính năng nền tảng (Native Visual Bible & Entity Registry)** áp dụng cho toàn bộ dự án Stickman.
+Bộ tài nguyên tại [docs/kit-stickman](file:///Users/xitrum/Documents/Dev/stickman/docs/kit-stickman) đã chứng minh tính hiệu quả vượt trội khi khóa cứng 7 nhân vật, 10 bối cảnh và 2 đạo cụ cho series hiện tại. Kế hoạch này nhằm **tổng quát hóa toàn bộ mô hình Kit thành tính năng nền tảng (Native Visual Bible & Entity Registry)** áp dụng cho toàn bộ dự án Stickman, loại bỏ hoàn toàn các giả định ngoài lề và đảm bảo khớp chuẩn xác 100% với 12 file ảnh tham chiếu A4 đã duyệt.
 
 ---
 
-## 2. Bản Chất & Nguyên Tắc Visual Bible (Học Hỏi Từ `kit-tang-0-draft.json`)
+## 2. Nguyên Tắc Thiết Kế Visual Bible Chuẩn Cho Stickman
 
-Kế thừa các đột phá thực chiến từ bản phác thảo `kit-tang-0-draft.json`, hệ thống Visual Bible cho Stickman thiết lập các nguyên tắc nhận diện nghiêm ngặt:
+Hệ thống Visual Bible của Stickman tuân thủ các nguyên tắc thiết kế thị giác dựa trên dữ liệu chuẩn từ [kit-stickman.json](file:///Users/xitrum/Documents/Dev/stickman/docs/kit-stickman/kit-stickman.json):
 
-1. **Quy tắc Nhận diện Bằng Dấu Ấn (`identity_rule` & `marks`)**:
-   - **Không dựa thuần túy vào màu thân**: Trong hoạt hình, màu thân có thể đổi theo trạng thái, ánh sáng hoặc cốt truyện (ví dụ: bị nhiễm độc, bóng tối, camera hồng ngoại).
-   - **Nhận diện bằng dấu ấn cố định (`marks`)**: Mỗi nhân vật phải có một dấu ấn vật lý bất biến (ví dụ: *vạch song song ở cổ tay, túi dụng cụ bên hông, miếng vá ở đầu gối, khăn tam giác có nút thắt, vòng tròn rỗng trên ngực*). Dấu ấn này **không bao giờ thay đổi** dù màu thân có biến thiên.
-2. **Quy tắc Thói quen Cử chỉ (`habits`)**:
-   - Người que có đường nét tối giản, do đó **thói quen vận động (body language habit)** là chìa khóa để khán giả nhận ra nhân vật từ xa (ví dụ: *dừng lại nghiêng đầu nghe ngóng, tay chạm nút thắt khăn, tay đặt lên ngực, dáng đứng hơi cúi*).
-3. **Giải pháp Đột phá: Thực thể Nhóm (`ENS - Ensemble`)**:
-   - **Bài toán**: Model video AI (Muse/Gemini) giới hạn tối đa **3 ảnh tham chiếu/clip**. Nếu một cảnh có 4–5 nhân vật cùng xuất hiện, việc đính kèm từng ảnh lẻ là bất khả thi.
-   - **Giải pháp**: Tạo thực thể **`ENS` (Ensemble Sheet)** — 1 ảnh tham chiếu duy nhất vẽ sẵn toàn bộ đội hình nhóm (ví dụ: *Hàng 5 người nằm ngang, nhóm bạn ngồi quanh bàn cafe*). Chỉ tiêu tốn đúng **1 slot ref**, dành 2 slot còn lại cho bối cảnh (`LOC`) và đạo cụ (`PROP`).
-4. **Bóc tách Bối cảnh 3 Lớp Tường Minh (`LOC`)**:
-   - Bắt buộc chia rõ 3 trường: `foreground` (tiền cảnh), `middle_ground` (trung cảnh), `background` (hậu cảnh).
-5. **Cơ chế Cấm Đoán (Negative Constraints - `forbid`)**:
-   - Định nghĩa danh sách cấm kỵ ở cả cấp toàn cục (`global_rules.forbid`) và từng thực thể (`entity.forbid`) để triệt tiêu hiện tượng AI tự ý vẽ thêm chữ nhỏ, biển số xe, đổi bên hông của túi, hoặc vi phạm tính liên tục của shot.
+1. **Quy Tắc Tạo Hình Cốt Lõi (`figure_construction`)**:
+   - **Đầu tròn tô màu trắng đặc (`white filled circular head`)**: Tuyệt đối không vẽ đầu tròn rỗng xuyên thấu.
+   - **Gương mặt tối giản (`face features`)**: Hai chấm bầu dục đen nhỏ (`two small dark oval eyes`), lông mày nét đơn (`simple eyebrow strokes`), miệng cong ngắn (`short curved mouth`).
+   - **Thân và tứ chi (`torso & limbs`)**: Thân trắng thon gọn (`slim white torso`) với nhân vật trẻ, thân người đậm đà hơi nặng cân (`slightly overweight white torso`) với người trung niên (Bố). Chân tay luôn là nét đơn màu tối/đen (`dark single-line limbs`).
+
+2. **Dấu Ấn Nhận Diện Bất Biến (`marks`) & Trang Phục Cố Định (`outfit`)**:
+   - **Bố (`CHAR_02_BO`)**: Tóc ngắn hoa râm hai bên thái dương và sau gáy (`short grey hair along the sides and back of the head`), hai nếp nhăn ngang ngắn trên trán (`two short horizontal forehead wrinkles above the eyebrows`), áo dài tay sẫm màu trơn, quần dài tối màu.
+   - **An (`CHAR_01_AN`)**: Đầu tròn trắng không tóc (`no hair`), áo trắng cộc tay trơn (`plain white top`), quần dài tối màu (`long dark pants`).
+   - **Lan (`CHAR_03_LAN`)**: Tóc dài màu đen buộc đuôi ngựa thấp (`long black hair in a low ponytail`), áo trắng trơn, váy chữ A ngang gối màu sẫm (`straight dark knee-length skirt`).
+   - **Mẹ Lan (`CHAR_04_ME_LAN`)**: Búi tóc thấp có các sợi bạc (`low bun with grey strands`), áo dài tay sẫm màu, váy dài tối màu.
+   - **Bin (`CHAR_05_BIN`)**: Chiều cao bằng 1/2 Bố (`about half Bố's height`), đầu tròn trắng không tóc, áo trắng trơn, quần dài tối màu.
+   - **Mimi (`CHAR_06_MIMI`)**: Mèo trắng, 2 tai tam giác viền đen, mũi tam giác đen nhỏ, đệm chân tròn tối màu, không quần áo hay phụ kiện.
+   - **Bibo (`CHAR_07_BIBO`)**: Nhỏ hơn Mimi rõ rệt, thân và đầu tròn màu xám nhạt (`soft grey`), 1 chỏm lông nhỏ trên đỉnh đầu, không quần áo phụ kiện.
+
+3. **Thói Quen Vận Động Đặc Trưng (`habits`)**:
+   - Nhân vật que nhận diện hành động qua tư thế: Bố chắp tay sau lưng khi đi dạo, nâng tách trà bằng hai tay; An đứng thẳng nhìn người đối thoại hoặc bối rối; Bin luôn chơi an toàn cạnh Bố.
+
+4. **Giải Pháp Thực Thể Nhóm (`ENS - Ensemble Sheet`) Cho Quota $\le 3$ Refs/Clip**:
+   - AI video model (Muse/Gemini) chỉ nhận tối đa 3 ảnh ref/clip. Khi một shot có 3-4 nhân vật (ví dụ: cả gia đình ngồi phòng khách, hoặc An và Bố bên bàn trà), việc dùng ảnh đơn lẻ sẽ làm cạn kiệt slot ref.
+   - **Giải pháp**: Tạo thực thể `ENS` với 1 ảnh tham chiếu nhóm duy nhất (`refs/ens-an-bo-ban-tra.png`), chiếm đúng 1 slot ref, dành 2 slot còn lại cho bối cảnh (`LOC`) và đạo cụ (`PROP`).
+
+5. **Bóc Tách Bối Cảnh 3 Lớp Tường Minh (`LOC`)**:
+   - Bối cảnh được chia tường minh thành 3 lớp độ sâu:
+     - `foreground` (tiền cảnh): bàn trà, ấm chén trơn, vỉa hè hẹp, xe máy đậu...
+     - `middle_ground` (trung cảnh): sofa gỗ đệm hoa dâm bụt, nhà ống mái ngói, quầy gỗ cà phê...
+     - `background` (hậu cảnh): rèm voan đón nắng, cây bàng/cây phượng, trời xanh dịu...
+
+6. **Điều Cấm Đoán Bắt Buộc (`forbid`)**:
+   - **Không chữ đọc được**: Tuyệt đối không vẽ chữ viết, biển hiệu có chữ, văn bản đọc được.
+   - **Không nhãn hiệu**: Không logo, không thương hiệu thương mại.
+   - **Biển số xe máy trắng trơn**: Biển số luôn là hình chữ nhật trắng trơn hoàn toàn không chữ và không số (`blank license plate with no numbers and no letters`).
+   - **Nội thất tối giản**: Bảng menu quán cafe trống trơn, phòng khách không vẽ đồng hồ treo tường có số.
 
 ---
 
@@ -43,21 +63,19 @@ Toàn bộ gói thực thể trong `assets/kits/<pack-name>/kit.json` sẽ tuân
 ```json
 {
   "pack": "vietnamese-daily",
-  "title": "Đời Sống Việt Nam — Sống Đáng Tiền",
-  "version": "1.0",
-  "style": "A4",
+  "title": "Stickman Kit — Sống Đáng Tiền + Chú mèo học…",
+  "version": "3.0",
+  "style": "A4 Cozy Storytelling: flat 2D stick figures on detailed full-color cartoon backgrounds, gentle light, warm watercolor",
   "global_rules": {
-    "figure_construction": "Hình que 2D: đầu tròn trắng, thân và tứ chi nét đơn đen. Giữ đồng nhất tỉ lệ đầu/thân và độ dày nét cọ xuyên suốt toàn bộ kịch bản.",
-    "identity_rule": "Nhận diện nhân vật bằng dấu ấn vật lý và phụ kiện cố định (marks/outfit), không phụ thuộc vào màu nền.",
-    "frame_layers": {
-      "TT": "Khung hình thông thường: nét vẽ màu nước ấm áp, ánh sáng tự nhiên dịu mắt.",
-      "MH": "Khung hình qua màn hình/CCTV: có viền mỏng, chấm REC đỏ, sọc quét scanlines; không chứa chữ nhỏ."
-    },
+    "figure_construction": "white filled circular head, two small dark oval eyes, simple eyebrow strokes, short curved mouth, slim white torso (slightly overweight for elderly), dark single-line limbs",
+    "identity_rule": "Maintain immutable facial marks, hair features, and canonical outfits defined in each character entity",
+    "drawing_rule": "flat 2D stick figures on warm watercolor backgrounds, gentle daylight, consistent line weights",
     "forbid": [
-      "chữ nhỏ hoặc văn bản đọc được trong khung hình",
-      "biển số xe có chữ số (luôn vẽ biển trắng trơn)",
-      "thay đổi vị trí dấu nhận diện giữa các shot",
-      "logo thương hiệu thực tế"
+      "readable text, letters, or numbers in frames",
+      "license plate numbers (must always be blank white plates)",
+      "commercial logos or brand marks",
+      "hollow or transparent circular heads",
+      "cluttered modern digital gadgets unless explicitly specified"
     ]
   },
   "entities": [
@@ -65,61 +83,139 @@ Toàn bộ gói thực thể trong `assets/kits/<pack-name>/kit.json` sẽ tuân
       "type": "CHAR",
       "id": "CHAR_01_AN",
       "name": "An",
-      "role": "Nam chính 28 tuổi, nhân viên văn phòng",
-      "look": "Đầu tròn trắng, mắt bầu dục đen, thân que thanh mảnh, cử chỉ dứt khoát nhanh nhẹn.",
-      "body_color": { "default": "trắng", "hex": "#FFFFFF", "variable": false },
-      "marks": ["Vòng đeo tay dây dù đen ở cổ tay trái."],
-      "outfit": "Áo thun trắng trơn cộc tay, quần âu tối màu.",
-      "habits": ["đưa tay gãi sau gáy khi bối rối", "đứng thẳng nhìn thẳng vào người đối thoại"],
-      "expressions": ["bình thường", "nghiêm túc tập trung", "bất ngờ mắt mở to", "mỉm cười nhẹ"],
-      "forbid": ["mặc áo có họa tiết", "đổi vòng tay sang cổ tay phải"],
+      "role": "nam chính, 28 tuổi, nhân viên văn phòng",
+      "look": "white filled circular head, no hair, two small dark oval eyes, simple eyebrow strokes, short curved mouth, slim white torso, dark single-line limbs",
+      "body_color": { "default": "trắng đặc", "hex": "#FFFFFF", "variable": false },
+      "marks": ["đầu tròn trắng đặc không tóc", "nét mặt chuẩn"],
+      "outfit": "plain white top, long dark pants",
+      "habits": ["đứng thẳng nhìn người đối thoại", "cử chỉ nhanh nhẹn dứt khoát"],
+      "expressions": ["bình thường", "mỉm cười nhẹ", "trầm ngâm", "lo lắng"],
+      "forbid": ["vẽ tóc", "áo có họa tiết", "đầu rỗng xuyên thấu"],
       "ref": "refs/an-tham-chieu-a4.png"
     },
     {
       "type": "CHAR",
       "id": "CHAR_02_BO",
       "name": "Bố",
-      "role": "Bố của An, 55 tuổi",
-      "look": "Đầu tròn trắng, tóc hoa râm hai bên thái dương và sau gáy, hai nếp nhăn ngang trán, thân người đậm đà hơi nặng cân.",
-      "body_color": { "default": "trắng", "hex": "#FFFFFF", "variable": false },
-      "marks": ["Hai nếp nhăn ngang trán rõ nét", "Tóc bạc hoa râm hai bên thái dương"],
-      "outfit": "Áo dài tay màu sẫm trơn, quần dài tối màu.",
-      "habits": ["hai tay chắp sau lưng khi đi dạo", "chậm rãi nâng tách trà bằng hai tay"],
-      "expressions": ["trầm ngâm suy tư", "ôn tồn mỉm cười", "nghiêm nghị", "lo lắng"],
-      "forbid": ["vẽ thân hình gầy thanh mảnh", "mặc áo ngắn tay"],
+      "role": "bố của An, 55 tuổi, thói quen uống trà",
+      "look": "white filled circular head, short grey hair along the sides and back of the head, two short horizontal forehead wrinkles above the eyebrows, two small dark oval eyes, simple eyebrow strokes, short curved mouth, slightly overweight white torso, dark single-line limbs",
+      "body_color": { "default": "trắng đặc", "hex": "#FFFFFF", "variable": false },
+      "marks": [
+        "short grey hair along the sides and back of the head",
+        "two short horizontal forehead wrinkles above the eyebrows",
+        "slightly overweight white torso"
+      ],
+      "outfit": "plain dark long-sleeved top, long dark pants",
+      "habits": ["chắp hai tay sau lưng khi đi dạo", "chậm rãi nâng tách trà bằng hai tay"],
+      "expressions": ["ôn tồn mỉm cười", "trầm ngâm suy tư", "nghiêm nghị", "xót xa lo lắng"],
+      "forbid": ["thân hình gầy mảnh", "áo trắng cộc tay", "thiếu nếp nhăn trán"],
       "ref": "refs/bo-tham-chieu-a4.png"
+    },
+    {
+      "type": "CHAR",
+      "id": "CHAR_03_LAN",
+      "name": "Lan",
+      "role": "đồng nghiệp của An, 28 tuổi, nhân viên văn phòng",
+      "look": "white filled circular head, long black hair in a low ponytail, two small dark oval eyes, simple eyebrow strokes, short curved mouth, slim white torso, dark single-line limbs",
+      "body_color": { "default": "trắng đặc", "hex": "#FFFFFF", "variable": false },
+      "marks": ["long black hair in a low ponytail"],
+      "outfit": "plain white top, straight dark knee-length skirt",
+      "habits": ["cầm tập tài liệu trước ngực", "ngồi thẳng lưng chỉnh chu"],
+      "expressions": ["thân thiện mỉm cười", "chăm chú lắng nghe", "bất ngờ"],
+      "forbid": ["tóc buông xõa", "váy ngắn trên gối"],
+      "ref": "refs/lan-tham-chieu-a4.png"
+    },
+    {
+      "type": "CHAR",
+      "id": "CHAR_05_BIN",
+      "name": "Bin",
+      "role": "cháu nội của Bố, 4 tuổi, luôn chơi an toàn bên cạnh Bố",
+      "look": "about half Bố's height, white filled circular head, no hair, two small dark oval eyes, simple eyebrow strokes, short curved mouth, slim white torso, dark single-line limbs",
+      "body_color": { "default": "trắng đặc", "hex": "#FFFFFF", "variable": false },
+      "marks": ["chiều cao bằng 1/2 Bố", "đầu tròn trắng nhỏ không tóc"],
+      "outfit": "plain white top, dark trousers",
+      "habits": ["chạy lon ton quanh Bố", "ngồi bệt chơi đồ chơi trên sàn"],
+      "expressions": ["hồn nhiên vui vẻ", "tò mò ngước nhìn", "mếu máo"],
+      "forbid": ["vẽ cao bằng người lớn", "quần áo sặc sỡ hoa văn"],
+      "ref": "refs/bin-tham-chieu-a4.png"
+    },
+    {
+      "type": "CHAR",
+      "id": "CHAR_06_MIMI",
+      "name": "Mimi",
+      "role": "mèo trắng, nhân vật chính series Chú mèo học…",
+      "look": "white filled circular head, two small triangular ears with dark outlines, two small dark oval eyes, a tiny dark triangular nose and a short curved mouth, slim white torso, dark single-line limbs, small dark rounded paws, no clothing or accessories",
+      "body_color": { "default": "trắng đặc", "hex": "#FFFFFF", "variable": false },
+      "marks": ["hai tai tam giác viền đen", "mũi tam giác đen nhỏ", "chân tròn tối màu"],
+      "outfit": "không quần áo, không phụ kiện",
+      "habits": ["nghiêng đầu tò mò", "dùng hai chân trước ôm đồ vật"],
+      "expressions": ["ngây thơ", "thích thú", "ngạc nhiên"],
+      "forbid": ["mặc quần áo", "đeo vòng cổ"],
+      "ref": null
     },
     {
       "type": "ENS",
       "id": "ENS_01_AN_VA_BO",
-      "name": "An và Bố bên bàn trà",
-      "layout": "Bố ngồi ghế bành gỗ bên trái, An ngồi ghế đối diện bên phải, ở giữa là bàn trà gỗ thấp có ấm tách.",
-      "use": "Sử dụng 1 ảnh tham chiếu duy nhất thay cho cả 2 nhân vật và bối cảnh bàn trà, tiết kiệm quota 3 ref/clip.",
+      "name": "An và Bố bên bàn trà phòng khách",
+      "layout": "Bố ngồi trên ghế bành gỗ bên trái, An ngồi ghế đối diện bên phải, ở giữa là bàn trà gỗ thấp với bộ ấm chén trơn",
+      "use": "Sử dụng 1 ảnh tham chiếu duy nhất đại diện cho cả 2 nhân vật và góc bàn trà, tiết kiệm slot ref",
       "ref": "refs/ens-an-bo-ban-tra.png"
     },
     {
       "type": "LOC",
-      "id": "LOC_01_PHONG_KHACH",
+      "id": "LOC_01_PHO_VN",
+      "name": "Đường phố Việt Nam gần nhà",
+      "role": "bối cảnh đường phố mặc định buổi sáng",
+      "foreground": "vỉa hè hẹp, xe máy đậu dọc với biển số trắng trơn, ghế nhựa quán cóc",
+      "middle_ground": "nhà ống hẹp mái ngói, mặt tiền nhỏ không biển hiệu, xe đẩy hàng rong trơn",
+      "background": "cây bàng và cây phượng vươn cao, ánh nắng dịu buổi sáng",
+      "forbid": ["chữ đọc được trên biển hiệu", "biển số xe có số", "tòa nhà kính chọc trời"],
+      "ref": "refs/pho-vn-sang-tham-chieu.png"
+    },
+    {
+      "type": "LOC",
+      "id": "LOC_03_PHONG_KHACH",
       "name": "Phòng khách nhà An",
-      "foreground": "Bàn trà gỗ thấp màu cánh gián, bộ ấm chén sứ trơn không hoa văn, giỏ trái cây.",
-      "middle_ground": "Bộ ghế sofa gỗ đệm hoa, tủ chè gỗ trơn, chậu cây trầu bà.",
-      "background": "Cửa sổ kính lớn nhìn ra sân, rèm voan mỏng đón nắng sớm dịu nhẹ, tường vàng nhạt.",
-      "forbid": ["đồng hồ treo tường", "tranh ảnh có chữ đọc được", "đồ điện tử hiện đại cầu kỳ"],
+      "role": "bối cảnh sinh hoạt gia đình, Bố ngồi uống trà",
+      "foreground": "bàn trà gỗ thấp màu trầm, ấm trà trơn, tách trà trơn, giỏ trái cây, hoa sứ",
+      "middle_ground": "sofa gỗ đệm hoa dâm bụt, ghế bành gỗ, tủ gỗ trơn",
+      "background": "cửa sổ lớn đón nắng, rèm voan mỏng, cây xanh ngoài vườn, nắng dịu buổi sáng",
+      "forbid": ["đồng hồ treo tường", "lịch có số đọc được", "tivi màn hình phẳng hiện đại"],
       "ref": "refs/phong-khach-tham-chieu.png"
+    },
+    {
+      "type": "LOC",
+      "id": "LOC_08_QUAN_CAFE",
+      "name": "Quán cà phê vỉa hè",
+      "role": "bối cảnh quán cà phê buổi sáng",
+      "foreground": "bàn gỗ tròn nhỏ, tách cà phê trơn không logo, ghế nhựa nhiều màu",
+      "middle_ground": "quầy gỗ mộc mạc, lọ thủy tinh trơn, bảng menu trống hoàn toàn không chữ, chậu cây treo",
+      "background": "phố nhà ống mái ngói, bóng cây xanh mát, nắng sớm",
+      "forbid": ["chữ hoặc giá tiền trên bảng menu", "logo thương hiệu cà phê"],
+      "ref": "refs/quan-cafe-tham-chieu.png"
     },
     {
       "type": "PROP",
       "id": "PROP_01_XE_MAY",
-      "name": "Xe máy số phổ thông",
-      "shape": "Xe máy số kiểu dáng phổ thông, thân yếm gọn gàng, biển số màu trắng trơn hoàn toàn.",
-      "function": "Phương tiện di chuyển chính của An trên đường phố, chợ và ngõ hẻm.",
-      "forbid": ["chữ số trên biển số xe", "tem xe hoặc logo hãng xe rõ nét"],
-      "ref": "refs/xe-may-tham-chieu.png"
+      "name": "Xe máy đường phố",
+      "shape": "plain motorbike, blank license plate with no numbers and no letters",
+      "function": "phương tiện di chuyển chính của nhân vật trên đường phố và ngõ hẻm",
+      "forbid": ["chữ số trên biển số xe", "tem xe hoặc logo hãng xe"],
+      "ref": null
+    },
+    {
+      "type": "PROP",
+      "id": "PROP_02_CHAU_HOA_VANG",
+      "name": "Chậu hoa vàng của Mimi",
+      "shape": "small clay pot with one yellow flower, no writing, no label",
+      "function": "đạo cụ gắn bó với series Chú mèo học…",
+      "forbid": ["nhãn mác trên chậu", "họa tiết vẽ trên đất nung"],
+      "ref": null
     }
   ],
   "meta": {
-    "name": "Vietnamese Daily Life Kit",
-    "version": "1.0",
+    "name": "Stickman Kit — Sống Đáng Tiền + Chú mèo học…",
+    "version": 3,
     "updated": "2026-11-16",
     "max_refs_per_clip": 3,
     "ref_priority": ["CHAR", "ENS", "LOC", "PROP"]
@@ -136,18 +232,22 @@ Hệ thống được tổ chức chuyên nghiệp bên trong skill Stickman:
 ```
 skills/directing-stickman-videos/assets/kits/
 ├── core-schema.json               # JSON Schema định nghĩa tính hợp lệ của mọi kit.json
-├── vietnamese-daily/              # Pack đời sống Việt Nam (chuyển đổi từ kit-stickman hiện có)
+├── vietnamese-daily/              # Pack đời sống Việt Nam chuẩn hóa (từ kit-stickman hiện có)
 │   ├── kit.json                   # Metadata đầy đủ theo schema mới
-│   └── refs/                      # 12 ảnh tham chiếu PNG chuẩn A4
+│   └── refs/                      # 12 ảnh tham chiếu PNG chuẩn A4 đã được kiểm duyệt
 │       ├── an-tham-chieu-a4.png
 │       ├── bo-tham-chieu-a4.png
 │       ├── lan-tham-chieu-a4.png
+│       ├── me-lan-tham-chieu-a4.png
+│       ├── bin-tham-chieu-a4.png
 │       ├── pho-vn-sang-tham-chieu.png
-│       └── ...
-├── tang-0/                        # Pack viễn tưởng / bí ẩn Tầng 0 (chuyển đổi từ kit-tang-0-draft.json)
-│   ├── kit.json
-│   └── refs/
-└── custom/                        # Thư mục cho người dùng tạo universe riêng
+│       ├── phong-khach-tham-chieu.png
+│       ├── cho-vn-tham-chieu.png
+│       ├── hem-vn-tham-chieu.png
+│       ├── quan-cafe-tham-chieu.png
+│       ├── nga-tu-den-xanh-tham-chieu.png
+│       └── nga-tu-buoi-toi-tham-chieu.png
+└── custom/                        # Thư mục cho người dùng tạo universe/pack riêng
 ```
 
 ---
@@ -158,13 +258,13 @@ skills/directing-stickman-videos/assets/kits/
 Đặt tại `skills/directing-stickman-videos/scripts/visual-bible-kit.py`:
 - `load_pack(pack_name_or_path)`: Tự động tìm pack trong `assets/kits/` hoặc đường dẫn tùy chỉnh.
 - `cmd_bible(pack, entity_ids=None)`:
-  - Xuất khối văn bản `Visual Bible Block`: Liệt kê các quy tắc toàn cục (`global_rules`), mô tả các nhân vật có mặt kèm `marks` và `habits`, mô tả bối cảnh 3 lớp, và danh sách điều cấm kỵ (`forbid`).
+  - Xuất khối văn bản `Visual Bible Block`: Liệt kê các quy tắc toàn cục (`global_rules`), mô tả các nhân vật có mặt kèm `marks` và `habits`, mô tả bối cảnh 3 lớp (`foreground`, `middle_ground`, `background`), và danh sách điều cấm kỵ (`forbid`).
 - `cmd_refs(pack, entity_ids)`:
   - Tự động phân tích các ID được yêu cầu. Nếu có thực thể `ENS` (Ensemble), ưu tiên dùng thay thế cho các `CHAR` thành viên.
   - Tự động áp dụng luật **Tối đa 3 ảnh ref/clip**:
     $$\text{Ưu tiên giữ ref} = \text{Nhân vật / Nhóm (CHAR/ENS)} \rightarrow \text{Bối cảnh (LOC)} \rightarrow \text{Đạo cụ (PROP)}$$
   - Nếu số lượng $> 3$, tự động thông báo drop đạo cụ trước, rồi đến địa điểm, **không bao giờ drop nhân vật**.
-- `cmd_check(pack)`: Quét kiểm tra toàn bộ file ảnh tham chiếu, đối chiếu tồn tại trên đĩa và báo cáo các khoảng trống (gaps) cần tạo bổ sung.
+- `cmd_check(pack)`: Quét kiểm tra toàn bộ file ảnh tham chiếu, đối chiếu sự tồn tại thực tế trên đĩa và báo cáo các khoảng trống (gaps) cần tạo bổ sung.
 - `cmd_list()`: Liệt kê bảng tra cứu các pack, số lượng nhân vật, bối cảnh sẵn có.
 
 ### 5.2 Tích Hợp CLI Autopilot (`autopilot.mjs kit`)
@@ -189,17 +289,17 @@ node scripts/autopilot.mjs kit check project.json
 
 | Giai đoạn | Nội dung công việc | File đích |
 | :--- | :--- | :--- |
-| **P1. Xây dựng Core Schema** | Thiết kế `core-schema.json` hỗ trợ `global_rules`, `CHAR` (marks, habits, expressions), `ENS`, `LOC` (3 lớp), `PROP`. | `skills/directing-stickman-videos/assets/kits/core-schema.json` |
-| **P2. Chuẩn hóa Pack Mẫu** | Nâng cấp `kit-stickman.json` hiện có và nạp `tang-0` theo schema mới vào `assets/kits/`. | `skills/directing-stickman-videos/assets/kits/vietnamese-daily/kit.json` và `assets/kits/tang-0/kit.json` |
+| **P1. Xây dựng Core Schema** | Thiết kế `core-schema.json` hỗ trợ `global_rules`, `CHAR` (marks, habits, expressions, forbid), `ENS`, `LOC` (3 lớp), `PROP`. | `skills/directing-stickman-videos/assets/kits/core-schema.json` |
+| **P2. Chuẩn hóa Pack Mẫu** | Di chuyển 12 ảnh PNG và chuẩn hóa `kit-stickman.json` theo schema mới vào `assets/kits/vietnamese-daily/`. | `skills/directing-stickman-videos/assets/kits/vietnamese-daily/kit.json` và `refs/` |
 | **P3. Xây dựng Engine Core** | Xây dựng script Python `visual-bible-kit.py` với đầy đủ tính năng nạp pack, xuất Visual Bible, tính toán 3 ref thông minh (hỗ trợ ENS). | `skills/directing-stickman-videos/scripts/visual-bible-kit.py` |
 | **P4. Tích hợp CLI Autopilot** | Bổ sung subcommand `kit` vào `autopilot.mjs` hỗ trợ các cờ `--list`, `bible`, `refs`, `check`, `--pack`. | `skills/directing-stickman-videos/scripts/autopilot.mjs` |
 | **P5. Tài liệu & Test Suite** | Viết tài liệu hướng dẫn và bộ test kiểm thử tự động `tests/verify-visual-bible-kit.py`. | `references/visual-bible-kit.md` và `tests/verify-visual-bible-kit.py` |
 
 ---
 
-## 6. Tiêu Chí Nghiệm Thu (Acceptance Criteria)
+## 7. Tiêu Chí Nghiệm Thu (Acceptance Criteria)
 
 1. Lệnh `node scripts/autopilot.mjs kit --list` hiển thị đầy đủ danh sách nhân vật, bối cảnh từ pack `vietnamese-daily`.
-2. Lệnh `node scripts/autopilot.mjs kit bible` xuất đúng format Visual Bible không lỗi chính tả hay trôi dữ liệu.
-3. Lệnh `node scripts/autopilot.mjs kit refs` khi nhận quá 3 ID sẽ báo lỗi rõ ràng và yêu cầu bỏ bớt theo đúng thứ tự ưu tiên (bỏ prop trước, rồi đến place, không được bỏ character).
+2. Lệnh `node scripts/autopilot.mjs kit bible` xuất đúng format Visual Bible chuẩn của Stickman (A4 Cozy Storytelling), không trôi lệch tạo hình, không dính bất kỳ yếu tố camera/CCTV ngoại lai nào.
+3. Lệnh `node scripts/autopilot.mjs kit refs` khi nhận quá 3 ID sẽ tự động cắt tỉa theo đúng thứ tự ưu tiên (bỏ prop trước, rồi đến place, không được bỏ character).
 4. Kiểm thử tự động `tests/verify-visual-bible-kit.py` vượt qua 100%.

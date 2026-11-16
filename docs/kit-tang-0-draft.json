@@ -1,0 +1,157 @@
+{
+  "pack": "tang-0",
+  "title": "Tầng 0 — mùa 1",
+  "version": "0.1-draft",
+  "style": "A4",
+  "_note": "Bản nháp. Trường có tiền tố TBD cần bạn chốt. Trường có _proposed là đề xuất thêm vào schema hiện tại. Sửa lại theo schema thật của kit.json khi bạn gửi.",
+  "global_rules": {
+    "figure_construction": "Hình que: đầu tròn rỗng, thân và chân tay là nét đơn. Cùng độ dày nét và cùng tỉ lệ cho cả sáu hình. TBD: độ dày nét, tỉ lệ đầu/thân.",
+    "identity_rule": "Nhận diện bằng dấu cố định (marks), không bằng màu thân. Màu thân là biến và có thể đổi; dấu thì không.",
+    "frame_layers": {
+      "TT": "Khung trực tiếp. Khi đủ nhóm luôn đúng năm hình. Không có CHAR_06_SHADOW_06, không bóng đổ, phản chiếu hay silhouette của nó.",
+      "MH": "Màn hình CCTV: viền mỏng, chấm REC, đường quét; không chữ nhỏ. Khi đủ nhóm là năm hình cộng CHAR_06_SHADOW_06. CHAR_06 chỉ vẽ trong nội dung màn hình, cắt theo biên."
+    },
+    "forbid": [
+      "màu cam và xanh lơ trên đường dây (dành cho hai đường cứu hộ từ tập 5)",
+      "chữ nhỏ cần đọc; chỉ có số giờ lớn",
+      "thêm dấu nhận diện mới cho bất kỳ nhân vật nào",
+      "tên tệp, nhãn hay chú thích nói về danh tính của CHAR_06_SHADOW_06"
+    ]
+  },
+  "entities": [
+    {
+      "type": "CHAR",
+      "id": "CHAR_01_DO",
+      "name": "Đỏ",
+      "look": "Hình que theo cấu trúc chung. TBD: dáng đứng (gợi ý: đứng thẳng, hay nhìn quanh trước khi hành động).",
+      "body_color": { "default": "đỏ", "hex": "TBD", "variable": true },
+      "marks": ["Hai vạch đen song song ở cổ tay. TBD: tay trái hay phải, độ dài vạch. Giữ nguyên khi đổi màu thân."],
+      "outfit": "Không có trang phục ngoài dấu nhận diện.",
+      "expressions": ["bình thường", "giật mình / sợ", "nghi ngờ", "quyết tâm"],
+      "forbid": ["thêm hoặc bớt vạch", "đổi bên cổ tay giữa các shot"],
+      "ref": "refs/CHAR_01_DO.png"
+    },
+    {
+      "type": "CHAR",
+      "id": "CHAR_02_XANH_DUONG",
+      "name": "Xanh Dương",
+      "look": "Hình que theo cấu trúc chung. TBD: dáng đứng (gợi ý: hơi cúi, hay kiểm tra).",
+      "body_color": { "default": "xanh dương", "hex": "TBD", "variable": true },
+      "marks": ["Túi dụng cụ vuông ở hông. TBD: bên nào, kích thước so với thân."],
+      "outfit": "Không có trang phục ngoài túi dụng cụ.",
+      "expressions": ["bình thường", "giật mình / sợ", "nghi ngờ", "quyết tâm"],
+      "forbid": ["đổi bên hông của túi", "thêm dụng cụ nhìn thấy ngoài túi"],
+      "ref": "refs/CHAR_02_XANH_DUONG.png"
+    },
+    {
+      "type": "CHAR",
+      "id": "CHAR_03_VANG",
+      "name": "Vàng",
+      "look": "Hình que theo cấu trúc chung. Bước chân hơi lệch. TBD: mô tả độ lệch để lặp lại ổn định (chân nào ngắn nhịp, góc nghiêng thân).",
+      "body_color": { "default": "vàng", "hex": "TBD", "variable": true },
+      "marks": ["Miếng vá đen ở một đầu gối. TBD: gối trái hay phải, kích thước."],
+      "outfit": "Không có trang phục ngoài miếng vá.",
+      "habits": ["dừng lại, nghiêng đầu nghe tiếng động"],
+      "expressions": ["bình thường", "giật mình / sợ", "nghi ngờ", "quyết tâm"],
+      "forbid": ["đổi gối có miếng vá", "đi thẳng hoàn toàn trong khung nhìn rõ chân"],
+      "ref": "refs/CHAR_03_VANG.png"
+    },
+    {
+      "type": "CHAR",
+      "id": "CHAR_04_XANH_LA",
+      "name": "Xanh Lá",
+      "look": "Hình que theo cấu trúc chung. TBD: dáng đứng (gợi ý: nghiêng về phía người đang cần giúp).",
+      "body_color": { "default": "xanh lá", "hex": "TBD", "variable": true },
+      "marks": ["Khăn tam giác ở cổ, có nút thắt. TBD: màu khăn (cùng màu thân hay một màu cố định), kích thước."],
+      "outfit": "Không có trang phục ngoài khăn.",
+      "habits": ["chạm vào nút thắt khăn"],
+      "expressions": ["bình thường", "giật mình / sợ", "nghi ngờ", "quyết tâm"],
+      "forbid": ["đổi hình dạng khăn", "bỏ nút thắt"],
+      "ref": "refs/CHAR_04_XANH_LA.png"
+    },
+    {
+      "type": "CHAR",
+      "id": "CHAR_05_TIM",
+      "name": "Tím",
+      "look": "Hình que theo cấu trúc chung. TBD: dáng đứng (gợi ý: hơi tách khỏi nhóm).",
+      "body_color": { "default": "tím", "hex": "TBD", "variable": true },
+      "marks": ["Vòng tròn rỗng trên ngực, nét đơn. TBD: đường kính so với đầu."],
+      "outfit": "Không có trang phục ngoài vòng ngực.",
+      "habits": ["đặt tay lên vòng tròn ở ngực"],
+      "expressions": ["bình thường", "giật mình / sợ", "nghi ngờ", "quyết tâm"],
+      "forbid": ["tô đặc vòng tròn", "đổi vị trí vòng khỏi ngực"],
+      "ref": "refs/CHAR_05_TIM.png"
+    },
+    {
+      "type": "CHAR",
+      "id": "CHAR_06_SHADOW_06",
+      "name": "shadow_06",
+      "layer": "MH_only",
+      "look": "Hình que theo cấu trúc chung, màu xám. Đứng thẳng, hai tay giấu sau lưng; không thấy cổ tay.",
+      "body_color": { "default": "xám", "hex": "TBD", "variable": false },
+      "marks": [],
+      "pose_by_episode": { "tap_1": "đứng yên cả tập", "tap_2_tro_di": "xem storyboard từng tập" },
+      "forbid": [
+        "vẽ ở khung TT",
+        "bóng đổ, phản chiếu hoặc silhouette nền ở TT",
+        "lộ cổ tay khi storyboard không chỉ định",
+        "gắn màu hoặc dấu nhận diện của nhân vật khác"
+      ],
+      "ref": "refs/CHAR_06_SHADOW_06.png"
+    },
+    {
+      "type": "ENS",
+      "_proposed": true,
+      "id": "ENS_01_HANG_NAM",
+      "name": "Hàng năm người nằm",
+      "layout": "Năm người nằm hàng ngang. Từ trái sang phải theo góc camera CCTV: Đỏ, Vàng, Xanh Dương, Xanh Lá, [khoảng trống rộng bằng một thân người], Tím.",
+      "use": "Một ảnh tham chiếu thay cho năm ảnh nhân vật trong khung nhóm, để giữ trong giới hạn 3 ảnh/clip.",
+      "ref": "refs/ENS_01_HANG_NAM.png"
+    },
+    {
+      "type": "LOC",
+      "id": "LOC_01_PHONG_THUC_TINH",
+      "name": "Phòng thức tỉnh",
+      "foreground": "Sàn trơn màu xám nhạt; hàng chỗ nằm của năm người; khoảng trống giữa chỗ của Xanh Lá và Tím là sàn trống.",
+      "middle_ground": "Giá camera CCTV ở tường gần, có dây xám. Tường phải có màn hình giám sát.",
+      "background": "Tường xa có cửa đóng; trên cửa là đồng hồ lớn, dưới đồng hồ là cơ cấu hẹn giờ. Trần có lưới loa, dây xám chạy lên trần.",
+      "forbid": ["cửa sổ", "chữ nhỏ cần đọc", "biển hiệu", "màu cam hoặc xanh lơ"],
+      "ref": "refs/LOC_01_PHONG_THUC_TINH.png"
+    },
+    {
+      "type": "PROP",
+      "id": "PROP_01_DONG_HO_LON",
+      "name": "Đồng hồ lớn",
+      "shape": "Mặt tròn, kim lớn, số giờ lớn; đọc được ở 360p.",
+      "function": "Chỉ giờ 18:00, 18:15, 18:20. Không lùi."
+    },
+    {
+      "type": "PROP",
+      "id": "PROP_02_CO_CAU_HEN_GIO",
+      "name": "Cơ cấu hẹn giờ",
+      "shape": "Tấm dưới đồng hồ: đĩa số có vạch đích 00:00; biểu tượng đồng hồ trong mũi tên vòng (icon_cycle_clock); dải vạch khắc ngang (strip_cycle) với một vạch sáng ở đầu phải và nhiều vạch mờ phía trái; không số, không chữ.",
+      "function": "Nguồn của hạn nửa đêm và của việc cửa tự mở theo giờ."
+    },
+    {
+      "type": "PROP",
+      "id": "PROP_03_LOA",
+      "name": "Lưới loa",
+      "shape": "Lưới tròn trên trần; dây xám chạy lên trần.",
+      "function": "Phát L01 và L02. Âm rè đầu mẫu."
+    },
+    {
+      "type": "PROP",
+      "id": "PROP_04_MAN_HINH_GIAM_SAT",
+      "name": "Màn hình giám sát",
+      "shape": "Màn hình treo tường phải, viền mỏng.",
+      "function": "Chiếu nội dung theo quy tắc MH ở global_rules."
+    },
+    {
+      "type": "PROP",
+      "id": "PROP_05_CUA_PHONG",
+      "name": "Cửa phòng thức tỉnh",
+      "shape": "Cửa phẳng ở tường xa, không tay nắm dùng được.",
+      "function": "Trượt mở bằng mô tơ theo đồng hồ. Không tiếng chốt cơ (dành cho gate_01 từ tập 4)."
+    }
+  ]
+}
