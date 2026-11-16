@@ -20,6 +20,8 @@ from typing import Any, Dict, List, Optional
 # Default fallback locations for sfx-thu-vien (Windows, macOS, Linux)
 DEFAULT_SFX_DIRS = [
     os.environ.get("SFX_THU_VIEN_DIR", ""),
+    r"/Users/xitrum/Documents/Dev/library/sfx-thu-vien",
+    str(Path.home() / "Documents" / "Dev" / "library" / "sfx-thu-vien"),
     r"D:\Video creator\Hoang Lma\sfx-thu-vien",
     r"D:\workflow\assets\sfx-thu-vien",
     str(Path.home() / "sfx-thu-vien"),
