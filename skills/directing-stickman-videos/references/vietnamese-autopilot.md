@@ -42,9 +42,12 @@ node scripts/autopilot.mjs init /absolute/path/my-video --style B1
 # Viết script tiếng Việt, duyệt script trước (50 từ ≈ 12 giây đọc tự nhiên;
 # muốn ~20 giây thì viết ~80 từ, đừng kéo dài audio giả tạo)
 
-# Lời dẫn bằng VieNeu local, giọng Hải Đăng (mặc định)
+# Lời dẫn bằng VieNeu local, giọng Hải Đăng (mặc định) hoặc chọn trong Voice Catalog:
+# (Xem danh sách 12 giọng preset & hướng dẫn clone tại references/vieneu-voice-catalog.md)
 ~/workspace/vieneu-venv/bin/python scripts/vieneu-local.py --text-file script.txt \
   --output /absolute/path/my-video/narration.wav --voice "Hải Đăng"
+# Mẹo: Muốn khớp đúng thời lượng slot cảnh (ví dụ 12s), thêm cờ --target-duration 12.0
+# Hệ thống sẽ tự động căn chỉnh atempo (pitch-preserving 0.7x-1.6x) không méo giọng.
 # Nếu file đã có, lệnh dừng. Dùng --replace khi muốn thay file đó.
 # Script tự kiểm tra file bằng ffprobe và in thời lượng thật — dùng số này
 # để viết shots, đừng ước lượng bằng số từ.
