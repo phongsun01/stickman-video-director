@@ -3,7 +3,7 @@ import path from 'node:path';
 import {spawn} from 'node:child_process';
 import {once} from 'node:events';
 import {createCanvas, loadImage, GlobalFonts} from '@napi-rs/canvas';
-import {ROOT, FFMPEG, FFPROBE, sha, hashFile, save, probe, run, mediaPath, fontPaths, outputDir, designPlane, loadProject} from './autopilot-core.mjs';
+import {ROOT, FFMPEG, FFPROBE, sha, hashFile, save, probe, run, mediaPath, fontPaths, outputDir, designPlane, loadProject, measureLoudness} from './autopilot-core.mjs';
 import {walkLayers, drawB3Shape, televisionFinish, keyState} from './b3-graphics.mjs';
 export {keyState} from './b3-graphics.mjs';
 import {appendAudioTracks} from './b4-runtime.mjs';
@@ -330,13 +330,32 @@ export async function render(p, {full = false, seconds = 20, replace = false} = 
     const effects = backgrounds; let idx = 2;
     if (p.sfx?.some(s => s.kind !== 'file')) { const f = path.join(cache, 'sfx.wav'); makeSfx(p, f, count / p.fps); args.push('-i', f); effects.push(`[${idx++}:a]`); }
     idx = appendAudioTracks(p, args, filters, mixes, backgrounds, idx);
-    if (p.music) { args.push('-stream_loop', '-1', '-i', mediaPath(p.base, p.music.path)); filters.push(`[${idx++}:a]volume=${p.music.gain}[music]`); effects.push('[music]'); }
+    const useSmartDucking = p.smart_ducking !== false && Boolean(p.music);
+    if (p.music) {
+      args.push('-stream_loop', '-1', '-i', mediaPath(p.base, p.music.path));
+      const musicIdx = idx++;
+      if (useSmartDucking) {
+        // Smart Ducking: compress BGM by -14dB when voice is active, release smoothly when quiet
+        filters.push(
+          `[voice]asplit=2[v_mix][v_sc]`,
+          `[${musicIdx}:a]volume=${p.music.gain || 0.35}[music_raw]`,
+          `[music_raw][v_sc]sidechaincompress=threshold=0.04:ratio=6.0:attack=200:release=450[music_ducked]`
+        );
+        const vIdx = mixes.indexOf('[voice]');
+        if (vIdx !== -1) mixes[vIdx] = '[v_mix]';
+        mixes.push('[music_ducked]');
+      } else {
+        filters.push(`[${musicIdx}:a]volume=${p.music.gain}[music]`);
+        effects.push('[music]');
+      }
+    }
     if (backgrounds.length) {
       const cuts = (p.audio_cuts || []).map(cut => `volume=0:enable='gte(t,${cut.start})*lt(t,${cut.end})'`);
       filters.push(`${backgrounds.join('')}amix=inputs=${backgrounds.length}:normalize=0:duration=longest${cuts.length ? ',' + cuts.join(',') : ''}[background]`);
       mixes.push('[background]');
     }
-    filters.push(`${mixes.join('')}amix=inputs=${mixes.length}:normalize=0:duration=first,alimiter=limit=0.97:level=false:latency=true[a]`);
+    // Master chain: mix -> EBU R128 (-14 LUFS) loudnorm -> True-Peak limiter (-1.5 dBFS / limit 0.97)
+    filters.push(`${mixes.join('')}amix=inputs=${mixes.length}:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11,alimiter=limit=0.97:level=false:latency=true[a]`);
     const partial = path.join(out, `${kind}.partial.mp4`);
     args.push('-filter_complex', filters.join(';'), '-map', '0:v:0', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-t', String(count / p.fps), '-movflags', '+faststart', partial);
     run(FFMPEG, args); run(FFMPEG, ['-v', 'error', '-i', partial, '-f', 'null', '-']); fs.renameSync(partial, target);
@@ -348,6 +367,7 @@ export async function render(p, {full = false, seconds = 20, replace = false} = 
     for (let i = 0; i < 9; i++) sc.drawImage(frame(Math.min(duration - 1 / p.fps, (i + 0.5) * duration / 9)), (i % 3) * 320, Math.floor(i / 3) * cellHeight, 320, cellHeight);
     fs.writeFileSync(path.join(out, `${kind}-contact-sheet.png`), sheet.toBuffer('image/png'));
     const info = probe(target), report = {fingerprint: p.fingerprint, preview_seconds: full ? null : duration, output: target, output_sha256: hashFile(target), original_voice_sha256: hashFile(p.voicePath), original_voice_duration: p.voiceDuration, voice_rate: 'unchanged; leading/trailing padding only', frames: count, duration: Number(info.format.duration), cache_hits: reused, shot_count: clips.length, full_decode: 'pass', caption_count: cues.length, human_review: 'required; technical checks are not acceptance', inputs: p.inputs};
+    report.audio_loudness = measureLoudness(target);
     report.local_motion = motionEvidence;
     if (portraitEvidence) report.portrait = portraitEvidence;
     report.audio_tracks = {ambience: p.ambience.length, dialogue: p.dialogue.length, file_sfx: p.sfx.filter(s => s.kind === 'file').length, cuts: p.audio_cuts.length};

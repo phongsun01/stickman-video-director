@@ -492,13 +492,13 @@ echo Installation complete!
 
 ## Lộ trình Triển khai Đề xuất
 
-- [ ] **Sprint 1: Cải tiến Âm thanh & Đồng bộ Tiếng Việt**
+- [x] **Sprint 1: Cải tiến Âm thanh & Đồng bộ Tiếng Việt (ĐÃ HOÀN THÀNH TOÀN BỘ)**
   - [x] Cấu hình đường dẫn mặc định `sfx-thu-vien` cho macOS (`/Users/xitrum/Documents/Dev/library/sfx-thu-vien`)
   - [x] **Tính năng Auto SFX (`autopilot.mjs auto-sfx`):** Tự động phát hiện hành động kịch bản và chèn SFX căn onset
   - [x] **Bổ sung kho âm thanh Cinematic / UI từ `Motion-graphics-skill-stack-store/sound-effects` vào catalog:** Gộp 55 âm thanh Whooshes, Risers, Clicks, Data Collect, Pop, Gear vào chỉ mục tra cứu và Auto-score
   - [x] **VieNeu Voice Catalog & cơ chế auto-fit atempo timing:** Danh mục 12 giọng tiếng Việt (`references/vieneu-voice-catalog.md`), hỗ trợ Voice Cloning (`--ref-audio`) và tự động co giãn thời lượng fit slot cảnh bằng FFmpeg atempo pitch-preserving (`--target-duration`, 0.7x - 1.6x)
   - [x] **Bộ ngắt phụ đề tiếng Việt chuẩn ngữ pháp (`Vietnamese Caption Splitter`):** Tự động nhận diện từ nối/dấu câu/âm tiết tiếng Việt trong `groupWords()`
-  - [ ] Đo kiểm và chuẩn hóa âm lượng EBU R128 (-14 LUFS) sau render & Smart Ducking BGM
+  - [x] **Đo kiểm và chuẩn hóa âm lượng EBU R128 (-14 LUFS) sau render & Smart Ducking BGM:** Tích hợp bộ đo EBU R128 ITU-R BS.1770-4 (`scripts/audio-master-lufs.py`), chuẩn hóa 2-pass -14 LUFS, Smart Ducking BGM (-14dB sidechaincompress) và tự động đo kiểm ghi báo cáo `report.audio_loudness` sau render (`references/audio-loudness-and-ducking.md`)
 
 - [ ] **Sprint 2: Đảm bảo Chất lượng & Kịch bản Chuyên sâu**
   - [ ] Xuất báo cáo QC sau render (`verification.json`: freeze, silence, loudness, face-collision)

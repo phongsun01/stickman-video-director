@@ -297,3 +297,41 @@ export function groupWords(data, lead = 0, options = {}) {
   }
   flush(); return cues;
 }
+
+export function measureLoudness(file) {
+  const result = spawnSync(FFMPEG, [
+    '-hide_banner', '-nostdin', '-nostats',
+    '-i', file,
+    '-af', 'ebur128=peak=true:framelog=quiet',
+    '-f', 'null', '-'
+  ], {encoding: 'utf8', maxBuffer: 4 * 1024 * 1024});
+  const text = result.stderr || '';
+  const num = '(-?[0-9.]+(?:[eE][-+]?[0-9]+)?|-?inf|nan)';
+  const lastSummary = text.lastIndexOf('Summary:');
+  const block = lastSummary !== -1 ? text.slice(lastSummary) : text;
+  const mI = block.match(new RegExp(`I:\\s*${num}\\s*LUFS`));
+  const mLra = block.match(new RegExp(`LRA:\\s*${num}\\s*LU`));
+  const mTp = block.match(new RegExp(`Peak:\\s*${num}\\s*dBFS`));
+  const parseVal = m => {
+    if (!m) return null;
+    const v = parseFloat(m[1]);
+    return Number.isFinite(v) ? Math.round(v * 100) / 100 : null;
+  };
+  const i = parseVal(mI), lra = parseVal(mLra), tp = parseVal(mTp);
+  let status = 'needs_review';
+  if (i !== null && tp !== null) {
+    if (i >= -16.0 && i <= -12.0 && tp <= -1.0) status = 'pass';
+    else if (i < -16.0) status = 'too_quiet';
+    else if (i > -12.0) status = 'too_loud';
+    else if (tp > -1.0) status = 'peak_exceeded';
+  }
+  return {
+    integrated_lufs: i,
+    loudness_range_lra: lra,
+    true_peak_dbfs: tp,
+    target_lufs: -14.0,
+    target_true_peak: -1.5,
+    standard: 'ITU-R BS.1770-4 / EBU R128',
+    status
+  };
+}

@@ -14,7 +14,7 @@ const [command, ...rawArgs] = process.argv.slice(2);
 // in `--flag value` or `--flag=value` form. Previously `preview --replace PROJECT`
 // treated `--replace` as the project path and failed. Boolean flag: --replace.
 // Value flags: --seconds, --style, --note, --lead, --output, --lang, --max-words.
-const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output', '--lang', '--max-words']);
+const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output', '--lang', '--max-words', '--target-lufs']);
 const flagValues = {};
 const args = [];
 for (let i = 0; i < rawArgs.length; i++) {
@@ -38,6 +38,20 @@ async function main() {
     if (flagValues['--replace']) pyArgs.push('--replace');
     const outVal = option('--output');
     if (outVal) pyArgs.push('--output', path.resolve(outVal));
+    const res = spawnSync(py, pyArgs, {stdio: 'inherit'});
+    if (res.status !== 0) process.exit(res.status || 1);
+    return;
+  } else if (command === 'measure-audio') {
+    if (!args[0]) throw new Error('Usage: autopilot.mjs measure-audio <audio_or_video_file>');
+    const {measureLoudness} = await import('./autopilot-core.mjs');
+    console.log(JSON.stringify(measureLoudness(path.resolve(args[0])), null, 2));
+    return;
+  } else if (command === 'normalize-audio') {
+    if (!args[0] || !args[1]) throw new Error('Usage: autopilot.mjs normalize-audio <input> <output> [--target-lufs -14]');
+    const py = process.env.PYTHON || 'python3';
+    const scriptPath = path.join(ROOT, 'scripts/audio-master-lufs.py');
+    const pyArgs = [scriptPath, '--normalize', '--input', path.resolve(args[0]), '--output', path.resolve(args[1])];
+    if (option('--target-lufs')) pyArgs.push('--target-lufs', option('--target-lufs'));
     const res = spawnSync(py, pyArgs, {stdio: 'inherit'});
     if (res.status !== 0) process.exit(res.status || 1);
     return;
