@@ -1,0 +1,241 @@
+{
+  "entities": [
+    {
+      "age": 28,
+      "enabled": true,
+      "gender": "male",
+      "id": "CHAR_01_AN",
+      "kind": "character",
+      "look": "white filled circular head, no hair, two small dark oval eyes, simple eyebrow strokes, short curved mouth, slim white torso, dark single-line limbs",
+      "name": "An",
+      "notes": "Anchor ổn định qua mọi tập — mẫu chuẩn cho các nhân vật khác.",
+      "outfit": "plain white top, long dark pants",
+      "ref": "~/workspace/your_files/an-tham-chieu-a4.png",
+      "role": "nam chính, 28 tuổi"
+    },
+    {
+      "age": 55,
+      "enabled": true,
+      "gender": "male",
+      "id": "CHAR_02_BO",
+      "kind": "character",
+      "look": "white filled circular head, short grey hair along the sides and back of the head, two short horizontal forehead wrinkles above the eyebrows, two small dark oval eyes, simple eyebrow strokes, short curved mouth, slightly overweight white torso, dark single-line limbs",
+      "name": "Bố",
+      "notes": "CANONICAL FROZEN 2026-11-16: lấy theo biến thể xuất hiện nhiều nhất ở tập 55–60. Các biến thể cũ đã TRÔI giữa các tập và bị loại: 'plain white top', 'plain light shirt', 'slim white torso' (sai — Bố hơi đậm người), 'heavier body'. Từ nay chỉ dùng đúng dòng look/outfit trên; muốn đổi thì sửa tại đây, ghi ngày + lý do.",
+      "outfit": "plain dark long-sleeved top, long dark pants",
+      "ref": "~/workspace/your_files/bo-tham-chieu-a4.png",
+      "role": "bố của An, 55 tuổi, hút thuốc 30 năm + uống rượu nặng"
+    },
+    {
+      "age": 28,
+      "enabled": true,
+      "gender": "female",
+      "id": "CHAR_03_LAN",
+      "kind": "character",
+      "look": "white filled circular head, long black hair in a low ponytail, two small dark oval eyes, simple eyebrow strokes, short curved mouth, slim white torso, dark single-line limbs",
+      "name": "Lan",
+      "notes": "Anchor ổn định qua mọi tập.",
+      "outfit": "plain white top, straight dark knee-length skirt",
+      "ref": "~/workspace/your_files/lan-tham-chieu-a4.png",
+      "role": "đồng nghiệp của An, 28 tuổi, nhân viên văn phòng"
+    },
+    {
+      "age": 55,
+      "enabled": true,
+      "gender": "female",
+      "id": "CHAR_04_ME_LAN",
+      "kind": "character",
+      "look": "white filled circular head, low bun with grey strands, two small dark oval eyes, simple eyebrow strokes, short curved mouth, dark single-line limbs",
+      "name": "mẹ Lan",
+      "notes": "FROZEN 2026-11-16 theo bản ngắn (có 'grey strands') — bản dài cũ không nhắc sợi bạc, đã loại để khỏi trôi.",
+      "outfit": "plain dark long-sleeved top, long dark skirt",
+      "ref": "~/workspace/your_files/me-lan-tham-chieu-a4.png",
+      "role": "mẹ của Lan, 55 tuổi"
+    },
+    {
+      "age": 4,
+      "enabled": true,
+      "gender": "male",
+      "id": "CHAR_05_BIN",
+      "kind": "character",
+      "look": "about half Bố's height, white filled circular head, no hair, two small dark oval eyes, simple eyebrow strokes, short curved mouth, slim white torso, dark single-line limbs",
+      "name": "Bin",
+      "notes": "Bảng tham chiếu tạo 2026-11-16 (cùng layout 3 dáng + 4 biểu cảm như bảng An): bin-tham-chieu-a4.png. Bepj duyệt.",
+      "outfit": "plain white top, dark trousers",
+      "ref": "~/workspace/your_files/bin-tham-chieu-a4.png",
+      "role": "cháu nội của Bố, 4 tuổi, luôn chơi an toàn bên cạnh Bố"
+    },
+    {
+      "age": null,
+      "enabled": true,
+      "gender": "female",
+      "id": "CHAR_06_MIMI",
+      "kind": "character",
+      "look": "white filled circular head, two small triangular ears with dark outlines, two small dark oval eyes, a tiny dark triangular nose and a short curved mouth, slim white torso, dark single-line limbs, small dark rounded paws, no clothing or accessories",
+      "name": "Mimi",
+      "notes": "Series mèo chưa có bảng tham chiếu — cần tạo sheet hoặc from_video từ clip tập 1–2.",
+      "outfit": "",
+      "ref": null,
+      "role": "mèo trắng, nhân vật chính series Chú mèo học…"
+    },
+    {
+      "age": null,
+      "enabled": true,
+      "gender": "male",
+      "id": "CHAR_07_BIBO",
+      "kind": "character",
+      "look": "clearly smaller than Mimi, soft grey filled circular head, one tiny dark tuft on top, two small triangular ears with dark outlines, two small dark oval eyes, a tiny dark triangular nose and a short curved mouth, slim soft grey torso, dark single-line limbs, small dark rounded paws, no clothing or accessories",
+      "name": "Bibo",
+      "notes": "Luôn nhỏ hơn Mimi rõ rệt trong mọi cảnh. Chưa có bảng tham chiếu — như Mimi.",
+      "outfit": "",
+      "ref": null,
+      "role": "mèo con xám, nhỏ hơn Mimi rõ rệt"
+    },
+    {
+      "enabled": true,
+      "id": "LOC_01_PHO_VN",
+      "kind": "place",
+      "look": "Buổi sáng, đường phố Việt Nam gần nhà: nhà ống hẹp mái ngói, xe máy đậu dọc vỉa hè, hàng rong với xe đẩy trơn, cây bàng/cây phượng, ghế nhựa quán cóc, nắng dịu buổi sáng. Foreground: vỉa hè hẹp, xe máy đậu dọc, ghế nhựa quán cóc. Middle ground: nhà ống hẹp mái ngói, mặt tiền nhỏ không biển hiệu. Background: cây bàng/cây phượng, nắng dịu.",
+      "name": "Đường phố Việt Nam gần nhà",
+      "notes": "Ảnh ref tạo 2026-11-16: pho-vn-sang-tham-chieu.png (nhà ống mái ngói, xe máy biển trắng, ghế nhựa, cây phượng/bàng, không chữ đọc được). Bepj duyệt.",
+      "outfit": "",
+      "ref": "~/workspace/your_files/pho-vn-sang-tham-chieu.png",
+      "role": "bối cảnh đường phố mặc định mọi tập"
+    },
+    {
+      "enabled": true,
+      "id": "LOC_02_BEP",
+      "kind": "place",
+      "look": "DRAFT — chưa khóa: bếp nhà An, bếp gas, nồi niêu, chạn bát, cửa sổ đón nắng, tường màu ấm.",
+      "name": "Bếp nhà An",
+      "notes": "Chưa khóa mô tả 3 lớp và chưa có ảnh ref — khóa trước lần dùng tiếp theo.",
+      "outfit": "",
+      "ref": null,
+      "role": "bối cảnh nấu ăn"
+    },
+    {
+      "enabled": true,
+      "id": "LOC_03_PHONG_KHACH",
+      "kind": "place",
+      "look": "Buổi sáng, phòng khách nhà An: bàn trà gỗ thấp với ấm trà và tách trơn, giỏ trái cây, ghế sofa và ghế bành gỗ đệm hoa dâm bụt, tủ gỗ, cửa sổ lớn đón nắng, tường màu ấm, cây xanh. Foreground: bàn trà gỗ thấp, ấm trà trơn, tách trơn, giỏ trái cây, hoa sứ. Middle ground: sofa gỗ đệm hoa, ghế bành gỗ, tủ gỗ trơn. Background: cửa sổ lớn, rèm voan, cây xanh, nắng dịu buổi sáng.",
+      "name": "Phòng khách nhà An",
+      "notes": "Mô tả đã khóa + ảnh ref tạo 2026-11-16: phong-khach-tham-chieu.png (sofa gỗ đệm hoa, ấm/tách trơn, cửa sổ đón nắng, không chữ, không đồng hồ). Bepj duyệt 2026-11-16.",
+      "outfit": "",
+      "ref": "~/workspace/your_files/phong-khach-tham-chieu.png",
+      "role": "bối cảnh sinh hoạt gia đình, Bố ngồi bàn uống trà"
+    },
+    {
+      "enabled": true,
+      "id": "LOC_04_VUON",
+      "kind": "place",
+      "look": "DRAFT — chưa khóa: sân vườn nhà An, cây xanh, nắng dịu.",
+      "name": "Vườn nhà / sân nhà",
+      "notes": "Chưa khóa mô tả 3 lớp và chưa có ảnh ref — khóa trước lần dùng tiếp theo.",
+      "outfit": "",
+      "ref": null,
+      "role": "bối cảnh ngoài trời ở nhà"
+    },
+    {
+      "enabled": true,
+      "id": "LOC_05_VAN_PHONG",
+      "kind": "place",
+      "look": "DRAFT — chưa khóa: văn phòng, bàn làm việc, máy tính, cửa sổ lớn.",
+      "name": "Văn phòng của Lan",
+      "notes": "Chưa khóa mô tả 3 lớp và chưa có ảnh ref — khóa trước lần dùng tiếp theo.",
+      "outfit": "",
+      "ref": null,
+      "role": "bối cảnh công sở (Lan, An)"
+    },
+    {
+      "enabled": true,
+      "id": "LOC_06_CHO",
+      "kind": "place",
+      "look": "Buổi sáng, chợ Việt Nam: sạp rau quả trong rổ tre, xe đẩy gỗ trơn không chữ, nhà ống mái ngói, mái che vải trơn, cây phượng/cây bàng. Foreground: sạp rau quả, xe đẩy gỗ chở rau. Middle ground: nhà ống mái ngói, mái che vải trơn. Background: cây phượng, cây bàng, nắng dịu buổi sáng.",
+      "name": "Chợ Việt Nam",
+      "notes": "Mô tả đã khóa + ảnh ref tạo 2026-11-16: cho-vn-tham-chieu.png. Bepj duyệt.",
+      "outfit": "",
+      "ref": "~/workspace/your_files/cho-vn-tham-chieu.png",
+      "role": "bối cảnh đi chợ"
+    },
+    {
+      "enabled": true,
+      "id": "PROP_01_CHAU_HOA_VANG",
+      "kind": "prop",
+      "look": "small clay pot with one yellow flower, no writing, no label",
+      "name": "Chậu hoa vàng của Mimi",
+      "notes": "Chưa có ảnh ref — from_video từ clip tập 2 khi cần.",
+      "outfit": "",
+      "ref": null,
+      "role": "đạo cụ chính series mèo"
+    },
+    {
+      "enabled": true,
+      "id": "PROP_02_XE_MAY",
+      "kind": "prop",
+      "look": "plain motorbike, blank license plate with no numbers and no letters",
+      "name": "Xe máy",
+      "notes": "Biển số phải trống — xem khóa biển số từ tập 49. Chưa có ảnh ref.",
+      "outfit": "",
+      "ref": null,
+      "role": "phương tiện đường phố, xuất hiện ở cảnh phố/chợ"
+    },
+    {
+      "id": "LOC_07_HEM",
+      "kind": "place",
+      "name": "Hẻm nhỏ Việt Nam",
+      "role": "bối cảnh hẻm buổi chiều",
+      "look": "Buổi chiều, hẻm nhỏ Việt Nam: nhà ống hẹp mái ngói, dây phơi quần áo trơn, chậu cây dọc tường, xe máy đậu trước cửa, cây bàng lớn. Foreground: hẻm lát đá, chậu cây, xe máy. Middle ground: nhà ống mái ngói, dây phơi. Background: tán cây bàng, nắng vàng chiều.",
+      "outfit": "",
+      "ref": "~/workspace/your_files/hem-vn-tham-chieu.png",
+      "enabled": true,
+      "notes": "Thêm 2026-11-16 theo câu hỏi của Bepj (nhiều ảnh phố được không): mỗi LOC là một biến thể phố, mỗi clip chỉ gắn 1 ảnh phố hợp cảnh. Ảnh ref: hem-vn-tham-chieu.png. Bepj duyệt."
+    },
+    {
+      "enabled": true,
+      "id": "LOC_08_QUAN_CAFE",
+      "kind": "place",
+      "look": "Buổi sáng, quán cà phê vỉa hè Việt Nam: bàn gỗ tròn nhỏ với tách cà phê trơn, ghế nhựa đủ màu, quầy gỗ với lọ thủy tinh trơn và bảng menu trống, cây treo, quạt trần, mặt tiền mở ra phố nhà ống. Foreground: bàn gỗ tròn, tách trơn, ghế nhựa. Middle ground: quầy gỗ, lọ trơn, bảng menu trống không chữ, cây treo. Background: phố nhà ống mái ngói, cây xanh, nắng dịu buổi sáng.",
+      "name": "Quán cà phê vỉa hè",
+      "notes": "Ảnh ref tạo 2026-11-16: quan-cafe-tham-chieu.png (bảng menu trống hoàn toàn, không chữ, không logo). Bepj duyệt 2026-11-16.",
+      "outfit": "",
+      "ref": "~/workspace/your_files/quan-cafe-tham-chieu.png",
+      "role": "bối cảnh quán cà phê"
+    },
+    {
+      "enabled": true,
+      "id": "LOC_09_NGA_TU_NGAY",
+      "kind": "place",
+      "look": "Ban ngày, ngã tư hiện đại Việt Nam: vạch kẻ đường, đèn giao thông xanh, xe máy biển trắng trơn, xe đẩy hàng rong, nhà ống mái ngói xen nhà kính cao tầng, cây xanh, trời xanh. Foreground: vạch kẻ đường, đèn xanh, xe máy biển trơn, xe đẩy hàng rong trơn. Middle ground: đường nhựa rộng, xe máy và ô tô biển trơn, cây xanh vỉa hè. Background: nhà kính cao tầng, nhà ống mái ngói, trời xanh.",
+      "name": "Ngã tư hiện đại ban ngày",
+      "notes": "Ảnh ref tạo 2026-11-16: nga-tu-den-xanh-tham-chieu.png. NIT: cột đèn trong ảnh sáng cùng lúc cả đèn vàng lẫn đèn xanh (đèn thật chỉ sáng một bóng) — khi dùng làm ref, prompt clip nên ghi rõ chỉ một đèn sáng. Bepj duyệt 2026-11-16.",
+      "outfit": "",
+      "ref": "~/workspace/your_files/nga-tu-den-xanh-tham-chieu.png",
+      "role": "bối cảnh ngã tư hiện đại ban ngày"
+    },
+    {
+      "enabled": true,
+      "id": "LOC_10_NGA_TU_TOI",
+      "kind": "place",
+      "look": "Buổi tối, ngã tư hiện đại Việt Nam, nắng vàng chiều: vạch kẻ đường, đèn giao thông đỏ, xe máy biển trắng trơn, xe buýt trơn, đèn đường vàng, nhà cao tầng cửa sổ sáng đèn, cây đa lớn, trời cam hồng. Foreground: vạch kẻ đường, đèn đỏ, xe máy biển trơn, đèn đường. Middle ground: đường rộng, xe buýt trơn, cây xanh, cửa hàng mái hiên trơn. Background: nhà cao tầng sáng đèn, cây đa, trời hoàng hôn.",
+      "name": "Ngã tư hiện đại buổi tối",
+      "notes": "Ảnh ref tạo 2026-11-16: nga-tu-buoi-toi-tham-chieu.png (đèn đỏ sáng đúng một bóng, biển trắng trơn, mái hiên trơn không sọc). Bepj duyệt 2026-11-16.",
+      "outfit": "",
+      "ref": "~/workspace/your_files/nga-tu-buoi-toi-tham-chieu.png",
+      "role": "bối cảnh ngã tư hiện đại buổi tối"
+    }
+  ],
+  "meta": {
+    "adapted_from": "Garden Studio 1.1.0 Garden Kit (garden_kit table, KitStore, Visual Bible, _shot_refs/take_kit, max_refs 3, from_video) — see ~/workspace/user/files/chi-tiet-bo-nho-dong-bo-nhan-vat-va-boi-canh.md",
+    "max_refs_per_clip": 3,
+    "name": "Stickman Kit — Sống Đáng Tiền + Chú mèo học…",
+    "ref_order": [
+      "characters in story order",
+      "place",
+      "prop"
+    ],
+    "rule": "This file is the SINGLE source of truth for character/place/prop anchors. Never re-type an anchor from memory into a Phase B prompt — copy it from `kit-stickman.py bible`. When an anchor changes, edit it HERE once (with date + reason in notes); never by editing one episode's prompt.",
+    "style": "A4 Cozy Storytelling: flat 2D stick figures on detailed full-color cartoon backgrounds, gentle light, warm watercolor",
+    "updated": "2026-11-16",
+    "version": 3
+  }
+}
