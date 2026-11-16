@@ -254,18 +254,46 @@ export function outputDir(p) {
   if (p.inputs.some(i => i.path.startsWith(fs.realpathSync(output) + path.sep))) throw new Error('Input assets cannot live in output/');
   return output;
 }
-export function groupWords(data, lead = 0) {
+export function groupWords(data, lead = 0, options = {}) {
   number(lead, 'caption lead', 0, 5);
   if (!Array.isArray(data.words) || !data.words.length) throw new Error('Aligned words required');
   const cues = []; let words = [], start, end = 0;
   function flush() { if (words.length) cues.push({start: start + lead, end: end + lead, text: words.join(' ').replace(/\s+([,.!?;:])/g, '$1')}); words = []; }
+  
+  // Check if text is Vietnamese (has Vietnamese diacritics or explicit lang option)
+  const isVi = options.lang === 'vi' || (options.lang === undefined && data.words.some(w => typeof w.word === 'string' && VIETNAMESE_CHARS.test(w.word)));
+  const maxWords = options.maxWords ?? (isVi ? 7 : 8);
+  const maxChars = options.maxChars ?? (isVi ? 42 : 58);
+  const maxDuration = options.maxDuration ?? (isVi ? 2.8 : 3.5);
+  const pauseThreshold = options.pauseThreshold ?? (isVi ? 0.35 : 0.4);
+
+  // Common Vietnamese conjunctions & sentence connectors where a split is natural
+  const VI_SPLIT_AFTER_PUNCT = /[,.!?;:…]$/;
+  const VI_CONNECTORS = new Set(['nhưng', 'và', 'hoặc', 'mà', 'vì', 'do', 'nếu', 'tuy', 'cho', 'để', 'khi', 'thì']);
+
   for (const w of data.words) {
     number(w.start, 'word start', end); number(w.end, 'word end', w.start + 0.001);
     if (typeof w.word !== 'string' || !w.word.trim()) throw new Error('Empty word');
-    if (words.length && (w.start - end > 0.4 || words.length >= 8 || w.end - start > 3.5 || [...words, w.word].join(' ').length > 58)) flush();
+    const wordStr = w.word.trim();
+    const pause = words.length ? (w.start - end) : 0;
+    const currentText = [...words, wordStr].join(' ');
+
+    let shouldSplit = false;
+    if (words.length) {
+      if (pause > pauseThreshold) {
+        shouldSplit = true;
+      } else if (words.length >= maxWords || w.end - start > maxDuration || currentText.length > maxChars) {
+        shouldSplit = true;
+      } else if (isVi && words.length >= 4 && VI_CONNECTORS.has(wordStr.toLowerCase())) {
+        // Natural break point before a Vietnamese connector
+        shouldSplit = true;
+      }
+    }
+
+    if (shouldSplit) flush();
     if (!words.length) start = w.start;
-    words.push(w.word.trim()); end = w.end;
-    if (/[.!?]$/.test(w.word)) flush();
+    words.push(wordStr); end = w.end;
+    if (VI_SPLIT_AFTER_PUNCT.test(wordStr)) flush();
   }
   flush(); return cues;
 }

@@ -13,8 +13,8 @@ const [command, ...rawArgs] = process.argv.slice(2);
 // PATCH (fork 2026-11-09): accept flags before or after the positional argument,
 // in `--flag value` or `--flag=value` form. Previously `preview --replace PROJECT`
 // treated `--replace` as the project path and failed. Boolean flag: --replace.
-// Value flags: --seconds, --style, --note, --lead, --output.
-const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output']);
+// Value flags: --seconds, --style, --note, --lead, --output, --lang, --max-words.
+const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output', '--lang', '--max-words']);
 const flagValues = {};
 const args = [];
 for (let i = 0; i < rawArgs.length; i++) {
@@ -81,7 +81,11 @@ async function main() {
   } else if (command === 'captions') {
     if (!args[0] || !args[1]) throw new Error('Aligned word input and output file required');
     if (fs.existsSync(args[1])) throw new Error('Caption output exists; will not overwrite');
-    save(args[1], groupWords(json(args[0]), Number(option('--lead', 0))));
+    const groupOpts = {
+      lang: option('--lang'),
+      maxWords: option('--max-words') ? Number(option('--max-words')) : undefined,
+    };
+    save(args[1], groupWords(json(args[0]), Number(option('--lead', 0)), groupOpts));
     console.log(JSON.stringify({output: path.resolve(args[1])}));
   } else if (['validate', 'preview', 'approve', 'render', 'accept-text', 'accept-picture', 'accept-visual', 'review-pack', 'check-review', 'draft', 'preflight', 'plan-iteration'].includes(command)) {
     const possibleProject = args[0] && path.resolve(args[0]);

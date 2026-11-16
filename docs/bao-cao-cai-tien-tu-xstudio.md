@@ -497,7 +497,7 @@ echo Installation complete!
   - [x] **Tính năng Auto SFX (`autopilot.mjs auto-sfx`):** Tự động phát hiện hành động kịch bản và chèn SFX căn onset
   - [ ] Bổ sung kho âm thanh Cinematic / UI từ `Motion-graphics-skill-stack-store/sound-effects` vào catalog
   - [ ] VieNeu Voice Catalog & cơ chế auto-fit atempo timing
-  - [ ] Bộ ngắt phụ đề tiếng Việt chuẩn ngữ pháp (`Vietnamese Caption Splitter`)
+  - [x] **Bộ ngắt phụ đề tiếng Việt chuẩn ngữ pháp (`Vietnamese Caption Splitter`):** Tự động nhận diện từ nối/dấu câu/âm tiết tiếng Việt trong `groupWords()`
   - [ ] Đo kiểm và chuẩn hóa âm lượng EBU R128 (-14 LUFS) sau render & Smart Ducking BGM
 
 - [ ] **Sprint 2: Đảm bảo Chất lượng & Kịch bản Chuyên sâu**
