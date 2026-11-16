@@ -115,6 +115,20 @@ def main():
         assert (cli_out / "shorts" / "video_9x16.mp4").exists()
         print("   -> node autopilot.mjs package verified - OK")
 
+        # 5. Test --exclude flag
+        print("5. Testing --exclude reels flag...")
+        cli_ex_out = tmp_path / "cli_ex_pkg"
+        res_ex = subprocess.run([
+            "node", str(AUTOPILOT_MJS), "package", str(test_video),
+            "--output", str(cli_ex_out),
+            "--exclude", "reels"
+        ], capture_output=True, text=True)
+        assert res_ex.returncode == 0
+        assert (cli_ex_out / "tiktok").exists()
+        assert (cli_ex_out / "youtube").exists()
+        assert not (cli_ex_out / "reels").exists(), "Reels folder should have been excluded"
+        print("   -> --exclude reels verified - OK")
+
     print("\nALL MULTI-PLATFORM PACKAGE VERIFICATION TESTS PASSED! (100%)")
 
 

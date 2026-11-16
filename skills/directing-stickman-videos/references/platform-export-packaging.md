@@ -58,10 +58,13 @@ package/
 # Đóng gói từ file project.json:
 node scripts/autopilot.mjs package productions/my-film/project.json
 
-# Đóng gói từ file video đã render:
+# Chỉ định chính xác các nền tảng muốn xuất (bỏ qua nền tảng không dùng):
 node scripts/autopilot.mjs package productions/my-film/outputs/film.mp4 \
-  --title "Bí Quyết Quản Lý Thời Gian" \
-  --platforms tiktok,reels,shorts,youtube
+  --platforms tiktok,shorts,youtube
+
+# Hoặc dùng cờ loại trừ (--exclude):
+node scripts/autopilot.mjs package productions/my-film/outputs/film.mp4 \
+  --exclude reels
 
 # Đóng gói với hashtags và thư mục xuất tùy chỉnh:
 node scripts/autopilot.mjs package film.mp4 \
@@ -69,6 +72,9 @@ node scripts/autopilot.mjs package film.mp4 \
   --platforms tiktok,shorts \
   --hashtags "#stickman,#hoathinh,#kienthuc,#xuhuong"
 ```
+
+> [!TIP]
+> **Cấu hình cố định trong `project.json`**: Bạn có thể thêm `"platforms": ["tiktok", "shorts", "youtube"]` vào `project.json`. Autopilot sẽ ghi nhớ và không bao giờ xuất Instagram Reels nếu bạn không muốn.
 
 ---
 

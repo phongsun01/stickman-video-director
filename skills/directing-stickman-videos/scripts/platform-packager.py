@@ -216,6 +216,7 @@ def package_platform_distribution(
     input_path: Path,
     output_dir: Optional[Path] = None,
     platforms: Optional[List[str]] = None,
+    exclude_platforms: Optional[List[str]] = None,
     title_override: Optional[str] = None,
     description_override: Optional[str] = None,
     hashtags_override: Optional[List[str]] = None
@@ -239,7 +240,12 @@ def package_platform_distribution(
     summary_text = description_override or generate_content_summary(project_data)
     chapters_text = generate_chapters(project_data)
     
-    platforms = [p.strip().lower() for p in (platforms or ["tiktok", "reels", "shorts", "youtube"])]
+    default_platforms = project_data.get("platforms") if project_data and isinstance(project_data.get("platforms"), list) else ["tiktok", "reels", "shorts", "youtube"]
+    resolved_platforms = [p.strip().lower() for p in (platforms or default_platforms)]
+    if exclude_platforms:
+        ex_set = {x.strip().lower() for x in exclude_platforms}
+        resolved_platforms = [p for p in resolved_platforms if p not in ex_set]
+    platforms = resolved_platforms
     results: Dict[str, Any] = {
         "title": title,
         "source_video": str(video_path),
@@ -389,20 +395,23 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--input", "-i", required=True, help="Input video file (.mp4) or project.json")
     parser.add_argument("--output", "-o", help="Output package directory (default: <parent>/package)")
-    parser.add_argument("--platforms", default="tiktok,reels,shorts,youtube", help="Comma-separated platform keys")
+    parser.add_argument("--platforms", help="Comma-separated platform keys (default: tiktok,reels,shorts,youtube)")
+    parser.add_argument("--exclude", help="Comma-separated platform keys to exclude (e.g. reels)")
     parser.add_argument("--title", help="Custom video title override")
     parser.add_argument("--description", help="Custom description override")
     parser.add_argument("--hashtags", help="Custom comma-separated hashtags override")
     args = parser.parse_args()
 
     custom_tags = [t.strip() for t in args.hashtags.split(",")] if args.hashtags else None
-    platforms = [p.strip() for p in args.platforms.split(",") if p.strip()]
+    platforms = [p.strip() for p in args.platforms.split(",") if p.strip()] if args.platforms else None
+    exclude_platforms = [p.strip() for p in args.exclude.split(",") if p.strip()] if args.exclude else None
 
     out_p = Path(args.output).resolve() if args.output else None
     package_platform_distribution(
         input_path=Path(args.input),
         output_dir=out_p,
         platforms=platforms,
+        exclude_platforms=exclude_platforms,
         title_override=args.title,
         description_override=args.description,
         hashtags_override=custom_tags

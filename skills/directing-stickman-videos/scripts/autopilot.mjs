@@ -14,7 +14,7 @@ const [command, ...rawArgs] = process.argv.slice(2);
 // in `--flag value` or `--flag=value` form. Previously `preview --replace PROJECT`
 // treated `--replace` as the project path and failed. Boolean flag: --replace.
 // Value flags: --seconds, --style, --note, --lead, --output, --lang, --max-words.
-const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output', '--lang', '--max-words', '--target-lufs', '--flow', '--topic', '--duration', '--format', '--highlight-color', '--mode', '--dur', '--platforms', '--title', '--description', '--hashtags', '--motion-bg', '--motion-ov']);
+const VALUE_FLAGS = new Set(['--seconds', '--style', '--note', '--lead', '--output', '--lang', '--max-words', '--target-lufs', '--flow', '--topic', '--duration', '--format', '--highlight-color', '--mode', '--dur', '--platforms', '--exclude', '--title', '--description', '--hashtags', '--motion-bg', '--motion-ov']);
 const flagValues = {};
 const args = [];
 for (let i = 0; i < rawArgs.length; i++) {
@@ -61,6 +61,7 @@ async function main() {
     const pyArgs = [packagerScript, '--input', path.resolve(args[0])];
     if (option('--output')) pyArgs.push('--output', path.resolve(option('--output')));
     if (option('--platforms')) pyArgs.push('--platforms', option('--platforms'));
+    if (option('--exclude')) pyArgs.push('--exclude', option('--exclude'));
     if (option('--title')) pyArgs.push('--title', option('--title'));
     if (option('--description')) pyArgs.push('--description', option('--description'));
     if (option('--hashtags')) pyArgs.push('--hashtags', option('--hashtags'));
