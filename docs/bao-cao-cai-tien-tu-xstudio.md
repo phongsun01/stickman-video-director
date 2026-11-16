@@ -594,6 +594,61 @@ Trong thư mục `20-reference-motion-styles` chứa các source code HTML5 Canv
 
 ---
 
+### 3. Tận dụng & Tổng Quát Hóa `kit-stickman` Thành Hệ Thống VISUAL BIBLE Cốt Lõi
+
+Bộ tài nguyên tại `docs/kit-stickman` (chuyển thể từ Garden Kit) cung cấp giải pháp triệt để cho vấn đề trôi hình nhân vật và bối cảnh (Character & Scene Drift) trong sản xuất video AI.
+
+#### 3.1 Bản chất và Giá trị của Visual Bible
+* **Vấn đề cốt lõi**: Khi AI sinh prompt hoặc tạo video qua nhiều shot/tập khác nhau, nếu không có neo hình ảnh (visual anchor) cố định, nhân vật sẽ bị đổi mặt, đổi tóc, đổi dáng, sai màu áo; bối cảnh đường phố bị biến dạng hoặc sai lệch văn hóa.
+* **Giải pháp Visual Bible**: Khóa cứng định danh (Canonical Frozen) cho từng thực thể (Entity) gồm 3 loại:
+  1. **Nhân vật (`CHAR`)**: Mô tả cấu trúc hình thể (`look`), trang phục bất biến (`outfit`), bảng tham chiếu 3 góc dáng + 4 biểu cảm (`ref` PNG A4).
+  2. **Địa điểm / Bối cảnh (`LOC`)**: Mô tả chuẩn 3 lớp (`Foreground - Middle ground - Background`), quy tắc loại bỏ chữ/biển số gây hallucination, ảnh tham chiếu phối cảnh màu nước (`ref` PNG).
+  3. **Đạo cụ (`PROP`)**: Mô tả chi tiết hình dáng, chất liệu, tính năng vật thể cầm nắm.
+
+#### 3.2 Quy hoạch Kiến trúc Tổng quát (Generalization Architecture)
+Thay vì gắn cứng với 1 series duy nhất, hệ thống Visual Bible được mở rộng thành kiến trúc quản lý đa gói (Multi-pack Entity Registry):
+* **Cấu trúc lưu trữ**:
+  ```
+  skills/directing-stickman-videos/assets/kits/
+  ├── vietnamese-daily/        # Pack đời sống Việt Nam (An, Bố, Lan, phố, chợ, quán cafe...)
+  │   ├── kit.json             # Schema thực thể CHAR, LOC, PROP
+  │   └── refs/*.png           # Ảnh tham chiếu đã duyệt
+  ├── business-explainer/      # Pack công sở / tài chính / B2 explainer
+  └── custom/                  # Người dùng tự tạo pack riêng
+  ```
+* **Khai báo trong `project.json`**:
+  ```json
+  {
+    "title": "Quản lý tài chính cá nhân",
+    "style": "A4",
+    "kit": "vietnamese-daily",
+    "shots": [
+      {
+        "id": "shot_01",
+        "cast": ["CHAR_01_AN", "CHAR_02_BO"],
+        "location": "LOC_03_PHONG_KHACH",
+        "action": "An ngồi trò chuyện cùng Bố bên bàn trà"
+      }
+    ]
+  }
+  ```
+
+#### 3.3 Tích hợp Tự động hóa Pipeline & CLI Autopilot (`autopilot kit`)
+1. **Engine Backend (`scripts/visual-bible-kit.py`)**:
+   - `bible`: Tự động xuất khối văn bản Visual Bible Block để chèn vào đầu prompt Phase B / Muse.
+   - `refs`: Tự động chọn và kiểm tra tối đa **3 ảnh tham chiếu/clip** theo đúng thứ tự ưu tiên: `Nhân vật (thứ tự truyện) → Bối cảnh → Đạo cụ`.
+   - `check`: Quét kiểm tra toàn bộ file ảnh tham chiếu của pack, báo cáo danh sách ref đã sẵn sàng hoặc còn thiếu.
+   - `list`: Liệt kê tất cả các pack và thực thể có sẵn trong hệ sinh thái Stickman.
+2. **Giao diện Dòng lệnh CLI (`autopilot.mjs kit`)**:
+   - `node scripts/autopilot.mjs kit --list`: Xem tất cả các pack thực thể.
+   - `node scripts/autopilot.mjs kit bible [--pack vietnamese-daily]`: Xuất Visual Bible cho kịch bản.
+   - `node scripts/autopilot.mjs kit check [project.json|kit.json]`: Kiểm tra tính đầy đủ của ảnh tham chiếu.
+   - `node scripts/autopilot.mjs kit refs CHAR_01_AN LOC_01_PHO_VN`: Lấy đường dẫn ảnh ref tự động gắn vào shot.
+3. **Liên kết với Kịch bản (Director Mode / Storyboard)**:
+   Khi `autopilot storyboard` sinh cảnh, nó tự động đối chiếu các thực thể có trong pack để điền trường `cast` và `location`, đảm bảo prompt xuất ra đồng nhất 100% về mặt hình ảnh từ tập đầu tiên đến tập cuối cùng.
+
+---
+
 ## 🚀 BÁO CÁO TRIỂN KHAI THỰC TẾ TRONG PHIÊN LÀM VIỆC (2026-11-16)
 
 Trong phiên làm việc này, toàn bộ các hạng mục nâng cấp trọng điểm từ xStudio và 2 kho thư viện local (`sfx-thu-vien` và `Motion-graphics-skill-stack-store`) đã được hiện thực hóa đầy đủ, kiểm thử đạt 100% và tích hợp trực tiếp vào nhánh `main`:
