@@ -54,6 +54,11 @@ Hệ thống Visual Bible của Stickman tuân thủ các nguyên tắc thiết 
    - **Biển số xe máy trắng trơn**: Biển số luôn là hình chữ nhật trắng trơn hoàn toàn không chữ và không số (`blank license plate with no numbers and no letters`).
    - **Nội thất tối giản**: Bảng menu quán cafe trống trơn, phòng khách không vẽ đồng hồ treo tường có số.
 
+7. **Bộ 3 Nâng Cấp Kế Thừa Từ Garden Studio 1.1.0 (XStudio / Garden Kit)**:
+   - **Trích xuất thực thể từ video (`from_video`)**: Cho phép "đóng băng" một nhân vật/bối cảnh ngẫu nhiên do AI sinh ra quá đẹp từ các bản render nháp thành nhân vật cố định của kênh (`autopilot kit extract-frame`).
+   - **Bộ sinh ảnh tham chiếu AI chuẩn hóa (`generate`)**: Tự động tạo bảng A4 Reference Sheet chuẩn hóa (3 dáng đứng/nghiêng/ngồi + 4 biểu cảm nét mặt) từ mô tả `look` và `marks` qua Gemini Imagen API khi tạo nhân vật mới.
+   - **Dashboard quản lý trực quan (`kit ui`)**: Cung cấp giao diện Web Card Profile tương tác (xem ảnh, toggle `enabled`, kéo thả ảnh ref, copy Visual Bible block 1-click) thay thế việc phải chỉnh sửa JSON thủ công.
+
 ---
 
 ## 3. Kiến Trúc Schema JSON Chuẩn (`core-schema.json`)
@@ -281,7 +286,56 @@ node scripts/autopilot.mjs kit refs CHAR_01_AN CHAR_02_BO LOC_01_PHO_VN
 
 # 4. Kiểm tra tính toàn vẹn của ảnh tham chiếu trong dự án:
 node scripts/autopilot.mjs kit check project.json
+
+# 5. Mở giao diện Web Dashboard tương tác dạng Card Profile:
+node scripts/autopilot.mjs kit ui --pack vietnamese-daily
+
+# 6. Trích xuất frame từ video ưng ý thành ảnh tham chiếu cho nhân vật/bối cảnh:
+node scripts/autopilot.mjs kit extract-frame output/shot_03.mp4 --time 00:02.500 --id CHAR_08_MINH --name "Minh" --type CHAR
+
+# 7. Tự động sinh ảnh tham chiếu AI chuẩn A4 cho thực thể mới:
+node scripts/autopilot.mjs kit generate CHAR_08_MINH --provider gemini
 ```
+
+### 5.3 Cơ Chế Trích Xuất Thực Thể Từ Video Ưng Ý (`extract-frame` / Kế thừa `from_video` của Garden Studio)
+Khi chạy các dự án hoặc sinh thử nghiệm (`cast_mode: auto`), nếu phát hiện một shot video có tạo hình nhân vật, cử chỉ hoặc bối cảnh đạt chất lượng cao:
+- **Nguyên lý hoạt động**:
+  1. Sử dụng FFmpeg trích xuất chính xác 1 frame hình chất lượng cao (không nén, PNG RGB24) tại timestamp chỉ định:
+     ```bash
+     ffmpeg -ss <timestamp> -i <video_path> -frames:v 1 -q:v 1 <output_png>
+     ```
+  2. Tự động chuẩn hóa kích thước và lưu vào thư mục `refs/` của pack (ví dụ `assets/kits/vietnamese-daily/refs/<slug-id>.png`).
+  3. Tự động chèn hoặc cập nhật thực thể vào `kit.json`:
+     - Điền loại (`CHAR`, `LOC`, `PROP`, `ENS`), tên, `id`.
+     - Ghi chú nhật ký (`notes`): `"Được trích xuất từ video <video_name> tại timestamp <time> vào ngày YYYY-MM-DD"`.
+     - Đặt `enabled: true`.
+
+### 5.4 Bộ Sinh Ảnh Tham Chiếu AI Chuẩn Hóa (`generate` / Kế thừa `generate` của Garden Studio)
+Khi người dùng định nghĩa một nhân vật hoặc bối cảnh mới trên giấy tờ (`kit.json`) nhưng chưa có ảnh vẽ tay chuẩn A4:
+- **Nguyên lý tạo Prompt Chuẩn Hóa (Standardized Reference Prompt)**:
+  - Với nhân vật (`CHAR`): Tự động ráp prompt vẽ bảng tham chiếu tiêu chuẩn A4 (A4 character reference sheet):
+    - Layout 3 dáng: *3 full-body poses (front view standing, 3/4 walking, sitting relaxed)*.
+    - 4 biểu cảm: *4 facial expression closeups (neutral, gentle smile, contemplative, anxious)*.
+    - Ràng buộc phong cách: *A4 Cozy Storytelling, flat 2D stick figure, white filled circular head, exact marks: {marks}, exact outfit: {outfit}, clean white background, no text, no logos*.
+  - Với bối cảnh (`LOC`): Tự động ráp prompt phối cảnh 3 lớp:
+    - *A4 Cozy watercolor background illustration. Foreground: {foreground}. Middle ground: {middle_ground}. Background: {background}. Gentle morning sunlight, no human, no text, no license plate numbers.*
+- **Cơ chế Dispatcher**:
+  - Hỗ trợ cờ `--provider`:
+    - `gemini` (mặc định): Gọi Gemini 2.0 Flash / Imagen 3 API thông qua khóa môi trường `GEMINI_API_KEY`.
+    - `local`: Gửi request tới endpoint ComfyUI hoặc WebUI chạy cục bộ (nếu có).
+  - Tải ảnh kết quả về `refs/<id_lowercase>.png` và tự động cập nhật trường `ref` trong `kit.json`.
+
+### 5.5 Giao Diện Web Dashboard Tương Tác Dạng Card Profile (`kit ui` / Kế thừa `data-page="kit"`)
+Cung cấp giao diện trực quan thân thiện cho cả người dùng lẫn AI Agent:
+- **Kiến trúc**: Lightweight Web Dashboard (Node.js HTTP Server hoặc Generative UI HTML độc lập):
+  - Hiển thị danh sách thực thể dưới dạng các **Thẻ Hồ Sơ (Profile Cards)** chia tab rõ ràng: `Nhân vật (CHAR)`, `Tổ hợp nhóm (ENS)`, `Bối cảnh 3 lớp (LOC)`, `Đạo cụ (PROP)`.
+  - Khung xem trước ảnh tham chiếu (Click để zoom to hoặc cập nhật ảnh mới bằng thao tác Drag & Drop).
+  - Công tắc Bật/Tắt (`Toggle switch: enabled`): Bật/tắt nhanh sự hiện diện của nhân vật/bối cảnh trong các video sắp quay mà không làm mất dữ liệu.
+  - Bộ soạn thảo nhanh các trường `marks`, `habits`, `outfit`, `forbid`, `3-layer scenery`.
+  - Nút bấm hành động 1-click trên từng thẻ:
+    - `[📷 Trích frame từ video]`: Mở modal chọn video và thanh kéo timestamp để bắt ảnh ref.
+    - `[🎨 Vẽ bằng AI]`: Gửi lệnh sinh bảng tham chiếu tự động.
+    - `[📋 Copy Visual Bible Block]`: Trích xuất khối văn bản đã compile để paste vào kịch bản.
 
 ---
 
@@ -292,8 +346,11 @@ node scripts/autopilot.mjs kit check project.json
 | **P1. Xây dựng Core Schema** | Thiết kế `core-schema.json` hỗ trợ `global_rules`, `CHAR` (marks, habits, expressions, forbid), `ENS`, `LOC` (3 lớp), `PROP`. | `skills/directing-stickman-videos/assets/kits/core-schema.json` |
 | **P2. Chuẩn hóa Pack Mẫu** | Di chuyển 12 ảnh PNG và chuẩn hóa `kit-stickman.json` theo schema mới vào `assets/kits/vietnamese-daily/`. | `skills/directing-stickman-videos/assets/kits/vietnamese-daily/kit.json` và `refs/` |
 | **P3. Xây dựng Engine Core** | Xây dựng script Python `visual-bible-kit.py` với đầy đủ tính năng nạp pack, xuất Visual Bible, tính toán 3 ref thông minh (hỗ trợ ENS). | `skills/directing-stickman-videos/scripts/visual-bible-kit.py` |
-| **P4. Tích hợp CLI Autopilot** | Bổ sung subcommand `kit` vào `autopilot.mjs` hỗ trợ các cờ `--list`, `bible`, `refs`, `check`, `--pack`. | `skills/directing-stickman-videos/scripts/autopilot.mjs` |
-| **P5. Tài liệu & Test Suite** | Viết tài liệu hướng dẫn và bộ test kiểm thử tự động `tests/verify-visual-bible-kit.py`. | `references/visual-bible-kit.md` và `tests/verify-visual-bible-kit.py` |
+| **P4. Tích hợp CLI Autopilot Cơ bản** | Bổ sung subcommand `kit` vào `autopilot.mjs` hỗ trợ các cờ `--list`, `bible`, `refs`, `check`, `--pack`. | `skills/directing-stickman-videos/scripts/autopilot.mjs` |
+| **P5. Bộ Trích Xuất Frame từ Video** | Xây dựng lệnh `extract-frame` sử dụng FFmpeg cắt ảnh chuẩn, cập nhật metadata và đường dẫn ref tự động vào `kit.json`. | `scripts/visual-bible-kit.py` & `scripts/autopilot.mjs` |
+| **P6. Bộ Sinh Ảnh Tham Chiếu AI (`generate`)** | Hiện thực hóa bộ sinh prompt chuẩn A4 Reference Sheet và Dispatcher gọi AI (Gemini/Imagen/Local) tạo ảnh ref tự động. | `scripts/visual-bible-kit.py` & `references/visual-bible-generator.md` |
+| **P7. Giao Diện Web Dashboard (`kit ui`)** | Xây dựng giao diện Web Card Profile tương tác (xem ảnh, toggle bật/tắt, kéo thả cập nhật ảnh, 1-click sinh AI / trích frame). | `skills/directing-stickman-videos/ui/kit-dashboard.html` & `scripts/kit-server.mjs` |
+| **P8. Tài liệu & Test Suite Hoàn Chỉnh** | Viết tài liệu hướng dẫn và bộ test kiểm thử tự động toàn diện cho tất cả các tính năng. | `references/visual-bible-kit.md` và `tests/verify-visual-bible-kit.py` |
 
 ---
 
@@ -301,5 +358,8 @@ node scripts/autopilot.mjs kit check project.json
 
 1. Lệnh `node scripts/autopilot.mjs kit --list` hiển thị đầy đủ danh sách nhân vật, bối cảnh từ pack `vietnamese-daily`.
 2. Lệnh `node scripts/autopilot.mjs kit bible` xuất đúng format Visual Bible chuẩn của Stickman (A4 Cozy Storytelling), không trôi lệch tạo hình, không dính bất kỳ yếu tố camera/CCTV ngoại lai nào.
-3. Lệnh `node scripts/autopilot.mjs kit refs` khi nhận quá 3 ID sẽ tự động cắt tỉa theo đúng thứ tự ưu tiên (bỏ prop trước, rồi đến place, không được bỏ character).
-4. Kiểm thử tự động `tests/verify-visual-bible-kit.py` vượt qua 100%.
+3. Lệnh `node scripts/autopilot.mjs kit refs` khi nhận quá 3 ID sẽ tự động cắt tỉa theo đúng thứ tự ưu tiên (bỏ prop trước, rồi đến place, không được bỏ character), tự động ưu tiên thay thế bằng thực thể nhóm `ENS` nếu có.
+4. Lệnh `node scripts/autopilot.mjs kit extract-frame` trích xuất thành công ảnh PNG sắc nét từ file video và cập nhật đúng schema `kit.json`.
+5. Lệnh `node scripts/autopilot.mjs kit generate` tự động tạo đúng prompt bảng mẫu chuẩn A4 và tải ảnh về lưu vào thư mục `refs/`.
+6. Lệnh `node scripts/autopilot.mjs kit ui` khởi chạy Dashboard web thành công, hiển thị trực quan các card profile, hỗ trợ toggle `enabled` và cập nhật dữ liệu mượt mà.
+7. Bộ kiểm thử tự động `tests/verify-visual-bible-kit.py` đạt tỷ lệ vượt qua 100%.
