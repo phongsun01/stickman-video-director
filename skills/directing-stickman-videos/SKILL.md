@@ -30,7 +30,7 @@ B1–B6: read the [installed workflow](references/b-style-installed-workflow.md)
 
 B accepts topics, briefs, articles and scripts; default English unless overridden. Follow [selected-provider execution](references/autopilot.md#selected-provider-execution): a missing adapter is not a provider prohibition. Use native named TTS without style descriptions; B4 allows secondary-role acting, not narrator tuning. Read the [story-led sound system](references/autopilot-sound-system.md). Never automatically revoice accepted media.
 
-Captions: B1–B4 and B6 single-line; B5 up to three semantic lines. Apply fixed style typography and actual local motion/audio checks in the [common gate](references/autopilot-production-qa.md#natural-captions-and-semantic-sound). B1/B2/B3/B5 voice credits are illustrative; Brian remains B4-only. New B5 real/complex presenters require an available image tool or approved supplied raster, not code-face substitutes; follow the [production gate](references/b5-production-gate.md).
+Captions: B1–B4 and B6 single-line; B5 up to three semantic lines. Apply fixed style typography and actual local motion/audio checks in the [common gate](references/autopilot-production-qa.md#natural-captions-and-semantic-sound). B1/B2/B3/B5 voice credits are illustrative; Brian remains B4-only. New B5 real/complex presenters require an available image tool or approved supplied raster, not code-face substitutes; follow the [production gate](references/b5-production-gate.md). For animated Kinetic/TikTok/Karaoke captions rendered to .ass, see [kinetic typography](references/kinetic-typography.md).
 
 All B styles: native **16:9 and 9:16**, under the [dual-format gate](references/autopilot-production-qa.md#native-landscape-and-portrait). For **B1–B3 portrait**, also read the [native portrait contract](references/b1-b2-b3-native-portrait.md): ratio-specific readable captions, authored per-shot focal regions, safe-area/visible-action checks and independent 1× phone-size review are required. Use the approved internal 10-second B1/B2/B3 portrait samples as effect targets alongside the landscape references; B1 retains its handwritten hierarchy and sequential element builds, while B2/B3 retain their original visual languages. They are not additional README showcases. Their exact-clip user approval, technical diagnostics and each new output's independent review remain separate; an engineering render does not establish portrait acceptance.
 
@@ -38,6 +38,9 @@ All B styles: native **16:9 and 9:16**, under the [dual-format gate](references/
 - **Vietnamese Autopilot without Gemini**: VieNeu local TTS, faster-whisper alignment, Vietnamese font fallback — see [Vietnamese Autopilot](references/vietnamese-autopilot.md) and [PATCH-NOTES.md](PATCH-NOTES.md). Non-Gemini providers follow [selected-provider execution](references/autopilot.md#selected-provider-execution).
 - **Local Sound Library (585 SFX/BGM)**: Look up and use offline audio assets via [local SFX library](references/local-sfx-thu-vien.md) (`scripts/sfx-catalog-local.py`).
 - **Cinematic Motion Toolkit**: Apply cinematic camera and motion design techniques via [cinematic motion toolkit](references/motion-graphics-cinematic-toolkit.md).
+- **EBU R128 Loudness Mastering & Post-Render QC**: Normalize audio to −14 LUFS (true peak ≤ −1.5 dBTP) with smart BGM ducking, then run the automated post-render QC (freeze frame, silence, black frame, loudness, clipping, caption collision) — see [audio loudness and ducking](references/audio-loudness-and-ducking.md) and [post-render QC](references/post-render-qc.md) (`node scripts/autopilot.mjs normalize-audio` / `qc`).
+- **Kinetic Typography**: Animated captions (Kinetic/TikTok/Karaoke/Pop/Box) rendered to .ass — see [kinetic typography](references/kinetic-typography.md) (`node scripts/autopilot.mjs subtitles`).
+- **Multi-Platform Packaging**: Package a finished film for TikTok, Reels, Shorts and YouTube 16:9 with per-platform captions/hashtags and auto YouTube Chapters — see [platform export packaging](references/platform-export-packaging.md) (`node scripts/autopilot.mjs package`).
 
 Repair failed checks in the selected route before delivery; report any review that remains unavailable.
 
@@ -45,7 +48,7 @@ Repair failed checks in the selected route before delivery; report any review th
 
 Read [first-use and stage guidance](references/getting-started.md) after verified installation or on first invocation. Use the conversation/requested guidance language independently of video language or README edition. Reuse choices; do not replay welcome or add approvals. Follow **A5 proactive character guidance** and **Optional A character references** there without changing voice rules.
 
-Read [optional finishing](references/thumbnail-publishing-kit.md) after video approval or a packaging request; offer once, never block delivery.
+Read [optional finishing](references/thumbnail-publishing-kit.md) after video approval or a packaging request; offer once, never block delivery. For multi-platform packaging (TikTok, Reels, Shorts, YouTube 16:9 with auto YouTube Chapters), run `node scripts/autopilot.mjs package` — see [platform export packaging](references/platform-export-packaging.md).
 
 ## A · Director
 
@@ -129,4 +132,3 @@ Theme, ratio, duration, or style changes require a fresh visual balance check. A
 ## Final check
 
 Apply the checklist in the loaded reference. Repair any failed condition before responding.
->>>>>>> upstream/main
