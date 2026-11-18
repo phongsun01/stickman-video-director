@@ -4,18 +4,18 @@
 
 # 🎬 Stickman Video Director
 
-**Otomatik çöp adam animasyonlarıyla yüzünüzü göstermeden içerik ürettiğiniz kanalınızı büyütün.**
+**Yüzsüz kanal ağınızı otomatik çöp adam animasyonlarıyla ölçeklendirin.**
 
 [![GitHub Yıldızları](https://img.shields.io/github/stars/kaomei/stickman-video-director?style=flat-square)](https://github.com/kaomei/stickman-video-director/stargazers)
 ![MIT Lisansı](https://img.shields.io/badge/License-MIT-16a34a?style=flat-square)
 
-Taslak senaryoları dakikalar içinde izleyiciyi ekranda tutan açıklayıcı animasyon videolarına dönüştürün — pratikte denenmiş 13 stil, seslendirme, dinamik kamera hareketleri ve ses tasarımıyla.
+Ham metinleri dakikalar içinde yüksek tutunma oranlı animasyonlu açıklamalara dönüştürün — kanıtlanmış 14 farklı stil, seslendirme, dinamik kamera ve ses efektleriyle birlikte.
 
-**After Effects’e veya aylık 50 dolarlık SaaS aboneliklerine gerek yok. Tükenmeden her gün video yayımlayın.**
+**Karmaşık After Effects kurgularına son. Aylık 50$'lık SaaS vergisi yok. Tükenmeden her gün yayınlayın.**
 
-[Başlayın](#quick-start) · [Stil Galerisi](#style-gallery) · [Sık sorulan sorular](#faq) · [Yol haritası](#road-to-10000-stars--creator-ecosystem) · [Topluluk](#community)
+[Hızlı Başlangıç](#quick-start) · [Vitrin](#style-gallery) · [SSS](#faq) · [Yol Haritası](#road-to-10000-stars--creator-ecosystem) · [Topluluk](#community)
 
-⭐ *Bir sonraki stil paketini ve yeni özellikleri kaçırmamak için projeye yıldız verin.*
+*⭐ Yeni stil güncellemelerini ve özellikleri kaçırmamak için projeye Star verin.*
 
 </div>
 
@@ -93,7 +93,12 @@ Taslak senaryoları dakikalar içinde izleyiciyi ekranda tutan açıklayıcı an
 <a href="#a7"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@4e621f1f91abe012715df94fc44897d5a61777b0/assets/readme/previews/style-7-rubber-hose.gif" alt="A7 · Rubber Hose Animation" width="90%"></a>
 </td>
 <!-- a7:hero:end -->
-<td width="50%" align="center"></td>
+<!-- b7:hero:start -->
+<td width="50%" align="center">
+<strong>Piksel Tiyatrosu</strong><br>
+<a href="#b7"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@d3eab432397d65e7cb72c83f2f35f11216cd5af8/assets/readme/previews/b7-pixel-theater.gif" alt="B7 · Piksel Tiyatrosu" width="90%"></a>
+</td>
+<!-- b7:hero:end -->
 </tr>
 </table>
 
@@ -548,9 +553,37 @@ Abartılı meme ifadeleri, serbest el çizgileri ve yumuşak renkler, sıra dı�
 
 ---
 
+<!-- b7:section:start -->
 <a id="b7"></a>
 
-### B7: Yakında…
+### B7: Piksel Tiyatrosu
+
+Küçük pikseller, büyük sonuçlar. Beyaz çöp adamlar günlük seçimleri küçük oyun dünyalarına dönüştürür; basılan bir düğme, kaçan bir fırsat ya da tek bir “fark etmez” her şeyi değiştirebilir.
+
+- **Görsel kimlik**: Keskin piksel çizgileri, ifadeli beyaz karakterler ve her sahneye özel renkler; bulanık ölçekleme veya pürüzsüz vektör taklitleri yok.
+- **Hareketle anlatım**: Karakterler, nesneler ve çevre hikâyeye hayat verir. Finalde kısa bir düşünce, retro tuş sesleri, küçük hareketler, hafifçe yanıp sönen yazı ve uygun müzik iz bırakır.
+- **Uygun içerikler**: Seçim odaklı hikâyeler, ironik hayat dersleri, kara mizah ve oyun hissi taşıyan duygusal masallar.
+
+<table width="100%">
+  <tr>
+    <th width="50%" align="center">Örnek 1: sürekli “fark etmez” dersen ne olur?</th>
+    <th width="50%" align="center">Örnek 2: hayatını hızlı ileri sarma</th>
+  </tr>
+  <tr>
+    <td width="50%" align="center"><a href="assets/readme/b7-pixel-theater-opening.mp4"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@d3eab432397d65e7cb72c83f2f35f11216cd5af8/assets/readme/previews/b7-pixel-theater.gif" alt="Örnek 1: sürekli “fark etmez” dersen ne olur?" width="360"></a></td>
+    <td width="50%" align="center"><a href="assets/readme/b7-fast-forward-excerpt.mp4"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@d3eab432397d65e7cb72c83f2f35f11216cd5af8/assets/readme/previews/b7-fast-forward-excerpt.gif" alt="Örnek 2: hayatını hızlı ileri sarma" width="360"></a></td>
+  </tr>
+  <tr>
+    <td align="center">Piksel karakter animasyonu · Oyun esintili müzik ve ses efektleri</td>
+    <td align="center">Brian seslendirmesi · Hikâyeye uygun ses efektleri · Daktilo efektli kapanış sözü</td>
+  </tr>
+</table>
+
+<!-- b7:section:end -->
+
+<a id="b8"></a>
+
+### B8: Yakında…
 
 Yeni Code Engine stilleri ve kod tabanlı animasyonlar hazırlanıyor. [Projeye yıldız verin](#road-to-10000-stars--creator-ecosystem) ve gelecek güncellemeleri takip edin!
 
