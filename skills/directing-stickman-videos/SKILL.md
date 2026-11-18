@@ -43,11 +43,14 @@ All B styles: native **16:9 and 9:16**, under the [dual-format gate](references/
 ### Local extensions on this fork
 - **Visual Bible & Continuity Kit**: For recurring A4 cast/locations/props, use the [locked shot compiler](references/visual-bible-kit.md). Compile from project snapshots, attach the declared images, and keep technical validation separate from actual media review.
 - **Vietnamese Autopilot without Gemini**: VieNeu local TTS, faster-whisper alignment, Vietnamese font fallback — see [Vietnamese Autopilot](references/vietnamese-autopilot.md) and [PATCH-NOTES.md](PATCH-NOTES.md). Non-Gemini providers follow [selected-provider execution](references/autopilot.md#selected-provider-execution).
-- **Local Sound Library (585 SFX/BGM)**: Look up and use offline audio assets via [local SFX library](references/local-sfx-thu-vien.md) ().
+- **Local Sound Library (585 SFX/BGM)**: Look up and use offline audio assets via [local SFX library](references/local-sfx-thu-vien.md) (`scripts/sfx-catalog-local.py`).
 - **Cinematic Motion Toolkit**: Apply cinematic camera and motion design techniques via [cinematic motion toolkit](references/motion-graphics-cinematic-toolkit.md).
+- **EBU R128 Loudness Mastering & Post-Render QC**: Normalize audio to −14 LUFS (true peak ≤ −1.5 dBTP) with smart BGM ducking, then run the automated post-render QC (freeze frame, silence, black frame, loudness, clipping, caption collision) — see [audio loudness and ducking](references/audio-loudness-and-ducking.md) and [post-render QC](references/post-render-qc.md) (`node scripts/autopilot.mjs normalize-audio` / `qc`).
+- **Kinetic Typography**: Animated captions (Kinetic/TikTok/Karaoke/Pop/Box) rendered to .ass — see [kinetic typography](references/kinetic-typography.md) (`node scripts/autopilot.mjs subtitles`).
+- **Multi-Platform Packaging**: Package a finished film for TikTok, Reels, Shorts and YouTube 16:9 with per-platform captions/hashtags and auto YouTube Chapters — see [platform export packaging](references/platform-export-packaging.md) (`node scripts/autopilot.mjs package`).
 
 ## First use and next steps
 
 Read [first-use and stage guidance](references/getting-started.md) after verified installation or on first invocation. Use the conversation/requested guidance language independently of video language or README edition. Reuse choices; do not replay welcome or add approvals. Follow **A5 proactive character guidance** and **Optional A character references** there without changing voice rules.
 
-Read [optional finishing](references/thumbnail-publishing-kit.md) after video approval or a packaging request; offer once, never block delivery.
+Read [optional finishing](references/thumbnail-publishing-kit.md) after video approval or a packaging request; offer once, never block delivery. For multi-platform packaging (TikTok, Reels, Shorts, YouTube 16:9 with auto YouTube Chapters), run `node scripts/autopilot.mjs package` — see [platform export packaging](references/platform-export-packaging.md).
