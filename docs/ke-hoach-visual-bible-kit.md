@@ -824,27 +824,37 @@ Quota used: 2/3 (example capability profile). Pruned refs: None.
 
 | Giai đoạn | Nhiệm vụ trọng tâm | Sản phẩm đầu ra (Deliverables) |
 | :--- | :--- | :--- |
-| **P1. Chốt Bản Chuẩn & Ma Trận Đối Soát** | - Ghi quyết định người dùng ngày 2026-11-17 (Bố thân trắng, An chân nét đơn) vào dữ liệu migration; không hỏi duyệt lại.<br>- Tính toán và khóa mã băm SHA-256 cho 12 file ảnh A4.<br>- Đồng bộ anchor với quyết định đã duyệt; đối soát các thực thể khác trước khi migration. | `docs/kit-stickman/audit-matrix-2026-11-16.md`<br>Bảng SHA-256 chính thức. |
-| **P2. Hoàn Thiện Schema & Migration Kit Mẫu** | - Đóng gói `core-schema.json` và `project-schema.json` với enum trạng thái, event op và quy tắc theo type; viết semantic validator riêng cho tham chiếu chéo, file/hash và timeline.<br>- Di chuyển dữ liệu sang `assets/kits/vietnamese-daily/kit.json`.<br>- Bảo toàn 100% ID gốc; chuyển đường dẫn tương đối portable.<br>- Tạo snapshot JSON/ảnh bất biến và lockfile bao phủ dependency; kiểm tra hash trước mỗi compile. | `assets/kits/core-schema.json`<br>`assets/kits/vietnamese-daily/kit.json`<br>`project.lock.json` |
-| **P3. Xây Dựng Engine Compiler & Continuity Linter** | - Viết module `compile_shot` và `lint_project` trong Python.<br>- Xử lý sự kiện có cấu trúc (`pickup`, `putdown`, `handover`, `consume`).<br>- Triển khai cơ chế kiểm tra `mode="prod"` vs `mode="draft"`. | `scripts/visual-bible-kit.py` |
-| **P4. Bộ Chọn Ref & Ràng Buộc Quota Theo Model** | - Đọc cấu hình ma trận `provider_limits`.<br>- Phân định xử lý `required_refs` (hard stop khi vượt) và `optional_refs` (tự tỉa).<br>- Ràng buộc kích hoạt ENS theo `member_variants` và `location_id`. | Module `resolve_refs` trong `visual-bible-kit.py` |
-| **P5. Tích Hợp CLI Autopilot** | - Cập nhật CLI `autopilot.mjs kit` với các subcommand: `list`, `audit`, `compile`, `lint`, `check`.<br>- Xây dựng bộ test tự động `tests/verify-visual-bible-kit.py`. | `scripts/autopilot.mjs`<br>`tests/verify-visual-bible-kit.py` |
-| **P6. Thử Nghiệm Chuỗi Hình Thực Tế (Benchmark Suite)** | - Chạy thử nghiệm chuỗi 6 shot thực tế qua AI model.<br>- Lập báo cáo đánh giá thị giác độc lập `Visual Consistency Assessment Report`. | `tests/reports/visual-bible-benchmark-report.md` |
+| **P1. Chốt Bản Chuẩn & Ma Trận Đối Soát** | - Ghi quyết định người dùng ngày 2026-11-17 (Bố thân trắng, An chân nét đơn) vào dữ liệu migration; không hỏi duyệt lại.<br>- Tính toán và khóa mã băm SHA-256 cho 12 file ảnh A4.<br>- Đồng bộ anchor với quyết định đã duyệt; đối soát các thực thể khác trước khi migration.<br>- *Test ngay*: Kiểm tra tính toàn vẹn 12 file ảnh và hash SHA-256 đối soát. | `docs/kit-stickman/audit-matrix-2026-11-16.md`<br>Bảng SHA-256 chính thức.<br>`tests/test_p1_hash_integrity.py` |
+| **P2. Hoàn Thiện Schema & Migration Kit Mẫu** | - Đóng gói `core-schema.json` và `project-schema.json` với enum trạng thái, event op và quy tắc theo type; viết semantic validator riêng cho tham chiếu chéo, file/hash và timeline.<br>- Di chuyển dữ liệu sang `assets/kits/vietnamese-daily/kit.json`.<br>- Bảo toàn 100% ID gốc; chuyển đường dẫn tương đối portable.<br>- Tạo snapshot JSON/ảnh bất biến và lockfile bao phủ dependency; kiểm tra hash trước mỗi compile.<br>- *Test ngay*: Validate `kit.json` trực tiếp bằng `core-schema.json`; kiểm tra làm sạch ID (`^[A-Z0-9_]+$`) và chống path traversal. | `assets/kits/core-schema.json`<br>`assets/kits/vietnamese-daily/kit.json`<br>`project.lock.json`<br>`tests/test_p2_schema_validation.py` |
+| **P3. Xây Dựng Engine Compiler & Continuity Linter** | - Viết module `compile_shot` và `lint_project` trong Python.<br>- Xử lý sự kiện có cấu trúc (`pickup`, `putdown`, `handover`, `consume`).<br>- Triển khai cơ chế kiểm tra `mode="prod"` vs `mode="draft"`.<br>- *Test ngay*: So sánh đầu ra prompt độc lập và khối Visual Bible với file mẫu chuẩn (**Golden File**); test state machine continuity. | `scripts/visual-bible-kit.py`<br>`tests/fixtures/golden_bible_output.txt`<br>`tests/test_p3_compiler_golden.py` |
+| **P4. Bộ Chọn Ref & Ràng Buộc Quota Theo Model** | - Đọc cấu hình ma trận `provider_limits`.<br>- Phân định xử lý `required_refs` (hard stop khi vượt) và `optional_refs` (tự tỉa).<br>- Ràng buộc kích hoạt ENS theo `member_variants` và `location_id`.<br>- *Test ngay*: Ma trận kiểm thử quota đầy đủ (trường hợp có ENS thay thế CHAR, thiếu ENS, quá 3 ID có cảnh báo hard stop, và giữ slot LOC). | Module `resolve_refs` trong `visual-bible-kit.py`<br>`tests/test_p4_quota_matrix.py` |
+| **P5. Tích Hợp CLI Autopilot & An Toàn Vận Hành** | - Cập nhật CLI `autopilot.mjs kit` với các subcommand: `list`, `audit`, `compile`, `lint`, `check`.<br>- Áp dụng an toàn bảo mật: spawn an toàn ffmpeg, validate ID, bind localhost cho web UI, an toàn secret.<br>- *Test ngay*: Tích hợp CLI E2E, test bảo mật (path traversal, input sanitation). | `scripts/autopilot.mjs`<br>`tests/verify-visual-bible-kit.py` |
+| **P6. Thử Nghiệm Chuỗi Hình Thực Tế (Benchmark Suite)** | - Chạy thử nghiệm chuỗi 6 shot thực tế qua AI model.<br>- Thực hiện phép thử tính nhất quán (**Consistency Stress Test**) N ≥ 3 lần lặp, chấm theo 6 mục checklist.<br>- Lập báo cáo đánh giá thị giác độc lập `Visual Consistency Assessment Report`. | `tests/reports/visual-bible-benchmark-report.md` |
 
 ---
 
 ## 7. Tiêu Chí Nghiệm Thu Hai Nhóm (Acceptance Criteria)
 
 ### 7.1 Nhóm 1: Kiểm Tra Dữ Liệu Tự Động (Automated Linter Pass)
-1. **Khóa bản chuẩn**: Mọi file ảnh tham chiếu khai báo phải có mã SHA-256 khớp tuyệt đối với `ref_hash` — bất kỳ file nào không khớp là lỗi build.
-2. **Chặn lỗi sản xuất**: Lệnh `kit compile --mode prod` từ chối biên soạn mọi shot có thực thể hoặc variant mang trạng thái `conflict` hoặc `draft`.
-3. **Continuity Linter**:
+*Quy tắc điều hành kiểm thử: Viết test ngay trong từng giai đoạn (P1–P5), không để dồn vào cuối lộ trình.*
+
+1. **Kiểm hợp lệ Schema & ID (P2)**:
+   - Toàn bộ `kit.json` và snapshot phải vượt qua kiểm tra cấu trúc nghiêm ngặt từ `core-schema.json`.
+   - Kiểm tra làm sạch ID và đường dẫn: ID chỉ cho phép `^[A-Z0-9_]+$`, từ chối mọi chuỗi có chứa ký tự path traversal (`../`, `/`, `\`) khi ánh xạ file `refs/<slug>.png`.
+2. **Khóa bản chuẩn (P1)**: Mọi file ảnh tham chiếu khai báo phải có mã SHA-256 khớp tuyệt đối với `ref_hash` — bất kỳ file nào không khớp là lỗi build.
+3. **So sánh đầu ra với file mẫu chuẩn - Golden File (P3)**:
+   - Đầu ra khối `kit bible` và prompt độc lập từng shot của compiler được so khớp ký tự (character-level diff) với file mẫu chuẩn `tests/fixtures/golden_bible_output.txt`. Bất kỳ thay đổi không chủ ý nào về format anchor đều bị bắt lỗi ngay.
+4. **Chặn lỗi sản xuất**: Lệnh `kit compile --mode prod` từ chối biên soạn mọi shot có thực thể hoặc variant mang trạng thái `conflict` hoặc `draft`.
+5. **Continuity Linter**:
    - Bắt được lỗi nếu Shot $N+1$ (continuous cut) khai báo đồ vật xuất hiện trở lại trên bàn trong khi Shot $N$ đã ghi nhận nhân vật nhấc đi.
    - Bắt được lỗi một instance xuất hiện ở nhiều nơi, quan hệ tay/người giữ mâu thuẫn hoặc vượt capacity anchor; không coi hai tách khác nhau cùng trên bàn là lỗi.
-4. **Snapshot và tái lập**: Sửa kit đang hoạt động không làm đổi prompt dự án đã lock; sửa snapshot hoặc ảnh snapshot phải gây lỗi hash. Thiếu dependency Bố/variant hoặc lock chỉ chứa hash ảnh mà thiếu snapshot thiết kế phải thất bại.
-5. **State machine**: Tính trạng thái cuối từ events; từ chối unknown op, thời gian sai, nhấc vật sai vị trí, tay bận và expected_final_state không khớp. Hai shot mẫu pass logic continuity ở draft nhưng fail production vì target còn giả lập; fixture conflict/draft riêng phải chứng minh gate duyệt vẫn hoạt động.
-6. **Quota Hard Stop**: Báo lỗi và dừng biên dịch nếu số attachment required sau ENS/deduplicate vượt quota target; thiếu file required cũng thất bại. S02 phải giữ optional LOC khi còn slot.
-7. **Độc lập và sạch sẽ**: Prompt xuất ra không chứa các mô tả rác của thực thể không có mặt trong shot.
+6. **Snapshot và tái lập**: Sửa kit đang hoạt động không làm đổi prompt dự án đã lock; sửa snapshot hoặc ảnh snapshot phải gây lỗi hash. Thiếu dependency Bố/variant hoặc lock chỉ chứa hash ảnh mà thiếu snapshot thiết kế phải thất bại.
+7. **State machine**: Tính trạng thái cuối từ events; từ chối unknown op, thời gian sai, nhấc vật sai vị trí, tay bận và expected_final_state không khớp. Hai shot mẫu pass logic continuity ở draft nhưng fail production vì target còn giả lập; fixture conflict/draft riêng phải chứng minh gate duyệt vẫn hoạt động.
+8. **Ma trận kiểm quota ref đầy đủ (P4)**:
+   - **Có ENS**: ENS hợp lệ thay thế toàn bộ CHAR của thành viên, giảm số slot tiêu thụ mà không nhân đôi ref.
+   - **Thiếu ENS**: Khi shot có từ 3 nhân vật required trở lên mà không có ENS, compiler dừng và cảnh báo cứng (giữ tối thiểu 1 slot cho LOC, không tự động cạn kiệt slot của LOC).
+   - **Quá 3 ID**: Tự động tỉa optional refs theo đúng thứ tự ưu tiên và ghi log lý do vào manifest; nếu required refs vượt quota thì ném lỗi `QuotaExceededError`.
+9. **Độc lập và sạch sẽ**: Prompt xuất ra không chứa các mô tả rác của thực thể không có mặt trong shot.
 
 ### 7.2 Nhóm 2: Đánh Giá Kết Quả Thị Giác Thực Tế (Visual Consistency Verification)
 Được đánh giá thông qua chuỗi 6 shot chuẩn (**Benchmark Test Sequence**):
