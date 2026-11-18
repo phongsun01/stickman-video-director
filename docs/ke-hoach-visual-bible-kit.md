@@ -797,6 +797,24 @@ Quota used: 2/3 (example capability profile). Pruned refs: None.
   - Phân bổ ref: Resolve ref/ENS theo mục 5.0, sau đó so số attachment bắt buộc duy nhất với quota target. Nếu vượt quá $\rightarrow$ Ném lỗi `QuotaExceededError`. Tự động cắt tỉa `optional_refs` nếu cần và ghi nhận vào manifest.
   - Lắp ráp 6 khối prompt văn bản hoàn chỉnh.
 
+### 5.3 Bảo Mật và An Toàn Vận Hành (Security & Operational Safety)
+Để đảm bảo an toàn hệ thống khi chạy script cục bộ, tích hợp CLI hoặc mở giao diện quản trị, quy định nghiêm ngặt các nguyên tắc sau:
+1. **Gọi FFmpeg an toàn (Subprocess Execution)**:
+   - Khi gọi `ffmpeg` (ví dụ: trích xuất frame từ video), tuyệt đối **không ghép chuỗi shell** (`shell=False`).
+   - Sử dụng mảng đối số tách rời (`spawn` trong Node.js hoặc `subprocess.run([...])` trong Python).
+   - Kiểm tra và xác thực tham số `--time` (hoặc `-ss`) bằng regex nghiêm ngặt (chỉ chấp nhận định dạng giây `^\d+(\.\d+)?$` hoặc timecode `^\d{2}:\d{2}:\d{2}(\.\d+)?$`), từ chối mọi ký tự đặc biệt hoặc flag injection.
+2. **Chống Path Traversal đối với ID**:
+   - Tham số `--id` khi chỉ định thực thể hoặc lưu ảnh `refs/<slug>.png` bắt buộc phải được kiểm tra qua regex `^[A-Z0-9_]+$`.
+   - Ngăn chặn triệt để các ký tự như `../`, `/`, `\`, null bytes để tránh ghi đè file ngoài thư mục refs được chỉ định.
+3. **An toàn cho giao diện Web UI (`kit ui`)**:
+   - Máy chủ dev/dashboard phục vụ `kit ui` **chỉ được phép bind vào `127.0.0.1` (localhost)**, tuyệt đối không bind `0.0.0.0` để tránh phơi nhiễm qua mạng nội bộ (LAN).
+   - Chức năng kéo-thả hoặc upload ảnh tham chiếu phải kiểm tra chặt chẽ:
+     - **Loại tệp (MIME type / Magic bytes)**: Chỉ chấp nhận ảnh hợp lệ (`image/png`, `image/jpeg`).
+     - **Kích thước tối đa (Max file size)**: Giới hạn dung lượng upload (ví dụ: tối đa 10MB/ảnh) để tránh tấn công cạn kiệt tài nguyên / DoS.
+4. **Bảo vệ Secret & Khóa API**:
+   - Các khóa API như `GEMINI_API_KEY` (hoặc các provider token khác) chỉ được đọc trực tiếp từ biến môi trường (`process.env` / `os.environ`).
+   - **Tuyệt đối không ghi khóa API** vào file cấu hình `kit.json`, `project.json`, metadata snapshot, lockfile hay in ra màn hình console/log. Tự động mask/redact token nếu có thông báo lỗi từ phía client API.
+
 ---
 
 ## 6. Lộ Trình Triển Khai Chi Tiết (Work Breakdown Structure)
