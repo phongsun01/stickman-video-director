@@ -126,6 +126,14 @@ Việc duyệt góc nhìn/ánh sáng là duyệt thiết kế, không chứng mi
 Quy tắc chung:
 - Giữ nguyên 100% ID gốc khi migration. Ví dụ mục 3.2 chỉ là tập con để minh họa; migration thật phải giữ đủ 7 CHAR, 10 LOC và 2 PROP của kit gốc, rồi mới bổ sung thực thể mới.
 - `status` chỉ nhận `draft | conflict | approved | deprecated`. Production chỉ chấp nhận `approved`; giá trị lạ bị lỗi schema. Trạng thái ghi trong ma trận phải khớp dữ liệu mẫu.
+- `enabled` (boolean, mặc định `true`): Cho phép bật/tắt tạm thời thực thể hoặc biến thể mà không cần xóa khỏi pack.
+- `notes` (string, tùy chọn): Ghi chú ngữ cảnh, tiền sử sửa đổi, lý do khóa hoặc cảnh báo trôi hình (dành cho người đọc / kiểm toán).
+- **Phân định ngôn ngữ chặt chẽ**:
+  - **Trường đi vào prompt generation (English)**: `identity` (`head`, `torso`, `limbs`, `proportions`, `marks`), `approved_variants[].outfit`, `shape`, `scale_relative`, `visible_faces`, `forbid`, `spatial_layout.fixed_relations`, `approved_angles` (`foreground`, `middle_ground`, `background`). Tuyệt đối không trộn lẫn tiếng Việt vào các trường này để đảm bảo model AI hiểu chính xác anchor.
+  - **Trường dành cho con người / kịch bản (Tiếng Việt)**: `name`, `role`, `habits`, `expressions`, `notes`, `approved_variants[].name`.
+- **Nguyên tắc lệnh khẳng định (Affirmative Prompting)**: Lệnh cấm phủ định thuần túy (như *"no text"*, *"no logos"*, *"no license plate numbers"*) thường bị model AI bỏ qua hoặc thậm chí kích hoạt hiệu ứng phản chiếu (vẽ thêm rác). Do đó:
+  - Khi định nghĩa và biên soạn Visual Bible Block, ưu tiên dùng **mô tả khẳng định cụ thể đặc tính mong muốn** (ví dụ: *"blank white license plate with no numbers and no letters"*, *"solid white fill circular head"*, *"plain blank chalkboard menu"*).
+  - Khối cấm kỵ (`forbid` / negative prompt) được phân tách thành một danh sách riêng biệt ở cuối, không trộn lẫn vào các câu mô tả tạo hình chính.
 - Không tự nâng trạng thái khi migration. Mọi thay đổi thiết kế mới cần đối soát riêng; việc giữ ID không có nghĩa là đã duyệt nội dung mới.
 - `ref` và `ref_hash` cùng null hoặc cùng có giá trị. `ref_hash` có giá trị phải là SHA-256 thực tế. `approved` ở cấp thực thể/variant cần thông tin duyệt (`approved_by`, `approved_date`); angle/lighting có thể kế thừa thông tin duyệt của thực thể khi có `approval_source` rõ ràng; ghi nhận nguồn duyệt kế thừa nếu có, không tạo chữ ký duyệt giả.
 - Mỗi variant tham chiếu đúng ảnh của nó qua `ref` và `ref_hash`; không dùng ảnh default cho biến thể có thiết kế khác. Variant còn draft có thể chưa có ảnh.
@@ -133,14 +141,18 @@ Quy tắc chung:
 
 1. **`CHAR` (Nhân vật)**:
    - Bắt buộc: `id`, `type: "CHAR"`, `name`, `status`, `revision`, `identity` (head, torso, limbs, proportions, marks), `approved_variants`, `forbid`.
+   - Tùy chọn: `enabled` (boolean), `notes` (string), `role` (string), `habits` (array), `expressions` (array).
    - Nếu `status == "approved"`, bắt buộc phải có `ref` trỏ tới file ảnh tồn tại và `ref_hash` khớp mã SHA-256 thực tế.
 2. **`LOC` (Địa điểm)**:
    - Bắt buộc: `id`, `type: "LOC"`, `name`, `status`, `revision`, `spatial_layout.fixed_relations`, `approved_angles`, `forbid`.
+   - Tùy chọn: `enabled` (boolean), `notes` (string), `role` (string), `lighting_variants` (object).
    - Bố cục `fixed_relations` phải tham chiếu hệ tọa độ phòng hoặc góc nhìn máy quay tham chiếu; không chứa hành động nhân vật.
 3. **`PROP` (Đạo cụ)**:
    - Bắt buộc: `id`, `type: "PROP"`, `name`, `status`, `revision`, `shape`, `scale_relative`, `visible_faces`, `forbid`.
+   - Tùy chọn: `enabled` (boolean), `notes` (string), `role` (string).
 4. **`ENS` (Thực thể nhóm)**:
    - Bắt buộc: `id`, `type: "ENS"`, `name`, `status`, `revision`, `members`, `member_revisions`, `member_variants`, `reference_role`, `ref`.
+   - Tùy chọn: `enabled` (boolean), `notes` (string), `location_id` (string), `layout` (string), `allowed_usage_condition` (string).
    - `status` chỉ được là `"approved"` nếu tất cả `members` đều có `status: "approved"` với đúng `member_revisions` và `member_variants`.
 
 ### 3.2 Ví Dụ Pack Mẫu Có Khai Báo Các Điểm Chưa Chốt (`assets/kits/vietnamese-daily/kit.json`)
@@ -168,6 +180,8 @@ Quy tắc chung:
       "type": "CHAR",
       "id": "CHAR_01_AN",
       "status": "approved",
+      "enabled": true,
+      "notes": "Anchor chuẩn hóa cho nhân vật nam thanh niên, thân trắng thon gọn, không tóc.",
       "revision": "rev-2026-11-17.1",
       "name": "An",
       "role": "nam chính, 28 tuổi, nhân viên văn phòng",
@@ -177,9 +191,9 @@ Quy tắc chung:
         "limbs": "dark single-line limbs with constant medium weight, small dark rounded hands and short dark rounded feet",
         "proportions": "standard adult stickman height, head-to-body balanced",
         "marks": [
-          "đầu tròn trắng đặc không tóc",
-          "gương mặt tối giản chuẩn",
-          "thân khép kín tô trắng"
+          "solid white filled circular head with no hair",
+          "minimalist clean face features",
+          "closed white tapered torso"
         ]
       },
       "approved_variants": [
@@ -188,6 +202,8 @@ Quy tắc chung:
           "name": "Trang phục thường ngày",
           "outfit": "plain white closed torso, dark single-line legs; no trouser silhouettes",
           "status": "approved",
+          "enabled": true,
+          "notes": "Bản vẽ chuẩn A4 theo an-tham-chieu-a4.png",
           "ref": "refs/an-tham-chieu-a4.png",
           "ref_hash": "081c4bbf3f7e5a766de595320c2efe99bc5af64fdf01992bcc3585d4b22d7f12",
           "approved_by": "Người dùng trong chat",
@@ -219,6 +235,8 @@ Quy tắc chung:
       "type": "CHAR",
       "id": "CHAR_02_BO",
       "status": "approved",
+      "enabled": true,
+      "notes": "CANONICAL FROZEN 2026-11-17: Bố thân trắng theo ảnh tham chiếu bo-tham-chieu-a4.png.",
       "revision": "rev-2026-11-17.1",
       "name": "Bố",
       "role": "bố của An, 55 tuổi, thói quen uống trà",
@@ -239,6 +257,8 @@ Quy tắc chung:
           "name": "Thân trắng truyền thống (theo ảnh tham chiếu A4 hiện có)",
           "outfit": "plain white closed torso, dark single-line legs; no trouser silhouettes",
           "status": "approved",
+          "enabled": true,
+          "notes": "Variant mặc định được duyệt dùng trong production",
           "ref": "refs/bo-tham-chieu-a4.png",
           "ref_hash": "655784d81ebcf9b6611f35baafaf75618fd52d9ec396044a11f8dc122f5bc1aa",
           "approved_by": "Người dùng trong chat",
@@ -248,6 +268,16 @@ Quy tắc chung:
           "variant_id": "BO_DARK_SHIRT",
           "name": "Áo dài tay sẫm màu (theo kịch bản tập 55-60)",
           "outfit": "plain dark long-sleeved top, long dark pants",
+          "status": "draft",
+          "enabled": true,
+          "notes": "Chưa có ảnh vẽ tham chiếu tương ứng, giữ draft",
+          "ref": null,
+          "ref_hash": null,
+          "surface_override": {
+            "torso": "plain dark long-sleeved top"
+          }
+        }
+      ],
           "status": "draft",
           "ref": null,
           "ref_hash": null,
@@ -280,6 +310,7 @@ Quy tắc chung:
       "type": "ENS",
       "id": "ENS_01_AN_VA_BO",
       "status": "draft",
+      "enabled": true,
       "revision": "rev-2026-11-16.1",
       "notes": "Hai nhân vật đã chốt thiết kế ngày 2026-11-17; ảnh ENS chưa được tạo hoặc duyệt.",
       "name": "An và Bố bên bàn trà phòng khách",
@@ -306,6 +337,8 @@ Quy tắc chung:
       "type": "LOC",
       "id": "LOC_03_PHONG_KHACH",
       "status": "approved",
+      "enabled": true,
+      "notes": "Bối cảnh phòng khách nhà An, góc nhìn chính diện Front Wide Anchor",
       "revision": "rev-2026-11-17.1",
       "approved_by": "Người dùng trong chat",
       "approved_date": "2026-11-17",
@@ -313,12 +346,12 @@ Quy tắc chung:
       "role": "bối cảnh sinh hoạt gia đình, Bố ngồi uống trà",
       "spatial_layout": {
         "fixed_relations": [
-          "Từ góc nhìn máy quay chính diện (Front Wide View Anchor):",
-          "- Tủ gỗ thấp đặt dọc theo bức tường phía bên trái (tường Tây)",
-          "- Cửa sổ lớn đón nắng ở tường hậu cảnh (tường Bắc), rèm voan mỏng buông nhẹ",
-          "- Ghế sofa gỗ đệm hoa dâm bụt đặt ở trung tâm phía trước cửa sổ lớn",
-          "- Bàn trà gỗ thấp màu trầm đặt ở trung tâm ngay trước ghế sofa",
-          "- Ghế bành gỗ đơn đặt bên trái bàn trà, vuông góc với ghế sofa"
+          "From Front Wide View Anchor:",
+          "- Low dark wooden cabinet placed along the left wall (West wall)",
+          "- Large window in background wall (North wall) with sheer white curtain",
+          "- Wooden sofa with red hibiscus cushions positioned in center before large window",
+          "- Low dark wooden tea table placed in center in front of wooden sofa",
+          "- Single wooden armchair placed on the left side of tea table, perpendicular to sofa"
         ],
         "coordinate_convention": "Bắc/Tây là nhãn nội bộ quy ước từ front_wide, không phải hướng địa lý đã đo.",
         "anchors": {
@@ -330,36 +363,36 @@ Quy tắc chung:
       },
       "approved_angles": {
         "front_wide": {
-          "foreground": "bàn trà gỗ thấp màu trầm",
-          "middle_ground": "sofa gỗ đệm hoa dâm bụt, ghế bành gỗ, tủ gỗ thấp bên trái",
-          "background": "cửa sổ lớn đón nắng, rèm voan mỏng, cây xanh ngoài vườn, nắng dịu buổi sáng",
+          "foreground": "low dark wooden tea table in center",
+          "middle_ground": "wooden sofa with red hibiscus cushions, single wooden armchair, low dark wooden cabinet on the left",
+          "background": "large window with morning daylight, sheer white curtain, garden greenery outside, gentle morning sun",
           "status": "approved",
           "approval_source": "Người dùng duyệt thiết kế ngày 2026-11-17; đầu ra mới cần nghiệm thu riêng."
         },
         "table_close": {
-          "foreground": "mặt bàn trà gỗ vân mộc",
-          "middle_ground": "mép ghế bành gỗ bên trái",
-          "background": "ánh sáng xiên từ cửa sổ hậu cảnh, mờ nhẹ dịu mắt",
+          "foreground": "natural wood grain tea table surface",
+          "middle_ground": "edge of wooden armchair on the left",
+          "background": "soft daylight filtering from background window, gentle soft-focus blur",
           "status": "approved",
           "approval_source": "Người dùng duyệt thiết kế ngày 2026-11-17; đầu ra mới cần nghiệm thu riêng."
         }
       },
       "lighting_variants": {
         "morning": {
-          "description": "ánh nắng dịu buổi sáng chiếu qua rèm voan tạo bóng đổ mềm mại",
+          "description": "gentle morning daylight through sheer curtain casting soft diffused shadows",
           "status": "approved",
           "approval_source": "Người dùng duyệt thiết kế ngày 2026-11-17; đầu ra mới cần nghiệm thu riêng."
         },
         "evening": {
-          "description": "ánh đèn vàng ấm áp từ đèn trần mộc mạc, ngoài cửa sổ là trời tối",
+          "description": "warm golden ceiling lamp light, dark exterior night through window",
           "status": "approved",
           "approval_source": "Người dùng duyệt thiết kế ngày 2026-11-17; đầu ra mới cần nghiệm thu riêng."
         }
       },
       "forbid": [
-        "đồng hồ treo tường có số",
-        "lịch treo tường có chữ",
-        "tivi màn hình phẳng hiện đại"
+        "wall clock with numbers",
+        "calendar with text",
+        "modern flat screen television"
       ],
       "ref": "refs/phong-khach-tham-chieu.png",
       "ref_hash": "644bb61e4ffb191925deedf7a72fe10fa6012928d340b0380b5743c6025a6c32"
@@ -368,12 +401,14 @@ Quy tắc chung:
       "type": "PROP",
       "id": "PROP_02_XE_MAY",
       "status": "approved",
+      "enabled": true,
+      "notes": "Xe máy đường phố, biển số trắng trơn hoàn toàn",
       "revision": "rev-2026-11-17.1",
       "name": "Xe máy đường phố",
-      "shape": "plain motorbike, blank license plate with no numbers and no letters",
-      "scale_relative": "Không bổ sung tỷ lệ thiết kế mới; đối chiếu kích thước với nhân vật khi dàn cảnh.",
+      "shape": "plain motorbike, blank white license plate with no numbers and no letters",
+      "scale_relative": "standard motorbike proportion relative to adult stick figure",
       "visible_faces": {
-        "all_views": "plain motorbike; any visible license plate is blank with no numbers and no letters"
+        "all_views": "plain motorbike; any visible license plate is blank white with no numbers and no letters"
       },
       "forbid": [
         "numbers or letters on license plate",
@@ -388,10 +423,12 @@ Quy tắc chung:
       "type": "PROP",
       "id": "PROP_03_TACH_TRA",
       "status": "approved",
+      "enabled": true,
+      "notes": "Tách trà men gốm trơn mộc mạc",
       "revision": "rev-2026-11-17.1",
       "name": "Tách trà men gốm",
-      "shape": "plain tea cup, no writing or decorative pattern",
-      "scale_relative": "Kích thước tách trà phù hợp tay nhân vật; không bổ sung thiết kế mới.",
+      "shape": "plain ceramic tea cup, smooth surface, no writing or decorative pattern",
+      "scale_relative": "tea cup sized comfortably for stickman hands",
       "visible_faces": {
         "all_views": "plain tea cup; no newly prescribed glaze color, handle or saucer"
       },
@@ -406,9 +443,7 @@ Quy tắc chung:
     }
   ],
   "meta": {
-    "name": "Stickman Kit — Sống Đáng Tiền + Chú mèo học…",
-    "version": "3.1.0",
-    "updated": "2026-11-16",
+    "updated": "2026-11-17",
     "provider_limits": {
       "example-provider": {
         "example-model": {
@@ -491,6 +526,9 @@ Dưới đây là hợp đồng chuẩn của một kịch bản gồm 2 shot ti
           "variant": "BO_WHITE_TORSO"
         }
       ],
+      "props": [
+        "PROP_03_TACH_TRA"
+      ],
       "prop_instances": [
         {
           "instance_id": "cup_01",
@@ -570,6 +608,9 @@ Dưới đây là hợp đồng chuẩn của một kịch bản gồm 2 shot ti
           "id": "CHAR_02_BO",
           "variant": "BO_WHITE_TORSO"
         }
+      ],
+      "props": [
+        "PROP_03_TACH_TRA"
       ],
       "prop_instances": [
         {
@@ -824,7 +865,7 @@ Quota used: 2/3 (example capability profile). Pruned refs: None.
 
 | Giai đoạn | Nhiệm vụ trọng tâm | Sản phẩm đầu ra (Deliverables) |
 | :--- | :--- | :--- |
-| **P1. Chốt Bản Chuẩn & Ma Trận Đối Soát** | - Ghi quyết định người dùng ngày 2026-11-17 (Bố thân trắng, An chân nét đơn) vào dữ liệu migration; không hỏi duyệt lại.<br>- Tính toán và khóa mã băm SHA-256 cho 12 file ảnh A4.<br>- Đồng bộ anchor với quyết định đã duyệt; đối soát các thực thể khác trước khi migration.<br>- *Test ngay*: Kiểm tra tính toàn vẹn 12 file ảnh và hash SHA-256 đối soát. | `docs/kit-stickman/audit-matrix-2026-11-16.md`<br>Bảng SHA-256 chính thức.<br>`tests/test_p1_hash_integrity.py` |
+| **P1. Chốt Bản Chuẩn, Bổ Sung Schema Multi-Pack & Ma Trận Đối Soát** | - Ghi quyết định người dùng ngày 2026-11-17 (Bố thân trắng, An chân nét đơn) vào dữ liệu migration; không hỏi duyệt lại.<br>- **Bổ sung trường đa pack cho Schema**: Cập nhật `enabled` (boolean), `notes` (string), và `status` (enum) đồng bộ vào core schema cho các thực thể và biến thể; loại bỏ trùng lặp `meta.name`/`meta.version` (chỉ giữ `title`/`version` cấp pack).<br>- **Quy ước ngôn ngữ phân lập**: Các trường đi vào prompt model (`head`, `torso`, `limbs`, `proportions`, `marks`, `outfit`, `shape`, `scale_relative`, `visible_faces`, `forbid`, `fixed_relations`, `angles`) bằng tiếng Anh; các trường ngữ cảnh cho người đọc (`name`, `role`, `habits`, `expressions`, `notes`) bằng tiếng Việt.<br>- **Khẳng định hóa mô tả anchor**: Chuyển các cấm đoán hình thức ("no text", "no logos") thành mô tả khẳng định cụ thể ("blank white license plate with no numbers and no letters", "solid white filled head", "plain blank menu") và tách danh sách cấm kỵ (`forbid`) riêng biệt.<br>- **Chuẩn hóa khai báo shot**: Bổ sung `props` vào cấp shot song song với `characters` và `location` trong kịch bản để tối ưu giải quyết ưu tiên ref.<br>- Tính toán và khóa mã băm SHA-256 cho 12 file ảnh A4.<br>- *Test ngay*: Kiểm tra tính toàn vẹn 12 file ảnh và hash SHA-256 đối soát. | `docs/kit-stickman/audit-matrix-2026-11-16.md`<br>Bảng SHA-256 chính thức.<br>`tests/test_p1_hash_integrity.py` |
 | **P2. Hoàn Thiện Schema & Migration Kit Mẫu** | - Đóng gói `core-schema.json` và `project-schema.json` với enum trạng thái, event op và quy tắc theo type; viết semantic validator riêng cho tham chiếu chéo, file/hash và timeline.<br>- Di chuyển dữ liệu sang `assets/kits/vietnamese-daily/kit.json`.<br>- Bảo toàn 100% ID gốc; chuyển đường dẫn tương đối portable.<br>- Tạo snapshot JSON/ảnh bất biến và lockfile bao phủ dependency; kiểm tra hash trước mỗi compile.<br>- *Test ngay*: Validate `kit.json` trực tiếp bằng `core-schema.json`; kiểm tra làm sạch ID (`^[A-Z0-9_]+$`) và chống path traversal. | `assets/kits/core-schema.json`<br>`assets/kits/vietnamese-daily/kit.json`<br>`project.lock.json`<br>`tests/test_p2_schema_validation.py` |
 | **P3. Xây Dựng Engine Compiler & Continuity Linter** | - Viết module `compile_shot` và `lint_project` trong Python.<br>- Xử lý sự kiện có cấu trúc (`pickup`, `putdown`, `handover`, `consume`).<br>- Triển khai cơ chế kiểm tra `mode="prod"` vs `mode="draft"`.<br>- *Test ngay*: So sánh đầu ra prompt độc lập và khối Visual Bible với file mẫu chuẩn (**Golden File**); test state machine continuity. | `scripts/visual-bible-kit.py`<br>`tests/fixtures/golden_bible_output.txt`<br>`tests/test_p3_compiler_golden.py` |
 | **P4. Bộ Chọn Ref & Ràng Buộc Quota Theo Model** | - Đọc cấu hình ma trận `provider_limits`.<br>- Phân định xử lý `required_refs` (hard stop khi vượt) và `optional_refs` (tự tỉa).<br>- Ràng buộc kích hoạt ENS theo `member_variants` và `location_id`.<br>- *Test ngay*: Ma trận kiểm thử quota đầy đủ (trường hợp có ENS thay thế CHAR, thiếu ENS, quá 3 ID có cảnh báo hard stop, và giữ slot LOC). | Module `resolve_refs` trong `visual-bible-kit.py`<br>`tests/test_p4_quota_matrix.py` |
