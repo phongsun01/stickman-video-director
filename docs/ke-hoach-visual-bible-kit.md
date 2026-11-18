@@ -737,6 +737,26 @@ Quota used: 2/3 (example capability profile). Pruned refs: None.
 ### 5.0 Chính Sách Chọn Ref Và Payload
 - Project bắt buộc chọn `target.provider/model/mode`; không có capability profile đã xác minh thì production dừng. Profile giả lập trong ví dụ chỉ dành cho test deterministic, không đại diện giới hạn dịch vụ thật.
 - Trước quota, kiểm tra ref tồn tại, trạng thái, hash và vai trò được model hỗ trợ. Không có ảnh của required ref là lỗi ngay cả khi còn slot. Tính quota trên file đính kèm duy nhất sau deduplicate và ENS coverage, không đếm số ID thô.
+
+**Quy tắc ENS thay thế CHAR ref (ENS-covers-CHAR):**
+> Nếu tồn tại một ENS `approved` phủ **đúng toàn bộ** tập nhân vật S xuất hiện trong shot (cùng revision và variant), ENS đó chiếm 1 slot và **loại bỏ toàn bộ CHAR ref của S**. Không dùng cả ENS lẫn CHAR ref của thành viên trong cùng slot set — đây là xung đột ưu tiên. CHAR ref chỉ giữ lại khi không có ENS phủ đủ hoặc ENS không thoả điều kiện revision/variant/location.
+
+**Quy tắc giữ slot LOC tối thiểu:**
+> **Luôn dành ít nhất 1 slot cho ảnh LOC** nếu shot có địa điểm có ảnh `approved`. Thứ tự phân bổ:
+> 1. ENS (nếu hợp lệ, thay toàn bộ CHAR được phủ) — hoặc CHAR required theo số nhân vật thực trong shot.
+> 2. Dành 1 slot cho LOC required trước khi lấy thêm CHAR/PROP optional.
+> 3. Các optional refs điền vào slot còn thừa theo thứ tự khai báo.
+>
+> **Trường hợp đặc biệt — ≥ 3 nhân vật mà không có ENS hợp lệ:**
+> Nếu shot yêu cầu ≥ 3 nhân vật trong `required_refs` và không có ENS hợp lệ phủ đủ, compiler **không được tự bỏ LOC để giải phóng slot cho CHAR**. Thay vào đó, compiler dừng và phát cảnh báo cứng:
+> ```
+> WARN [quota]: Shot SXX có N nhân vật required nhưng không có ENS hợp lệ.
+>   → Giải pháp: (a) Tạo và duyệt ENS cho nhóm này,
+>                (b) tách shot thành các cảnh nhỏ hơn 3 nhân vật,
+>                (c) xác nhận tường minh thiếu LOC ref qua flag --allow-no-loc.
+> ```
+> Chỉ tiếp tục biên soạn nếu có `--allow-no-loc` tường minh; manifest phải ghi rõ LOC bị bỏ và lý do.
+
 - ENS chỉ thay các thành viên trùng đúng revision/variant; `members` không được kéo người ngoài cast vào ảnh. Composition/first_frame còn phải khớp địa điểm, góc, lighting và trạng thái bố cục phù hợp. ENS identity không có location_id không bị loại chỉ vì shot đổi địa điểm. Không có ENS hợp lệ và required refs vượt quota thì dừng.
 - Giữ optional refs theo thứ tự khai báo trong project, lấy hết nếu còn slot; nếu bỏ phải ghi ID và lý do vào manifest. Ví dụ S02 có 2/3 slot nên giữ cả ảnh phòng khách.
 - Manifest máy đọc được tách khỏi chuỗi prompt gửi model: `attachments` ghi đường dẫn snapshot, SHA-256, vai trò, thực thể được phủ và lý do lựa chọn; `pruned_refs` ghi lý do bỏ. Phần manifest trong ví dụ là báo cáo cho người đọc, không phải bằng chứng đã upload ảnh. Adapter phải kiểm tra và gửi ảnh thực tế theo khả năng API; khi chỉ xuất prompt thủ công, báo rõ ảnh cần đính kèm.
@@ -746,7 +766,7 @@ Quota used: 2/3 (example capability profile). Pruned refs: None.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ 1. DETERMINISTIC AUTOMATED LINTER (Máy tính tự kiểm tra 100%)          │
+│ 1. DETERMINISTIC AUTOMATED LINTER (Máy tính tự kiểm tra)                │
 │    - JSON Schema validation & required fields check                    │
 │    - File existence & SHA-256 hash exact match check                   │
 │    - ID uniqueness & cross-reference integrity                         │
@@ -798,8 +818,8 @@ Quota used: 2/3 (example capability profile). Pruned refs: None.
 ## 7. Tiêu Chí Nghiệm Thu Hai Nhóm (Acceptance Criteria)
 
 ### 7.1 Nhóm 1: Kiểm Tra Dữ Liệu Tự Động (Automated Linter Pass)
-1. **Khóa bản chuẩn**: 100% file ảnh tham chiếu khai báo có mã SHA-256 khớp tuyệt đối với `ref_hash`.
-2. **Chặn lỗi sản xuất**: Lệnh `kit compile --mode prod` từ chối biên soạn 100% các shot có thực thể hoặc variant mang trạng thái `conflict` hoặc `draft`.
+1. **Khóa bản chuẩn**: Mọi file ảnh tham chiếu khai báo phải có mã SHA-256 khớp tuyệt đối với `ref_hash` — bất kỳ file nào không khớp là lỗi build.
+2. **Chặn lỗi sản xuất**: Lệnh `kit compile --mode prod` từ chối biên soạn mọi shot có thực thể hoặc variant mang trạng thái `conflict` hoặc `draft`.
 3. **Continuity Linter**:
    - Bắt được lỗi nếu Shot $N+1$ (continuous cut) khai báo đồ vật xuất hiện trở lại trên bàn trong khi Shot $N$ đã ghi nhận nhân vật nhấc đi.
    - Bắt được lỗi một instance xuất hiện ở nhiều nơi, quan hệ tay/người giữ mâu thuẫn hoặc vượt capacity anchor; không coi hai tách khác nhau cùng trên bàn là lỗi.
@@ -825,5 +845,18 @@ Quota used: 2/3 (example capability profile). Pruned refs: None.
 - **S05 (Cảnh nhóm ENS)**: Đúng 2 nhân vật, đúng vị trí ghế sofa và ghế bành, không tráo đổi đặc điểm nhận diện.
 - **S06 (Quay lại địa điểm cũ)**: Cấu trúc không gian phòng khách giữ đúng quan hệ topo (tủ gỗ bên trái, cửa sổ sau sofa, bàn trà ở giữa).
 
+**Phép thử tính nhất quán (Consistency Stress Test):** Ngoài chuỗi 6 shot trên, sinh thêm N ≥ 3 lần lặp cho cùng một nhân vật ở cùng loại shot (ví dụ: S01 toàn thân × 3 lần với seed khác nhau), rồi chấm từng kết quả theo checklist dưới đây. Kết quả được ghi vào báo cáo benchmark; không có "khớp" hay "không khớp" tuyệt đối — chỉ có số mục đạt / tổng mục trên từng lần sinh.
+
+| Hạng mục checklist | Mô tả |
+|:---|:---|
+| Dấu nhận diện | Đúng màu tóc, nếp nhăn, hình đầu tròn không méo |
+| Tỉ lệ cơ thể | Đầu/thân đúng tỉ lệ; không thêm bớt chi |
+| Cấu trúc thân | Thân khép kín tô trắng (Bố), chi nét đơn — không phải nét đơn thân |
+| Trang phục / variant | Đúng variant đã compile (BO_WHITE_TORSO, DEFAULT_DAILY, …) |
+| Không có rác ngoài cast | Không xuất hiện nhân vật, đồ vật ngoài khai báo trong shot |
+| Topo địa điểm | Vị trí tương đối đồ vật, cửa, cửa sổ nhất quán với LOC anchor |
+
+Mỗi lần sinh được ghi điểm (số mục đạt / 6). Nếu điểm trung bình < 5/6 trên N lần hoặc bất kỳ lần nào < 4/6 thì prompt anchor của nhân vật cần được tăng cường trước khi kit được phê duyệt sản xuất.
+
 > [!NOTE]
-> Báo cáo kiểm thử tự động (`Automated Linter Pass`) và Báo cáo đánh giá thị giác (`Visual Consistency Assessment Report`) là hai tài liệu tách biệt hoàn toàn. Chỉ khi cả hai báo cáo đều đạt 100% thì phiên bản kit mới được cấp chứng chỉ phát hành sản xuất.
+> Báo cáo kiểm thử tự động (`Automated Linter Pass`) và Báo cáo đánh giá thị giác (`Visual Consistency Assessment Report`) là hai tài liệu tách biệt hoàn toàn. Phiên bản kit chỉ được cấp chứng chỉ phát hành sản xuất khi cả hai báo cáo đều không còn điểm chưa đạt.
