@@ -1,0 +1,191 @@
+{
+  "style": "A4 Cozy Storytelling: flat 2D stick figures on detailed full-color cartoon backgrounds, gentle light, warm watercolor",
+  "global_rules": {
+    "figure_construction": "white filled circular head, two small dark oval eyes, simple eyebrow strokes, short curved mouth, closed white torso with solid white fill inside dark outline (slim for youth, slightly overweight for middle-aged), dark single-line limbs with constant medium weight, small dark rounded paws/hands",
+    "drawing_rule": "flat 2D stick figures on warm watercolor cartoon backgrounds, clear cartoon contours, shot-specific lighting, consistent line weights, no sketchbook borders, no 3D elements",
+    "forbid": [
+      "readable text, letters, or numbers in frames",
+      "license plate numbers (must always be blank white plates)",
+      "commercial logos or brand marks",
+      "hollow or transparent circular heads",
+      "cluttered modern digital gadgets unless explicitly specified",
+      "crude hand drawings or rough paper overlays"
+    ]
+  },
+  "entities": [
+    {
+      "type": "CHAR",
+      "id": "CHAR_01_AN",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "approved_by": "Người dùng trong chat",
+      "approved_date": "2026-11-17",
+      "name": "An",
+      "role": "nam chính, 28 tuổi, nhân viên văn phòng",
+      "identity": {
+        "head": "white filled circular head, no hair, two small dark oval eyes, simple eyebrow strokes, short curved mouth",
+        "torso": "slim closed tapered torso with solid white fill inside dark outline",
+        "limbs": "dark single-line limbs with constant medium weight, small dark rounded hands and short dark rounded feet",
+        "proportions": "standard adult stickman height, head-to-body balanced",
+        "marks": [
+          "đầu tròn trắng đặc không tóc",
+          "gương mặt tối giản chuẩn",
+          "thân khép kín tô trắng"
+        ]
+      },
+      "approved_variants": [
+        {
+          "variant_id": "DEFAULT_DAILY",
+          "name": "Trang phục thường ngày",
+          "outfit": "plain white closed torso, dark single-line legs; no trouser silhouettes",
+          "status": "approved",
+          "ref": "refs/an-tham-chieu-a4.png",
+          "ref_hash": "081c4bbf3f7e5a766de595320c2efe99bc5af64fdf01992bcc3585d4b22d7f12",
+          "approved_by": "Người dùng trong chat",
+          "approved_date": "2026-11-17"
+        }
+      ],
+      "habits": [
+        "đứng thẳng nhìn người đối thoại",
+        "cử chỉ nhanh nhẹn dứt khoát"
+      ],
+      "expressions": [
+        "bình thường",
+        "mỉm cười nhẹ",
+        "trầm ngâm",
+        "lo lắng"
+      ],
+      "forbid": [
+        "vẽ tóc",
+        "áo có họa tiết",
+        "đầu rỗng xuyên thấu",
+        "vòng đeo tay hoặc phụ kiện lạ"
+      ],
+      "ref": "refs/an-tham-chieu-a4.png",
+      "ref_hash": "081c4bbf3f7e5a766de595320c2efe99bc5af64fdf01992bcc3585d4b22d7f12"
+    },
+    {
+      "type": "CHAR",
+      "id": "CHAR_02_BO",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "approved_by": "Người dùng trong chat",
+      "approved_date": "2026-11-17",
+      "name": "Bố",
+      "role": "bố của An, 55 tuổi, thói quen uống trà",
+      "identity": {
+        "head": "white filled circular head, short grey hair along the sides and back of the head, two short horizontal forehead wrinkles above the eyebrows, two small dark oval eyes, simple eyebrow strokes, short curved mouth",
+        "torso": "slightly overweight closed torso with solid white fill inside dark outline",
+        "limbs": "dark single-line limbs with constant medium weight",
+        "proportions": "mature adult stickman height, slightly broader torso than An",
+        "marks": [
+          "short grey hair along the sides and back of the head",
+          "two short horizontal forehead wrinkles above the eyebrows",
+          "slightly overweight closed white torso"
+        ]
+      },
+      "approved_variants": [
+        {
+          "variant_id": "BO_WHITE_TORSO",
+          "name": "Thân trắng truyền thống (theo ảnh tham chiếu A4 hiện có)",
+          "outfit": "plain white closed torso, dark single-line legs; no trouser silhouettes",
+          "status": "approved",
+          "ref": "refs/bo-tham-chieu-a4.png",
+          "ref_hash": "655784d81ebcf9b6611f35baafaf75618fd52d9ec396044a11f8dc122f5bc1aa",
+          "approved_by": "Người dùng trong chat",
+          "approved_date": "2026-11-17"
+        },
+        {
+          "variant_id": "BO_DARK_SHIRT",
+          "name": "Áo dài tay sẫm màu (theo kịch bản tập 55-60)",
+          "outfit": "plain dark long-sleeved top, long dark pants",
+          "status": "draft",
+          "ref": null,
+          "ref_hash": null
+        }
+      ],
+      "habits": [
+        "chắp hai tay sau lưng khi đi dạo thong thả",
+        "chậm rãi nâng tách trà bằng hai tay"
+      ],
+      "expressions": [
+        "ôn tồn mỉm cười",
+        "trầm ngâm suy tư",
+        "nghiêm nghị",
+        "xót xa lo lắng"
+      ],
+      "forbid": [
+        "thân hình gầy mảnh",
+        "thiếu nếp nhăn trán",
+        "thiếu tóc hoa râm"
+      ],
+      "ref": "refs/bo-tham-chieu-a4.png",
+      "ref_hash": "655784d81ebcf9b6611f35baafaf75618fd52d9ec396044a11f8dc122f5bc1aa"
+    },
+    {
+      "type": "LOC",
+      "id": "LOC_03_PHONG_KHACH",
+      "status": "approved",
+      "revision": "rev-2026-11-17.2",
+      "approved_by": "Bepj",
+      "approved_date": "2026-11-16",
+      "name": "Phòng khách nhà An",
+      "role": "bối cảnh sinh hoạt gia đình, Bố ngồi uống trà",
+      "spatial_layout": {
+        "fixed_relations": [
+          "Từ góc nhìn máy quay chính diện (Front Wide View Anchor):",
+          "- Tủ gỗ thấp đặt dọc theo bức tường phía bên trái (tường Tây)",
+          "- Cửa sổ lớn  ở tường hậu cảnh (tường Bắc), rèm voan mỏng buông nhẹ",
+          "- Ghế sofa gỗ đệm hoa dâm bụt đặt ở trung tâm phía trước cửa sổ lớn",
+          "- Bàn trà gỗ thấp màu trầm đặt ở trung tâm ngay trước ghế sofa",
+          "- Ghế bành gỗ đơn đặt bên trái bàn trà, vuông góc với ghế sofa"
+        ],
+        "anchors": {
+          "on_tea_table_center": {
+            "capacity": 1,
+            "support": "tea_table"
+          },
+          "tea_table_surface": {
+            "capacity": 4,
+            "support": "tea_table"
+          }
+        }
+      },
+      "approved_angles": {
+        "front_wide": {
+          "foreground": "bàn trà gỗ thấp màu trầm",
+          "middle_ground": "sofa gỗ đệm hoa dâm bụt, ghế bành gỗ, tủ gỗ thấp bên trái",
+          "background": "cửa sổ lớn, rèm voan mỏng, cây xanh ngoài vườn; ánh sáng theo lighting variant",
+          "status": "approved",
+          "approval_source": "Inherited approved location design; living-room close angle explicitly approved in chat on 2026-11-17."
+        },
+        "table_close": {
+          "foreground": "mặt bàn trà gỗ vân mộc",
+          "middle_ground": "mép ghế bành gỗ bên trái",
+          "background": "cửa sổ và rèm voan hậu cảnh mờ nhẹ; ánh sáng theo lighting variant",
+          "status": "approved",
+          "approval_source": "Inherited approved location design; living-room close angle explicitly approved in chat on 2026-11-17."
+        }
+      },
+      "lighting_variants": {
+        "morning": {
+          "description": "ánh nắng dịu buổi sáng chiếu qua rèm voan tạo bóng đổ mềm mại",
+          "status": "approved",
+          "approval_source": "Inherited location design; living-room evening explicitly approved in chat on 2026-11-17."
+        },
+        "evening": {
+          "description": "ánh đèn vàng ấm áp từ đèn trần mộc mạc, ngoài cửa sổ là trời tối",
+          "status": "approved",
+          "approval_source": "Inherited location design; living-room evening explicitly approved in chat on 2026-11-17."
+        }
+      },
+      "forbid": [
+        "đồng hồ treo tường có số",
+        "lịch treo tường có chữ",
+        "tivi màn hình phẳng hiện đại"
+      ],
+      "ref": "refs/phong-khach-tham-chieu.png",
+      "ref_hash": "644bb61e4ffb191925deedf7a72fe10fa6012928d340b0380b5743c6025a6c32"
+    }
+  ]
+}
