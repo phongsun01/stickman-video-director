@@ -105,6 +105,13 @@
               ]
             }
           },
+          "props": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
           "prop_instances": {
             "type": "array",
             "items": {

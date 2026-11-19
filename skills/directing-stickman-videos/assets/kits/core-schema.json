@@ -76,6 +76,12 @@
               "deprecated"
             ]
           },
+          "enabled": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "string"
+          },
           "ref": {
             "type": [
               "string",
@@ -149,6 +155,12 @@
                     "conflict",
                     "deprecated"
                   ]
+                },
+                "enabled": {
+                  "type": "boolean"
+                },
+                "notes": {
+                  "type": "string"
                 },
                 "ref": {
                   "type": [
@@ -240,6 +252,12 @@
                     "deprecated"
                   ]
                 },
+                "enabled": {
+                  "type": "boolean"
+                },
+                "notes": {
+                  "type": "string"
+                },
                 "foreground": {
                   "type": "string",
                   "minLength": 1
@@ -274,6 +292,12 @@
                     "conflict",
                     "deprecated"
                   ]
+                },
+                "enabled": {
+                  "type": "boolean"
+                },
+                "notes": {
+                  "type": "string"
                 },
                 "description": {
                   "type": "string",
@@ -405,14 +429,6 @@
         "provider_limits": {
           "type": "object"
         },
-        "name": {
-          "type": "string",
-          "minLength": 1
-        },
-        "version": {
-          "type": "string",
-          "minLength": 1
-        },
         "updated": {
           "type": "string",
           "minLength": 1
@@ -420,8 +436,6 @@
       },
       "required": [
         "provider_limits",
-        "name",
-        "version",
         "updated"
       ]
     }

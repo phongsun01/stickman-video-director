@@ -17,6 +17,9 @@
           "variant": "BO_WHITE_TORSO"
         }
       ],
+      "props": [
+        "PROP_03_TACH_TRA"
+      ],
       "prop_instances": [
         {
           "instance_id": "cup_01",
@@ -96,6 +99,9 @@
           "id": "CHAR_02_BO",
           "variant": "BO_WHITE_TORSO"
         }
+      ],
+      "props": [
+        "PROP_03_TACH_TRA"
       ],
       "prop_instances": [
         {

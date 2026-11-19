@@ -60,6 +60,7 @@ def validate_document(value, schema, path='$'):
     errors = []
     types = {'object': lambda x: isinstance(x, dict), 'array': lambda x: isinstance(x, list),
              'string': lambda x: isinstance(x, str), 'null': lambda x: x is None,
+             'boolean': lambda x: isinstance(x, bool),
              'integer': lambda x: type(x) is int,
              'number': lambda x: type(x) in (int, float) and math.isfinite(x)}
     expected = schema.get('type')
@@ -178,7 +179,9 @@ def load_project(path):
 def dependencies(project):
     result=set()
     for s in project.get('timeline',[]):
-        result.update(c['id'] for c in s.get('characters',[]));result.update(p['type_id'] for p in s.get('prop_instances',[]))
+        result.update(c['id'] for c in s.get('characters',[]))
+        result.update(s.get('props',[]))
+        result.update(p['type_id'] for p in s.get('prop_instances',[]))
         if s.get('location',{}).get('id'):result.add(s['location']['id'])
         result.update(s.get('required_refs',[]));result.update(s.get('optional_refs',[]))
     return result
@@ -239,6 +242,10 @@ def gate_shot(pack,shot,production=False):
         ent=table.get(char['id'])
         if not ent or ent['type']!='CHAR':raise ValidationError(f'Unknown character {char["id"]}')
         check(ent,ent['id']);check(selected_variant(ent,char),char['variant'])
+    for prop_id in shot.get('props',[]):
+        ent=table.get(prop_id)
+        if not ent or ent['type']!='PROP':raise ValidationError(f'Unknown prop {prop_id}')
+        check(ent,ent['id'])
     for prop in shot.get('prop_instances',[]):
         ent=table.get(prop['type_id'])
         if not ent or ent['type']!='PROP':raise ValidationError(f'Unknown prop {prop["type_id"]}')
@@ -254,7 +261,7 @@ def gate_shot(pack,shot,production=False):
 
 def resolve_refs(pack_data,pack_dir,shot,provider=None,mode=None,*,target=None,production=False,lock=None):
     profile=capability(pack_data,target or shot.get('target'),production);quota=profile['max_refs'];table={e['id']:e for e in pack_data['entities']}
-    chars={c['id']:c for c in shot.get('characters',[])};allowed=set(chars)|{p['type_id'] for p in shot.get('prop_instances',[])}|{shot.get('location',{}).get('id')}
+    chars={c['id']:c for c in shot.get('characters',[])};allowed=set(chars)|set(shot.get('props',[]))|{p['type_id'] for p in shot.get('prop_instances',[])}|{shot.get('location',{}).get('id')}
     required=list(dict.fromkeys(shot.get('required_refs',[])));optional=[eid for eid in dict.fromkeys(shot.get('optional_refs',[])) if eid not in required]
     def make(eid,required=True):
         ent=table.get(eid)

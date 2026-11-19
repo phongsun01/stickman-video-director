@@ -17,6 +17,8 @@
       "type": "CHAR",
       "id": "CHAR_01_AN",
       "status": "approved",
+      "enabled": true,
+      "notes": "Anchor chuẩn hóa cho nhân vật nam thanh niên, thân trắng thon gọn, không tóc.",
       "revision": "rev-2026-11-17.2",
       "approved_by": "Người dùng trong chat",
       "approved_date": "2026-11-17",
@@ -28,9 +30,9 @@
         "limbs": "dark single-line limbs with constant medium weight, small dark rounded hands and short dark rounded feet",
         "proportions": "standard adult stickman height, head-to-body balanced",
         "marks": [
-          "đầu tròn trắng đặc không tóc",
-          "gương mặt tối giản chuẩn",
-          "thân khép kín tô trắng"
+          "solid white filled circular head with no hair",
+          "minimalist clean face features",
+          "closed white tapered torso"
         ]
       },
       "approved_variants": [
@@ -39,6 +41,8 @@
           "name": "Trang phục thường ngày",
           "outfit": "plain white closed torso, dark single-line legs; no trouser silhouettes",
           "status": "approved",
+          "enabled": true,
+          "notes": "Bản vẽ chuẩn A4 theo an-tham-chieu-a4.png",
           "ref": "refs/an-tham-chieu-a4.png",
           "ref_hash": "081c4bbf3f7e5a766de595320c2efe99bc5af64fdf01992bcc3585d4b22d7f12",
           "approved_by": "Người dùng trong chat",
@@ -68,6 +72,8 @@
       "type": "CHAR",
       "id": "CHAR_02_BO",
       "status": "approved",
+      "enabled": true,
+      "notes": "CANONICAL FROZEN 2026-11-17: Bố thân trắng theo ảnh tham chiếu bo-tham-chieu-a4.png.",
       "revision": "rev-2026-11-17.2",
       "approved_by": "Người dùng trong chat",
       "approved_date": "2026-11-17",
@@ -90,6 +96,8 @@
           "name": "Thân trắng truyền thống (theo ảnh tham chiếu A4 hiện có)",
           "outfit": "plain white closed torso, dark single-line legs; no trouser silhouettes",
           "status": "approved",
+          "enabled": true,
+          "notes": "Variant mặc định được duyệt dùng trong production",
           "ref": "refs/bo-tham-chieu-a4.png",
           "ref_hash": "655784d81ebcf9b6611f35baafaf75618fd52d9ec396044a11f8dc122f5bc1aa",
           "approved_by": "Người dùng trong chat",
@@ -100,6 +108,8 @@
           "name": "Áo dài tay sẫm màu (theo kịch bản tập 55-60)",
           "outfit": "plain dark long-sleeved top, long dark pants",
           "status": "draft",
+          "enabled": true,
+          "notes": "Chưa có ảnh vẽ tham chiếu tương ứng, giữ draft",
           "ref": null,
           "ref_hash": null
         }

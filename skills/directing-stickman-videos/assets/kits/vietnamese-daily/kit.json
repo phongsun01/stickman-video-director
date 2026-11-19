@@ -20,6 +20,8 @@
       "type": "CHAR",
       "id": "CHAR_01_AN",
       "status": "approved",
+      "enabled": true,
+      "notes": "Anchor chuẩn hóa cho nhân vật nam thanh niên, thân trắng thon gọn, không tóc.",
       "revision": "rev-2026-11-17.2",
       "approved_by": "Người dùng trong chat",
       "approved_date": "2026-11-17",
@@ -31,9 +33,9 @@
         "limbs": "dark single-line limbs with constant medium weight, small dark rounded hands and short dark rounded feet",
         "proportions": "standard adult stickman height, head-to-body balanced",
         "marks": [
-          "đầu tròn trắng đặc không tóc",
-          "gương mặt tối giản chuẩn",
-          "thân khép kín tô trắng"
+          "solid white filled circular head with no hair",
+          "minimalist clean face features",
+          "closed white tapered torso"
         ]
       },
       "approved_variants": [
@@ -42,6 +44,8 @@
           "name": "Trang phục thường ngày",
           "outfit": "plain white closed torso, dark single-line legs; no trouser silhouettes",
           "status": "approved",
+          "enabled": true,
+          "notes": "Bản vẽ chuẩn A4 theo an-tham-chieu-a4.png",
           "ref": "refs/an-tham-chieu-a4.png",
           "ref_hash": "081c4bbf3f7e5a766de595320c2efe99bc5af64fdf01992bcc3585d4b22d7f12",
           "approved_by": "Người dùng trong chat",
@@ -71,6 +75,8 @@
       "type": "CHAR",
       "id": "CHAR_02_BO",
       "status": "approved",
+      "enabled": true,
+      "notes": "CANONICAL FROZEN 2026-11-17: Bố thân trắng theo ảnh tham chiếu bo-tham-chieu-a4.png.",
       "revision": "rev-2026-11-17.2",
       "approved_by": "Người dùng trong chat",
       "approved_date": "2026-11-17",
@@ -93,6 +99,8 @@
           "name": "Thân trắng truyền thống (theo ảnh tham chiếu A4 hiện có)",
           "outfit": "plain white closed torso, dark single-line legs; no trouser silhouettes",
           "status": "approved",
+          "enabled": true,
+          "notes": "Variant mặc định được duyệt dùng trong production",
           "ref": "refs/bo-tham-chieu-a4.png",
           "ref_hash": "655784d81ebcf9b6611f35baafaf75618fd52d9ec396044a11f8dc122f5bc1aa",
           "approved_by": "Người dùng trong chat",
@@ -103,6 +111,8 @@
           "name": "Áo dài tay sẫm màu (theo kịch bản tập 55-60)",
           "outfit": "plain dark long-sleeved top, long dark pants",
           "status": "draft",
+          "enabled": true,
+          "notes": "Chưa có ảnh vẽ tham chiếu tương ứng, giữ draft",
           "ref": null,
           "ref_hash": null
         }
@@ -173,6 +183,8 @@
       "type": "CHAR",
       "id": "CHAR_04_ME_LAN",
       "status": "approved",
+      "enabled": true,
+      "notes": "Mẹ của Lan, 55 tuổi, búi tóc thấp có các sợi bạc.",
       "revision": "rev-2026-11-17.2",
       "approved_by": "Bepj",
       "approved_date": "2026-11-16",
@@ -184,7 +196,7 @@
         "limbs": "dark single-line limbs with constant medium weight",
         "proportions": "mature adult stickman height",
         "marks": [
-          "búi tóc thấp có các sợi bạc"
+          "low bun with grey strands"
         ]
       },
       "approved_variants": [
@@ -193,6 +205,8 @@
           "name": "Trang phục truyền thống",
           "outfit": "plain dark long-sleeved top, long dark skirt",
           "status": "approved",
+          "enabled": true,
+          "notes": "Trang phục truyền thống cho người lớn tuổi",
           "ref": "refs/me-lan-tham-chieu-a4.png",
           "ref_hash": "89f6fff4acf240abc2037e504d15ca1da17644df307ee67cfecaaab7473da6e2"
         }
@@ -217,6 +231,8 @@
       "type": "CHAR",
       "id": "CHAR_05_BIN",
       "status": "approved",
+      "enabled": true,
+      "notes": "Cháu nội của Bố, 4 tuổi, chiều cao bằng 1/2 Bố.",
       "revision": "rev-2026-11-17.2",
       "approved_by": "Bepj",
       "approved_date": "2026-11-16",
@@ -228,8 +244,8 @@
         "limbs": "dark single-line limbs with constant medium weight",
         "proportions": "child stickman height, about 1/2 adult height",
         "marks": [
-          "chiều cao bằng 1/2 Bố",
-          "đầu tròn trắng nhỏ không tóc"
+          "height about half of Bo",
+          "small white filled circular head with no hair"
         ]
       },
       "approved_variants": [
@@ -238,6 +254,8 @@
           "name": "Trang phục thường ngày của Bin",
           "outfit": "plain white top, dark trousers",
           "status": "approved",
+          "enabled": true,
+          "notes": "Trang phục chuẩn cho Bin",
           "ref": "refs/bin-tham-chieu-a4.png",
           "ref_hash": "b2a3bd254b9d936c405c180f826298c191b551389e971f5ff90cec8c57e97fd0"
         }
@@ -262,6 +280,8 @@
       "type": "CHAR",
       "id": "CHAR_06_MIMI",
       "status": "draft",
+      "enabled": true,
+      "notes": "Mèo trắng, nhân vật chính series Chú mèo học…",
       "revision": "rev-2026-11-17.2",
       "name": "Mimi",
       "role": "mèo trắng, nhân vật chính series Chú mèo học…",
@@ -271,17 +291,19 @@
         "limbs": "dark single-line limbs with constant medium weight",
         "proportions": "cat stickman proportion",
         "marks": [
-          "hai tai tam giác viền đen",
-          "mũi tam giác đen nhỏ",
-          "chân tròn tối màu"
+          "two small triangular ears with dark outlines",
+          "tiny dark triangular nose",
+          "small dark rounded paws"
         ]
       },
       "approved_variants": [
         {
           "variant_id": "MIMI_DEFAULT",
           "name": "Mimi tự nhiên",
-          "outfit": "không quần áo, không phụ kiện",
+          "outfit": "plain white fur, no clothing or accessories",
           "status": "draft",
+          "enabled": true,
+          "notes": "Chưa có ảnh ref",
           "ref": null,
           "ref_hash": null
         }
@@ -306,6 +328,8 @@
       "type": "CHAR",
       "id": "CHAR_07_BIBO",
       "status": "draft",
+      "enabled": true,
+      "notes": "Mèo con xám, nhỏ hơn Mimi rõ rệt.",
       "revision": "rev-2026-11-17.2",
       "name": "Bibo",
       "role": "mèo con xám, nhỏ hơn Mimi rõ rệt",
@@ -315,17 +339,19 @@
         "limbs": "dark single-line limbs with constant medium weight, small dark rounded paws",
         "proportions": "clearly smaller than Mimi",
         "marks": [
-          "thân xám nhạt",
-          "chỏm lông nhỏ trên đỉnh đầu",
-          "kích thước nhỏ hơn Mimi"
+          "soft grey body",
+          "tiny dark tuft on top of head",
+          "clearly smaller than Mimi"
         ]
       },
       "approved_variants": [
         {
           "variant_id": "BIBO_DEFAULT",
           "name": "Bibo tự nhiên",
-          "outfit": "không quần áo, không phụ kiện",
+          "outfit": "plain soft grey fur, no clothing or accessories",
           "status": "draft",
+          "enabled": true,
+          "notes": "Chưa có ảnh ref",
           "ref": null,
           "ref_hash": null
         }
@@ -802,8 +828,6 @@
     }
   ],
   "meta": {
-    "name": "Stickman Kit — Sống Đáng Tiền + Chú mèo học…",
-    "version": "3.1.1",
     "updated": "2026-11-17",
     "provider_limits": {
       "example-provider": {
