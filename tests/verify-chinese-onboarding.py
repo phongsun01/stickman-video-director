@@ -14,12 +14,13 @@ assert "[🇰🇷 한국어](README.ko.md) · [🇫🇷 FR](README.fr.md)" in cn
 assert (root / "README.fr.md").is_file(), "French navigation must open a complete README"
 hero_copy = cn.split("</div>", 1)[0]
 assert "**用全自动火柴人动画，规模化量产你的无人出镜频道。**" in hero_copy
-assert "几分钟内，通过 14 款实操验证的画风把原始文案变成高完播率动画视频 —— 镜头调度、旁白配音与音效设计一键配齐。" in hero_copy
+assert '**发一句话给 AI Agent，拿回一条完整的火柴人视频。**<br>\n脚本、配音、字幕与音效全包 · 14 款实操验证的画风 · 支持 Claude Code、Codex 等' in hero_copy
+assert '💬 发一句话 → ✅ 确认脚本和预览 → 🎬 拿到成片' in hero_copy
 assert "**告别繁琐动效手搓，不交每月几十刀的软件订阅税。日更内容，轻松无压力。**" in hero_copy
 assert "画风持续更新，适用于" not in hero_copy, "Keep the removed niche sentence out of the hero"
 assert "*⭐ 欢迎点亮 Star，第一时间解锁最新画风与功能更新！*" in hero_copy
 assert "**每一颗 Star，都为下一次更新添一把火！**" in cn
-assert "100% 免费、开源的工作室" in cn
+assert "免费、开源的工作室" in cn
 assert "我是烤妹儿" not in cn, "Keep the follow CTA focused on reader value, not self-introduction"
 readable_cn = re.sub(r'<[^>]+>|\]\([^)]+\)|https?://[^\s<>)"]+', "", cn.replace("# 🎬 Stickman Video Director\n", "", 1))
 outside_faq = cn.split('<a id="faq"></a>', 1)[0] + cn.split('<!-- readme:contribute -->', 1)[1]
@@ -31,12 +32,12 @@ assert "### A · Model Engine" in cn
 assert "### B · Code Engine" in cn
 
 sections = ("## 🎬 两种视频制作模式", "## 🧭 开始使用", "## 🎨 A 模式画风一览",
-            "## 🤖 B 模式画风一览", "## ❓ 常见问题解答 (FAQ)", "## ⭐ 迈向 20,000 Stars 与创作者生态",
+            "## 🤖 B 模式画风一览", "## ❓ 常见问题解答 (FAQ)", "## ⭐ 迈向 20,000 Stars",
             "## 🔮 计划中的画风", "## 💬 社区与投稿", "## 📄 许可证")
 assert [cn.index(s) for s in sections] == sorted(cn.index(s) for s in sections)
 assert "## 接下来做什么" not in cn, "Keep the removed next-steps heading out of the footer"
 assert "## Star 增长曲线" not in cn, "Use a reader-focused footer heading; retain the chart itself"
-footer = cn.split("## ⭐ 迈向 20,000 Stars 与创作者生态", 1)[1].split("## 📄 许可证", 1)[0]
+footer = cn.split("## ⭐ 迈向 20,000 Stars", 1)[1].split("## 📄 许可证", 1)[0]
 footer_items = ("**每一颗 Star", "- [x] **1,000 Stars**", "- [x] **3,000 Stars**",
                 "- [x] **6,000 Stars**", "- [ ] **🔥 10,000 Stars**", "- [ ] **20,000 Stars**",
                 '<div align="center">', '<a id="whats-next"></a>', "## 🔮 计划中的画风",
@@ -100,7 +101,7 @@ faq = cn.split('<a id="faq"></a>', 1)[1].split('<!-- readme:contribute -->', 1)[
 faq_questions = (
     "这真的是 100% 免费的吗？有没有隐藏收费？",
     "我该怎么保持角色的一致性？",
-    "我该使用什么工具？需要指定生图模型吗？",
+    "推荐用什么工具？必须用指定的生图模型吗？",
     "如果我手里没有写好的现成剧本，能直接做视频吗？",
     "它是如何确保视频具有高完播率、有梗且不枯燥的？",
     "生成的视频可以在 YouTube 和 TikTok 上开通收益变现吗？",
@@ -115,10 +116,10 @@ faq_answers = re.split(r"^### Q\d+\. .+\n", faq, flags=re.M)[1:]
 required_copy = (
     ("MIT 开源协议", "$30–$60", "没有任何订阅费", "按需支付官方 API 费用"),
     ("**B · Code Engine（代码引擎）**", "代码驱动", "人物素材图", "不同场景中复用", "**A · Model Engine（模型引擎）**", "火柴人角色参考图"),
-    ("**推荐使用 Codex，以尽可能接近案例效果。**", "制作和测试", "其他 Agent", "GPT 内置生图模型", "没有额外配置生图 API", "不能用代码头像替代", "不绑定服务商"),
+    ("**A 模式推荐用 Google Flow 生成视频片段，B 模式推荐用 Codex 制作成片。**", "**生图模型可以自行选择。**", "Codex 内置生图工具", "无需另接生图 API", "Claude Code", "有声样片"),
     ("公众号长文", "前 3 秒爆款黄金钩子", "根据主题、目标时长和所选画风安排故事与分镜"),
     ("**视觉叙事心理学**", "**黄金 3 秒钩子**", "**爆款视觉隐喻**", "**卡点与节奏留白**", "Casually Explained"),
-    ("搬运重复内容（Reused Content）", "高价值原创内容", "YouTube 创作者收益计划（YPP）", "TikTok 创作者基金"),
+    ("搬运重复内容（Reused Content）", "YouTube 创作者收益计划（YPP）", "TikTok 创作者奖励计划", "最终由平台根据整个频道来决定"),
     ("不需要自己写代码", "高端显卡", "A 模式", "B 模式", "Agent", "在本地渲染", "但不是决定性因素"),
 )
 for number, (answer, phrases) in enumerate(zip(faq_answers, required_copy), 1):
@@ -231,7 +232,7 @@ table = re.search(r'<table width="100%">(.*?)</table>', b1, re.S).group(1)
 rows = re.findall(r"<tr>(.*?)</tr>", table, re.S)
 assert len(rows) == 3, "Keep two B1 short cases with a heading, preview and caption row"
 assert re.findall(r'<th width="50%" align="center">(.*?)</th>', rows[0]) == [
-    "案例 1：不露脸做 YouTube", "案例 2：每天发内容，为什么依旧没人看？"
+    "样片 1：不露脸做 YouTube", "样片 2：每天发内容，为什么依旧没人看？"
 ], "Use concise B1 case titles while preserving the original and later sample order"
 cells = re.findall(r'<td width="50%" align="center">(.*?)</td>', rows[1], re.S)
 assert len(cells) == 2, "Keep both preview columns equally sized and centered"

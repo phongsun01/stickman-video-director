@@ -9,7 +9,10 @@
 [![GitHub Stars](https://img.shields.io/github/stars/kaomei/stickman-video-director?style=flat-square)](https://github.com/kaomei/stickman-video-director/stargazers)
 ![MIT License](https://img.shields.io/badge/License-MIT-16a34a?style=flat-square)
 
-Transforme roteiros brutos em animações explicativas de alta retenção em minutos — em 14 estilos testados na prática, com locução, movimentos de câmera e sonoplastia inclusos.
+**Mande uma mensagem para seu agente de IA e receba um vídeo de boneco-palito pronto.**<br>
+Roteiro, locução, legendas e som · 14 estilos testados · Para Claude Code, Codex e mais
+
+💬 Uma mensagem → ✅ Aprove o roteiro e a prévia → 🎬 Vídeo pronto
 
 **Chega de sofrer no After Effects. Sem taxa de US$ 50/mês em SaaS. Poste todo dia sem esgotamento.**
 
@@ -36,7 +39,7 @@ Transforme roteiros brutos em animações explicativas de alta retenção em min
 <a href="#a2"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@2697fac5e0466f44098148a52c9648697521b3d6/assets/readme/previews/style-2a-demo.gif" alt="Boneco de palito de gorro vermelho em cenário tecnológico moderno" width="90%"></a>
 </td>
 <td width="50%" align="center">
-<strong>Desenho à Mão Colorido</strong><br>
+<strong>Desenho à mão colorido</strong><br>
 <a href="#b2"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@eb24085d20aea0efe37c0862cfcd0516b57dadf7/assets/readme/previews/b2-colorful-sleep.gif" alt="Vídeo de bonecos de palito em desenho colorido: um quarto tranquilo e um pensamento seguindo o rio" width="90%"></a>
 </td>
 </tr>
@@ -81,8 +84,8 @@ Transforme roteiros brutos em animações explicativas de alta retenção em min
 </td>
 <!-- b6:hero:start -->
 <td width="50%" align="center">
-<strong>Dynamic Meme Animation</strong><br>
-<a href="#b6"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@7d611fb27f103aebc38a656d29edc1b1181cbd62/assets/readme/previews/b6-dynamic-meme-eiffel-16x9.gif" alt="B6 · Dynamic Meme Animation" width="90%"></a>
+<strong>Meme Story Animation</strong><br>
+<a href="#b6"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@7d611fb27f103aebc38a656d29edc1b1181cbd62/assets/readme/previews/b6-dynamic-meme-eiffel-16x9.gif" alt="B6 · Meme Story Animation" width="90%"></a>
 </td>
 <!-- b6:hero:end -->
 </tr>
@@ -95,8 +98,8 @@ Transforme roteiros brutos em animações explicativas de alta retenção em min
 <!-- a7:hero:end -->
 <!-- b7:hero:start -->
 <td width="50%" align="center">
-<strong>Teatro Pixel</strong><br>
-<a href="#b7"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@d3eab432397d65e7cb72c83f2f35f11216cd5af8/assets/readme/previews/b7-pixel-theater.gif" alt="B7 · Teatro Pixel" width="90%"></a>
+<strong>Teatro pixel</strong><br>
+<a href="#b7"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@d3eab432397d65e7cb72c83f2f35f11216cd5af8/assets/readme/previews/b7-pixel-theater.gif" alt="B7 · Teatro pixel" width="90%"></a>
 </td>
 <!-- b7:hero:end -->
 </tr>
@@ -106,7 +109,7 @@ Transforme roteiros brutos em animações explicativas de alta retenção em min
 
 ## 🎬 Dois modos de criação de vídeo: Model Engine vs Code Engine
 
-**O mesmo diretor de vídeos stickman, duas formas de criar as imagens**: o modo A usa modelos de vídeo para gerar cenas contínuas, enquanto o modo B usa código para animar elementos visuais em camadas. Nos dois modos, um Agent pode automatizar a produção até o vídeo final, seguindo rigorosamente as regras do estilo escolhido.
+**O mesmo diretor de vídeos stickman, duas formas de criar as imagens**: o modo A usa modelos de vídeo para gerar cenas contínuas, enquanto o modo B usa código para animar elementos visuais em camadas. Nos dois modos, um agente pode automatizar a produção até o vídeo final, seguindo rigorosamente as regras do estilo escolhido.
 
 <table>
 <thead>
@@ -145,7 +148,7 @@ Transforme roteiros brutos em animações explicativas de alta retenção em min
 <tr>
 <td align="center" valign="middle"><strong>Custo</strong></td>
 <td align="left" valign="middle">Consome créditos/pontos de geração dos modelos de vídeo; vídeos mais longos aumentam significativamente o custo e os gastos com novas tentativas.</td>
-<td align="left" valign="middle">Não exige créditos de modelos de vídeo; renderiza localmente usando sua cota Agent existente e ferramentas básicas de imagem e síntese de voz.</td>
+<td align="left" valign="middle">Não exige créditos de modelos de vídeo; renderiza localmente usando sua cota de agente existente e ferramentas básicas de imagem e síntese de voz.</td>
 </tr>
 </tbody>
 </table>
@@ -182,7 +185,7 @@ Ainda não escolheu um estilo? Veja abaixo a apresentação detalhada de cada um
 
 <strong>Para chegar o mais perto possível dos vídeos de exemplo, dê preferência a ferramentas de IA com boa capacidade de programação, como Codex e Claude Code.</strong>
 
-Você também pode instalar o Skill em outros Agents capazes de ler e gravar arquivos e executar comandos no terminal. Os resultados podem variar conforme o modelo, a configuração das ferramentas e a forma de execução.
+Você também pode instalar o Skill em outros agentes capazes de ler e gravar arquivos e executar comandos no terminal. Os resultados podem variar conforme o modelo, a configuração das ferramentas e a forma de execução.
 
 ### Step 1: Instale o Skill
 
@@ -194,6 +197,8 @@ https://github.com/kaomei/stickman-video-director
 
 Após a instalação, leia SKILL.md e me avise que está pronto.
 ```
+
+Se preferir o terminal ou se a instalação exceder o tempo limite, você pode consultar o [guia de instalação manual](skills/directing-stickman-videos/references/installation-troubleshooting.md).
 
 ### Step 2: Escolha o estilo e o modo e comece a criar com uma frase
 
@@ -213,7 +218,7 @@ Primeiro, apresente a estrutura da história, a direção sonora e o storyboard;
 após minha aprovação, forneça prompts de geração de vídeo que possam ser usados de forma independente para cada trecho.
 ```
 
-- **Produção:** Após aprovar o storyboard, você pode gerar as cenas manualmente ou deixar um Agent operar pelo navegador integrado (primeiro faça um teste em baixa resolução; com o resultado aprovado, ele continua a produção e a edição do vídeo final).
+- **Produção:** Após aprovar o storyboard, você pode gerar as cenas manualmente ou deixar um agente operar pelo navegador integrado (primeiro faça um teste em baixa resolução; com o resultado aprovado, ele continua a produção e a edição do vídeo final).
 - **Plataforma recomendada:** Recomendamos o Google Flow para se aproximar do resultado dos exemplos; para o primeiro vídeo, consulte o [tutorial detalhado no X](https://x.com/CrazyKaomei/status/2102311241046008268).
 
 <a id="autopilot-start"></a>
@@ -230,7 +235,7 @@ Primeiro, verifique o ambiente local de geração de imagens e composição de v
 após minha aprovação, conclua automaticamente a preparação dos elementos, a escrita do código e a renderização local de todo o vídeo e entregue diretamente o vídeo completo.
 ```
 
-- **Produção:** Após a aprovação do roteiro e da amostra com áudio de 20 segundos, o Agent prepara automaticamente os elementos visuais, as animações, as legendas e o áudio conforme o estilo escolhido, renderiza o vídeo completo localmente e fornece uma prévia.
+- **Produção:** Após a aprovação do roteiro e da amostra com áudio de 20 segundos, o agente prepara automaticamente os elementos visuais, as animações, as legendas e o áudio conforme o estilo escolhido, renderiza o vídeo completo localmente e fornece uma prévia.
 - **Ajustes pontuais:** Se alguma imagem ou som não agradar, peça à IA para ajustar apenas o trecho correspondente, preservando as partes já aprovadas.
 
 ### Step 3: Gere a miniatura e os textos de publicação com um único pedido
@@ -249,7 +254,7 @@ A IA gera uma miniatura no mesmo estilo, o título do vídeo, a descrição e o 
 
 ## 🎨 A · Model Engine: visão geral dos estilos
 
-Os vídeos de exemplo atuais do modo A foram produzidos com o [Google Flow](https://flow.google.com/). Você também pode escolher outra plataforma de geração de vídeo. <strong>Antes de deixar um Agent produzir o vídeo automaticamente, confirme que sua conta está conectada e tem créditos disponíveis.</strong>
+Os vídeos de exemplo atuais do modo A foram produzidos com o [Google Flow](https://flow.google.com/). Você também pode escolher outra plataforma de geração de vídeo. <strong>Antes de deixar um agente produzir o vídeo automaticamente, confirme que sua conta está conectada e tem créditos disponíveis.</strong>
 
 Os estilos seguem a numeração A1, A2, A3… Cada um apresenta seus próprios exemplos de animação.
 
@@ -257,7 +262,7 @@ Os estilos seguem a numeração A1, A2, A3… Cada um apresenta seus próprios e
 
 ### A1: Preto e branco clássico
 
-Uma cabeça redonda e poucos traços fazem uma ideia complicada se encaixar. A ansiedade vira uma gaiola; a atenção, uma bateria acabando. Sem excessos, cada gesto e metáfora ganha força.
+Uma cabeça redonda e poucos traços fazem uma ideia complicada fazer sentido. A ansiedade vira uma gaiola; a atenção, uma bateria acabando. Sem excessos, cada gesto e metáfora ganha força.
 
 - **O visual**: Tinta preta no branco ou branco no preto, com pontos de cor para destacar o essencial.
 - **Para contar**: Ciência, psicologia, desenvolvimento pessoal, negócios e conceitos que pedem uma boa analogia visual.
@@ -358,8 +363,8 @@ E se você acordasse e tudo custasse dez mil vezes menos? A inspiração visual 
 
 Um boneco de traços finos entra em cenários retrô desenhados com cuidado. Gestos elásticos, expressões marcantes e atuação contínua transformam pequenos contratempos em comédia teatral. Verde-sálvia, marfim e discretos detalhes em vermelho desbotado preservam o charme de época.
 
-- **Destaques visuais**：Rosto branco circular, duas mechas curvas e corpo de linhas finas consistentes; contornos a tinta, pintura fosca, interação com objetos e montagem expressiva.
-- **Ideal para**：Comédia absurda, fábulas do cotidiano, histórias com reviravoltas e curtas guiados pela música.
+- **O visual**: Rosto branco circular, duas mechas curvas e corpo de linhas finas consistentes; contornos a tinta, pintura fosca, interação com objetos e montagem expressiva.
+- **Para contar**: Comédia absurda, fábulas do cotidiano, histórias com reviravoltas e curtas guiados pela música.
 
 | Exemplo 1: Perseguido por uma nuvem | Exemplo 2: Uma rua chuvosa |
 |:---:|:---:|
@@ -379,9 +384,9 @@ Novos estilos especializados para Model Engine estão em preparação. [Dê uma 
 
 ## 🤖 B · Code Engine: visão geral dos estilos
 
-Todos os vídeos de exemplo atuais do modo B foram produzidos com Codex: o modelo integrado <strong><code>gpt-image-2</code></strong> gera os elementos visuais, que são animados em camadas por código e renderizados localmente. Antes de deixar outro Agent produzir o vídeo automaticamente, <strong>confirme que ele pode ler e gravar arquivos e executar comandos no terminal, e que as ferramentas necessárias estão configuradas.</strong>
+Todos os vídeos de exemplo atuais do modo B foram produzidos com Codex: o modelo integrado <strong><code>gpt-image-2</code></strong> gera os elementos visuais, que são animados em camadas por código e renderizados localmente. Antes de deixar outro agente produzir o vídeo automaticamente, <strong>confirme que ele pode ler e gravar arquivos e executar comandos no terminal, e que as ferramentas necessárias estão configuradas.</strong>
 
-Os estilos seguem a numeração B1, B2, B3… Cada um apresenta seus próprios vídeos de exemplo completos.
+Os estilos seguem a numeração B1, B2, B3… Cada um apresenta seus próprios vídeos de exemplo completos. Nomes como Bodi, Fola, Brian, Claire e The Pharaoh 3 nas legendas dos exemplos são as vozes sintetizadas usadas nesses vídeos; você pode escolher qualquer voz.
 
 <a id="b1"></a>
 
@@ -411,7 +416,7 @@ Como um amigo desenhando enquanto explica. Rostos expressivos, linhas pretas e p
 
 <a id="b2"></a>
 
-### B2: Desenho à Mão Colorido
+### B2: Desenho à mão colorido
 
 Por que a mente faz mais barulho quando você tenta dormir? Inspirado no [@PsychToonsHQ](https://www.youtube.com/@PsychToonsHQ) do YouTube (**200 mil inscritos**), o papel acolhedor e as cores suaves transformam insônia, procrastinação e distração em histórias familiares demais.
 
@@ -424,8 +429,8 @@ Por que a mente faz mais barulho quando você tenta dormir? Inspirado no [@Psych
     <th width="50%" align="center">Exemplo 2: Você desbloqueou o celular — e esqueceu por quê</th>
   </tr>
   <tr>
-    <td width="50%" align="center"><a href="assets/readme/b2-colorful-sleep.mp4"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@eb24085d20aea0efe37c0862cfcd0516b57dadf7/assets/readme/previews/b2-colorful-sleep.gif" alt="B2 Desenho à Mão Colorido: um quarto tranquilo, um barquinho de papel no rio e uma hora de dormir mais calma" width="360"></a></td>
-    <td width="50%" align="center"><a href="assets/readme/b2-colorful-phone-weather.mp4"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@eb24085d20aea0efe37c0862cfcd0516b57dadf7/assets/readme/previews/b2-colorful-phone-weather.gif" alt="B2 Desenho à Mão Colorido: uma distração ao checar o celular, com narração, legendas marfim e cenários ilustrados" width="360"></a></td>
+    <td width="50%" align="center"><a href="assets/readme/b2-colorful-sleep.mp4"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@eb24085d20aea0efe37c0862cfcd0516b57dadf7/assets/readme/previews/b2-colorful-sleep.gif" alt="B2 Desenho à mão colorido: um quarto tranquilo, um barquinho de papel no rio e uma hora de dormir mais calma" width="360"></a></td>
+    <td width="50%" align="center"><a href="assets/readme/b2-colorful-phone-weather.mp4"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@eb24085d20aea0efe37c0862cfcd0516b57dadf7/assets/readme/previews/b2-colorful-phone-weather.gif" alt="B2 Desenho à mão colorido: uma distração ao checar o celular, com narração, legendas marfim e cenários ilustrados" width="360"></a></td>
   </tr>
   <tr>
     <td align="center">Pensamentos antes de dormir · Cortes de cenário · Movimentos suaves</td>
@@ -468,7 +473,7 @@ Como encontrar uma transmissão curiosa de madrugada. Inspirados no [@Bradikinin
 
 ### B4: Suspense de sobrevivência
 
-Uma contagem regressiva. Uma ligação de madrugada. Uma regra que você nunca deve quebrar. Inspirados no [@BeanieSurvives](https://www.youtube.com/@BeanieSurvives) do YouTube (**100 mil inscritos conquistados em 3 semanas**), lugares comuns viram armadilhas. Cabeças redondas brancas, luvas brancas e contrastes fortes colocam personagens simples em um mundo inquietante.
+Uma contagem regressiva. Uma ligação de madrugada. Uma regra que você nunca deve quebrar. Em um universo inspirado no [@BeanieSurvives](https://www.youtube.com/@BeanieSurvives) do YouTube (**100 mil inscritos conquistados em 3 semanas**), lugares comuns viram armadilhas. Cabeças redondas brancas, luvas brancas e contrastes fortes colocam personagens simples em um mundo inquietante.
 
 - **O visual**: Aberturas em meia-sombra, closes perturbadores e ameaças que saem do escuro. Expressões, luz e objetos mudam para criar tensão sem explicar cada imagem.
 - **O som**: Brian prende a atenção desde a abertura. Uma ambiência baixa e contínua sustenta a tensão; efeitos ligados à história revelam o perigo sem encobrir a voz.
@@ -502,7 +507,7 @@ Transforme seu avatar favorito no apresentador do canal; o uso de personagens co
 
 - **O visual**: Textura de papel em tons quentes, apresentador marcante e palavras em preto e vermelho. Peso exagerado, rebotes e objetos que se transformam convertem explicações em metáforas visuais.
 - **O som**: Narração clara conduz a história, com boca, expressões e legendas acompanhando a voz. Os efeitos sonoros marcam as ações, e a música leve não compete com a fala.
-- **Ideal para**: Vídeos explicativos, psicologia do dia a dia, observações, cultura pop e comentários bem-humorados.
+- **Para contar**: Vídeos explicativos, psicologia do dia a dia, observações, cultura pop e comentários bem-humorados.
 
 <table width="100%">
   <tr>
@@ -526,13 +531,13 @@ Transforme seu avatar favorito no apresentador do canal; o uso de personagens co
 <!-- b6:section:start -->
 <a id="b6"></a>
 
-### B6: Dynamic Meme Animation
+### B6: Meme Story Animation
 
 Expressões de meme, traços soltos à mão e cores suaves transformam histórias curiosas em animações curtas e vivas. Cenários amplos dão espaço aos personagens, objetos e movimentos de câmera. O estilo visual se inspira no canal do YouTube [@RicksClips3000](https://www.youtube.com/@RicksClips3000) (**cerca de 180 mil inscritos**).
 
-- **Visual**: Traços de tinta de espessura variável, pintura fosca e luz suave mantêm a cabeça, o corpo e o cenário no mesmo estilo desenhado à mão, **com melhor resultado no formato vertical**.
-- **Movimento**: Travellings laterais, profundidade em camadas, entrega de objetos e closes de reação acompanham a história, com pausas para entender cada gag.
-- **Ideal para**: Curiosidades históricas, golpes, comédia absurda e histórias curtas com reviravolta.
+- **O visual**: Traços de tinta de espessura variável, pintura fosca e luz suave mantêm a cabeça, o corpo e o cenário no mesmo estilo desenhado à mão, **com melhor resultado no formato vertical**.
+- **O movimento**: Travellings laterais, profundidade em camadas, entrega de objetos e closes de reação acompanham a história, com pausas para entender cada gag.
+- **Para contar**: Curiosidades históricas, golpes, comédia absurda e histórias curtas com reviravolta.
 
 <table width="100%">
   <tr>
@@ -556,22 +561,22 @@ Expressões de meme, traços soltos à mão e cores suaves transformam história
 <!-- b7:section:start -->
 <a id="b7"></a>
 
-### B7: Teatro Pixel
+### B7: Teatro pixel
 
 Pequenos pixels, grandes consequências. Personagens brancos transformam escolhas do dia a dia em pequenos mundos de jogo, onde um botão apertado, uma chance perdida ou um simples “tanto faz” pode mudar tudo.
 
-- **Identidade visual**: Pixel art nítida, personagens brancos expressivos e paletas próprias para cada cena, sem desfoque nem imitações vetoriais suavizadas.
-- **História em movimento**: Personagens, objetos e cenários dão vida à história. Uma reflexão final, teclas retrô, movimentos sutis, texto pulsando suavemente e a trilha certa deixam uma impressão duradoura.
-- **Ideal para**: Histórias de escolhas, lições de vida irônicas, humor ácido e fábulas emocionantes com clima de videogame.
+- **O visual**: Pixel art nítida, personagens brancos expressivos e paletas próprias para cada cena, sem desfoque nem imitações vetoriais suavizadas.
+- **O movimento**: Personagens, objetos e cenários dão vida à história. Uma reflexão final, teclas retrô, movimentos sutis, texto pulsando suavemente e a trilha certa deixam uma impressão duradoura.
+- **Para contar**: Histórias de escolhas, lições de vida irônicas, humor ácido e fábulas emocionantes com clima de videogame.
 
 <table width="100%">
   <tr>
-    <th width="50%" align="center">Exemplo 1: o que acontece quando você só diz “tanto faz”?</th>
-    <th width="50%" align="center">Exemplo 2: não acelere a sua vida</th>
+    <th width="50%" align="center">Exemplo 1: O que acontece quando você só diz “tanto faz”?</th>
+    <th width="50%" align="center">Exemplo 2: Não acelere a sua vida</th>
   </tr>
   <tr>
-    <td width="50%" align="center"><a href="assets/readme/b7-pixel-theater-opening.mp4"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@d3eab432397d65e7cb72c83f2f35f11216cd5af8/assets/readme/previews/b7-pixel-theater.gif" alt="Exemplo 1: o que acontece quando você só diz “tanto faz”?" width="360"></a></td>
-    <td width="50%" align="center"><a href="assets/readme/b7-fast-forward-excerpt.mp4"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@d3eab432397d65e7cb72c83f2f35f11216cd5af8/assets/readme/previews/b7-fast-forward-excerpt.gif" alt="Exemplo 2: não acelere a sua vida" width="360"></a></td>
+    <td width="50%" align="center"><a href="assets/readme/b7-pixel-theater-opening.mp4"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@d3eab432397d65e7cb72c83f2f35f11216cd5af8/assets/readme/previews/b7-pixel-theater.gif" alt="Exemplo 1: O que acontece quando você só diz “tanto faz”?" width="360"></a></td>
+    <td width="50%" align="center"><a href="assets/readme/b7-fast-forward-excerpt.mp4"><img src="https://cdn.jsdelivr.net/gh/kaomei/stickman-video-director@d3eab432397d65e7cb72c83f2f35f11216cd5af8/assets/readme/previews/b7-fast-forward-excerpt.gif" alt="Exemplo 2: Não acelere a sua vida" width="360"></a></td>
   </tr>
   <tr>
     <td align="center">Animação de personagens em pixel art · Música e efeitos com clima de videogame</td>
@@ -657,7 +662,7 @@ Gere o kit de thumbnail e publicação para este vídeo:
 
 ### Q1. É mesmo 100% gratuito? Existem taxas ocultas?
 
-Sim. O Stickman Video Director é 100% gratuito e de código aberto sob a licença MIT. Você pode usá-lo livremente em projetos pessoais e comerciais. Ao contrário de plataformas SaaS proprietárias que cobram US$ 30–60/mês, este projeto não tem assinatura. Você só paga pelo uso das suas APIs de terceiros (como Google Gemini, Claude ou ElevenLabs), conforme os modelos que escolher conectar.
+Sim, o Skill em si é gratuito: é de código aberto sob a licença MIT, pode ser usado em projetos pessoais e comerciais e não tem assinatura, ao contrário de ferramentas SaaS que cobram US$ 30–60/mês. Não há taxas escondidas, mas os serviços que você conecta têm seus próprios custos: o plano do seu agente de IA (como Codex ou Claude Code), o uso de APIs de terceiros para imagem ou voz (como Google Gemini ou ElevenLabs) e, no Model Engine (A), os créditos de geração de vídeo em plataformas como o Google Flow.
 
 <!-- readme:platforms -->
 
@@ -667,11 +672,11 @@ Sim. O Stickman Video Director é 100% gratuito e de código aberto sob a licen�
 
 **A · Model Engine**: Depende principalmente da geração de vídeo a partir de texto. Se o penteado, a roupa ou outras características do personagem forem complexos e difíceis de reproduzir de forma consistente só com texto, adicione uma imagem de referência do personagem em palitos e continue usando-a nos próximos clipes para obter resultados mais estáveis.
 
-### Q3. Quais ferramentas devo usar? Preciso escolher um modelo de geração de imagens?
+### Q3. Quais ferramentas vocês recomendam? Preciso usar um modelo específico para gerar imagens?
 
-**Para chegar o mais perto possível dos exemplos, recomendo o Codex.** Foi nele que produzi e testei os vídeos de demonstração do modo B; você não precisa programar. O Skill também pode ser instalado em outros agentes, mas diferenças nos modelos, na configuração das ferramentas e na execução podem alterar o resultado.
+Para chegar mais perto do resultado das demos, **use o Google Flow para gerar clipes no modo A e o Codex para produzir o vídeo completo no modo B.** Todas as demos do modo B foram feitas com o Codex. Descreva o que você quer com suas próprias palavras, e o agente escreve o código e renderiza o vídeo localmente.
 
-Meus exemplos usam o modelo de imagem integrado ao GPT, sem configurar uma API adicional. Em outros agentes, use as ferramentas de imagem disponíveis no ambiente. Apresentadores B5 baseados em pessoas reais ou personagens complexos precisam de imagens geradas ou aprovadas, não de rostos substitutos desenhados por código. Os créditos de voz identificam os exemplos, sem exigir um fornecedor. Se necessário, peça ao agente para configurar o serviço escolhido e confira uma amostra curta antes de produzir o vídeo completo. Os estilos predefinidos são pontos de partida, não restrições: peça ao agente para mudar fontes, efeitos de texto ou o idioma do vídeo e adaptar o layout ao seu pedido.
+**Você pode escolher o modelo de geração de imagens.** Os elementos visuais das demos do modo B foram criados com a ferramenta de geração de imagens integrada ao Codex, sem precisar de uma API de imagens separada. Você também pode usar o Claude Code ou outro agente que leia e grave arquivos e execute comandos no terminal, com suas ferramentas de geração de imagens e locução. Comece com uma amostra curta com áudio para conferir o estilo visual, as legendas e o som antes de produzir o vídeo completo.
 
 ### Q4. Posso fazer um vídeo sem ter um roteiro pronto?
 
@@ -687,28 +692,29 @@ Ferramentas tradicionais de IA apenas ilustram o texto literalmente. O Stickman 
 
 ### Q6. Posso monetizar esses vídeos no YouTube e no TikTok?
 
-Sim, com certeza. Uma grande preocupação de quem cria canais sem aparecer é a política de desmonetização do YouTube para “Reused Content” ou conteúdo de IA de baixo esforço. Como o Stickman Video Director escreve arcos narrativos personalizados, ritmo exclusivo e encenação visual original, seu resultado é totalmente original. Centenas de canais monetizam com sucesso vídeos narrativos de bonecos-palito pelo YouTube Partner Program (YPP).
+Sim, os vídeos são seus para publicar e monetizar. Uma grande preocupação de quem cria canais sem aparecer é a política de “Reused Content” do YouTube. Cada vídeo recebe roteiro, ritmo e encenação visual próprios, sem reutilizar material pronto, que é justamente o que essa política observa. Ainda assim, a aprovação no YouTube Partner Program (YPP) ou no TikTok Creator Rewards Program é decidida por cada plataforma, com base no canal como um todo: acrescente suas próprias ideias e sua voz, publique com constância e siga as regras de cada plataforma sobre conteúdo gerado por IA.
 
 ### Q7. Preciso saber programar ou ter uma GPU cara?
 
-Você não precisa escrever código por conta própria nem comprar uma GPU de ponta. O modo A pode usar plataformas de vídeo online; no modo B, um Agent escreve o código e renderiza localmente. O desempenho do computador afeta a velocidade de produção, mas não é o fator decisivo.
+Você não precisa escrever código por conta própria nem comprar uma GPU de ponta. O modo A pode usar plataformas de vídeo online; no modo B, um agente escreve o código e renderiza localmente. O desempenho do computador afeta a velocidade de produção, mas não é o fator decisivo.
 
 <!-- readme:contribute -->
 
 <a id="road-to-10000-stars--creator-ecosystem"></a>
 
-## ⭐ Rumo a 20,000 Stars e a um ecossistema de criadores
+## ⭐ Rumo a 20,000 Stars
 
-**Cada Star impulsiona a próxima novidade!** Juntos, estamos construindo um estúdio 100% gratuito e de código aberto para ajudar criadores solo a tocar canais sem aparecer, sem assinaturas SaaS de US$ 50/mês.
+**Cada Star impulsiona a próxima novidade!** Juntos, estamos construindo um estúdio gratuito e de código aberto para ajudar criadores solo a tocar canais sem aparecer, sem assinaturas SaaS de US$ 50/mês. [Dê uma estrela ao projeto](https://github.com/kaomei/stickman-video-director) para ajudar a desbloquear a próxima etapa.
 
 - [x] **1,000 Stars**: lançamento do modo Model Engine + 5 estilos visuais principais
-- [x] **3,000 Stars**: lançamento do modo Code Engine para gerar vídeos em um clique
-- [x] **6,000 Stars**: Mais de 10 novos estilos visuais de alta qualidade já disponíveis
+- [x] **3,000 Stars**: lançamento do modo Code Engine, do roteiro ao vídeo pronto
+- [x] **6,000 Stars**: mais de 10 novos estilos visuais de alta qualidade já disponíveis
 - [ ] **🔥 10,000 Stars**:
   - Mais de 1,000 prompts de roteiros para YouTube compartilhados pelos modos A e B
-  - [Biblioteca de áudio B](skills/directing-stickman-videos/references/b-audio-library.md): 774 SFX/transições + 31 músicas + 85 jingles curtos, com sugestões por estilo B/cena, exportação offline, licenças por item e créditos obrigatórios
+  - [Biblioteca de áudio B](skills/directing-stickman-videos/references/b-audio-library.md): já disponível — 774 efeitos e transições, 31 músicas e 85 jingles curtos, licenciados e prontos para usar
 - [ ] **20,000 Stars**:
-  - lançamento do Stickman AI Studio — da ideia ao vídeo pronto, no piloto automático
+  - Channel Autopilot — informe o nicho do seu canal e receba, de uma vez, uma semana de vídeos prontos para publicar, com thumbnails e títulos
+  - Lançamento do Stickman AI Studio — um app de desktop de código aberto: cole um roteiro, escolha um estilo, visualize e ajuste cada cena em uma linha do tempo visual e renderize. Sem terminal
   - Mais surpresas vêm por aí — vamos descobrir juntos
 
 <div align="center">
@@ -725,7 +731,7 @@ Você não precisa escrever código por conta própria nem comprar uma GPU de po
 
 ## 🔮 Estilos visuais planejados
 
-Estamos treinando novos motores especializados para os nichos mais pedidos de canais do YouTube sem aparecer:
+Estamos desenvolvendo novos estilos para os nichos mais pedidos de canais do YouTube sem aparecer:
 
 - **História e lendas no estilo OverSimplified** — Pequenas figuras históricas, setas de conquista e mapas de batalha satíricos
 - **Combate stickman e linhas de velocidade** — Lutas dinâmicas no estilo Alan Becker, artes marciais e quadros de impacto
@@ -743,11 +749,11 @@ Tem uma ideia de estilo ou quer ganhar destaque? Entre na nossa [comunidade do T
 - **Pedir um estilo**: envie um link de referência visual + o nicho que você quer abordar.
 - **Aparecer em destaque**: fez um vídeo com esta ferramenta? Envie o link para exibição neste README e no nosso canal oficial do YouTube!
 
-🔔 **Siga [@CrazyKaomei](https://x.com/CrazyKaomei) no X para fluxos diários de produção de vídeo, ferramentas de automação e procedimentos de crescimento de canal.**
+🔔 **Siga [@AveryRunsAI](https://x.com/AveryRunsAI) no X para novos tutoriais, fluxos de produção de vídeo, ferramentas de automação e dicas de crescimento de canal.**
 
 ## 📄 Licença
 
-Este projeto usa a [licença MIT](https://github.com/kaomei/stickman-video-director/blob/main/LICENSE): você pode usar, modificar, distribuir e utilizar comercialmente sem pagar pela Skill. Ao distribuir o projeto ou partes substanciais dele, mantenha os avisos de direitos autorais e de licença.
+Este projeto usa a [licença MIT](https://github.com/kaomei/stickman-video-director/blob/main/LICENSE): você pode usar, modificar, distribuir e utilizar comercialmente sem pagar pelo Skill. Ao distribuir o projeto ou partes substanciais dele, mantenha os avisos de direitos autorais e de licença.
 
 Músicas, efeitos sonoros e outros recursos de terceiros continuam sujeitos às próprias licenças e exigências de atribuição. Consulte os avisos dos respectivos recursos.
 

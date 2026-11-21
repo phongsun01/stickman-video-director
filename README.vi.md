@@ -4,16 +4,21 @@
 
 # 🎬 Stickman Video Director
 
-**Biến mọi kịch bản thành video hoạt hình người que đa phong cách gây sốt cho các kênh YouTube không lộ mặt.**
+**Quy mô hóa kênh YouTube không lộ mặt với hoạt hình người que tự động.**
 
 [![GitHub Stars](https://img.shields.io/github/stars/kaomei/stickman-video-director?style=flat-square)](https://github.com/kaomei/stickman-video-director/stargazers)
 ![MIT License](https://img.shields.io/badge/License-MIT-16a34a?style=flat-square)
 
-Bắt đầu với một chủ đề, bài viết hoặc kịch bản. Tự động điều phối hình ảnh, giọng đọc, phụ đề và hiệu ứng âm thanh thành video người que sẵn sàng xuất bản.
+**Gửi một yêu cầu tới AI Agent — nhận lại video người que hoàn chỉnh.**<br>
+Kịch bản, giọng đọc, phụ đề & âm thanh · 14 phong cách thực chiến · Hỗ trợ Claude Code, Codex và hơn thế nữa
 
-**⚡ 100% miễn phí & nguồn mở. Không cần camera, không tốn $50/tháng thuê bao, và hoàn thành trong vài phút thay vì nhiều ngày.**
+💬 Một tin nhắn → ✅ Duyệt kịch bản & xem trước → 🎬 Nhận video thành phẩm
 
-Liên tục cập nhật phong cách trực quan cho **giải thích khoa học, tâm lý học góc tối, ngụ ngôn công nghệ, câu chuyện viral và kênh kể chuyện.**
+**Không cần After Effects. Không tốn $50/tháng phí SaaS. Đăng video mỗi ngày không lo kiệt sức.**
+
+[Bắt đầu nhanh](#quick-start) · [Bộ sưu tập](#style-gallery) · [Câu hỏi thường gặp](#faq) · [Lộ trình](#road-to-10000-stars--creator-ecosystem) · [Cộng đồng](#community)
+
+*⭐ Hãy Star dự án để đón nhận các phong cách mới và tính năng sắp mở khóa.*
 
 </div>
 
